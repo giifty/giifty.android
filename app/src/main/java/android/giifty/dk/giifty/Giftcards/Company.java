@@ -18,6 +18,8 @@ public class Company {
     @Expose
     private String shop; // ?
     @Expose
+    private String imageUrl;
+    @Expose
     private Category Category;
     @Expose
     private List<Giftcard> Giftcard;
