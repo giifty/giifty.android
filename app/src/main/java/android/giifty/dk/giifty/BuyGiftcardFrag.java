@@ -1,21 +1,16 @@
 package android.giifty.dk.giifty;
 
-import android.content.Context;
+import android.giifty.dk.giifty.Giftcard.CompanyAdapter;
+import android.giifty.dk.giifty.Giftcard.GiftcardController;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BuyGiftcardFrag.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BuyGiftcardFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BuyGiftcardFrag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +21,8 @@ public class BuyGiftcardFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private GiftcardController controller;
+    private CompanyAdapter adapter;
 
     public BuyGiftcardFrag() {
         // Required empty public constructor
@@ -64,47 +60,17 @@ public class BuyGiftcardFrag extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_buy_giftcard, container, false);
 
+        controller = GiftcardController.getInstance();
+
+        adapter = new CompanyAdapter(controller.getMainView(), this);
+
+        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
 
         return root;
     }
 
 
-    public void onButtonPressed() {
-        if (mListener != null) {
-            mListener.doItYouSelf();
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-      //  void onFragmentInteraction(Uri uri);
-        void doItYouSelf();
-    }
 }

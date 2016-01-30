@@ -3,16 +3,21 @@ package android.giifty.dk.giifty;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class FrontPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String FRONTPAGE_FRAGMENT = "frontpageFrag";
+    private static final String TAG = FrontPage.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,9 @@ public class FrontPage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.setCheckedItem(R.id.nav_buy_giftcards);
+        showFragment(R.id.nav_buy_giftcards);
     }
 
     @Override
@@ -71,6 +79,7 @@ public class FrontPage extends AppCompatActivity
 
         if (id == R.id.nav_buy_giftcards) {
             // Handle the camera action
+            showFragment(id);
         } else if (id == R.id.nav_create_giftcards) {
 
         } else if (id == R.id.nav_bought_giftcards) {
@@ -86,9 +95,18 @@ public class FrontPage extends AppCompatActivity
         return true;
     }
 
-    private void showFragment(){
-
-
+    private void showFragment(int fragId) {
+        Fragment fragment = FragmentFactory.getFragmentByID(fragId);
+        Log.d(TAG, "showFragment() name:" + fragment.getClass().getSimpleName());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container_id, fragment, FRONTPAGE_FRAGMENT)
+                .addToBackStack(FRONTPAGE_FRAGMENT)
+                .commit();
     }
+
+    private void popFromBackstack(){
+        getSupportFragmentManager().popBackStack();
+         }
 
 }
