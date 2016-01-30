@@ -1,4 +1,4 @@
-package android.giifty.dk.giifty.Giftcards1;
+package android.giifty.dk.giifty.giftcard;
 
 /**
  * Created by mak on 16-01-2016.

@@ -1,4 +1,4 @@
-package android.giifty.dk.giifty.Utils1;
+package android.giifty.dk.giifty.utils;
 
 import android.content.Context;
 import android.widget.ImageView;

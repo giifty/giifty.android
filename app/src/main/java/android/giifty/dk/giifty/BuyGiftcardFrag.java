@@ -1,9 +1,9 @@
 package android.giifty.dk.giifty;
 
 
-import android.giifty.dk.giifty.Components1.DataUpdateListener;
-import android.giifty.dk.giifty.Giftcards1.CompanyAdapter;
-import android.giifty.dk.giifty.Giftcards1.GiftcardController;
+import android.giifty.dk.giifty.components.DataUpdateListener;
+import android.giifty.dk.giifty.giftcard.CompanyAdapter;
+import android.giifty.dk.giifty.giftcard.GiftcardController;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;

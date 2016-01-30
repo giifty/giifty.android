@@ -1,9 +1,9 @@
-package android.giifty.dk.giifty.Giftcards1;
+package android.giifty.dk.giifty.giftcard;
 
 
 import android.giifty.dk.giifty.BuyGiftcardFrag;
 import android.giifty.dk.giifty.R;
-import android.giifty.dk.giifty.Utils1.HelperMethods;
+import android.giifty.dk.giifty.utils.HelperMethods;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;

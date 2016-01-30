@@ -1,4 +1,4 @@
-package android.giifty.dk.giifty.Web1;
+package android.giifty.dk.giifty.web;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

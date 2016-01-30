@@ -1,8 +1,8 @@
-package android.giifty.dk.giifty.Giftcards1;
+package android.giifty.dk.giifty.giftcard;
 
-import android.giifty.dk.giifty.Components1.DataUpdateListener;
-import android.giifty.dk.giifty.Web1.ServiceCreator;
-import android.giifty.dk.giifty.Web1.WebApi;
+import android.giifty.dk.giifty.components.DataUpdateListener;
+import android.giifty.dk.giifty.web.ServiceCreator;
+import android.giifty.dk.giifty.web.WebApi;
 import android.util.Log;
 
 import java.util.ArrayList;

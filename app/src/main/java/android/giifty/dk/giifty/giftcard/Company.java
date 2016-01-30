@@ -1,4 +1,4 @@
-package android.giifty.dk.giifty.Giftcards1;
+package android.giifty.dk.giifty.giftcard;
 
 import com.google.gson.annotations.Expose;
 
@@ -42,7 +42,7 @@ public class Company {
         return Shop;
     }
 
-    public List<android.giifty.dk.giifty.Giftcards1.Giftcard> getGiftcard() {
+    public List<android.giifty.dk.giifty.giftcard.Giftcard> getGiftcard() {
         return Giftcard;
     }
 

@@ -1,8 +1,8 @@
-package android.giifty.dk.giifty.User1;
+package android.giifty.dk.giifty.user;
 
 import android.content.Context;
-import android.giifty.dk.giifty.Web1.ServiceCreator;
-import android.giifty.dk.giifty.Web1.WebApi;
+import android.giifty.dk.giifty.web.ServiceCreator;
+import android.giifty.dk.giifty.web.WebApi;
 import android.util.Log;
 
 import com.squareup.okhttp.MediaType;
