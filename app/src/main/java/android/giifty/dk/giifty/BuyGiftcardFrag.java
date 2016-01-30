@@ -1,7 +1,8 @@
 package android.giifty.dk.giifty;
 
-import android.giifty.dk.giifty.Giftcard.CompanyAdapter;
-import android.giifty.dk.giifty.Giftcard.GiftcardController;
+
+import android.giifty.dk.giifty.Giftcards.CompanyAdapter;
+import android.giifty.dk.giifty.Giftcards.GiftcardController;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -62,7 +63,7 @@ public class BuyGiftcardFrag extends Fragment {
 
         controller = GiftcardController.getInstance();
 
-        adapter = new CompanyAdapter(controller.getMainView(), this);
+        adapter = new CompanyAdapter(this, controller.getMainView());
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));

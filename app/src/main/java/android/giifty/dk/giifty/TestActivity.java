@@ -1,9 +1,10 @@
 package android.giifty.dk.giifty;
 
-import android.giifty.dk.giifty.Giftcard.Company;
-import android.giifty.dk.giifty.Giftcard.GiftcardController;
-import android.giifty.dk.giifty.user.User;
-import android.giifty.dk.giifty.user.UserController;
+
+import android.giifty.dk.giifty.Giftcards.Company;
+import android.giifty.dk.giifty.Giftcards.GiftcardController;
+import android.giifty.dk.giifty.User.User;
+import android.giifty.dk.giifty.User.UserController;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,7 +28,6 @@ public class TestActivity extends AppCompatActivity {
 
         final User testUser = new User(null, null, "mads_k", "mads", "madshgk@gmail.com", true, "40845645", false, "87483483783");
 
-
         Button loginButton = (Button) findViewById(R.id.login_button_id);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "loginWithUser(), user:" + testUser);
-                UserController.getInstance().loginWithUser();
+               UserController.getInstance().loginWithUser();
             }
         });
 
@@ -59,7 +59,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                UserController.getInstance().createUser(testUser);
+               UserController.getInstance().createUser(testUser);
             }
         });
     }
