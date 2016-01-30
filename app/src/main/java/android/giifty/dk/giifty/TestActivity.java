@@ -1,9 +1,9 @@
 package android.giifty.dk.giifty;
 
 
-import android.giifty.dk.giifty.giftcard.Company;
+import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.giftcard.GiftcardController;
-import android.giifty.dk.giifty.user.User;
+import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

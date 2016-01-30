@@ -1,7 +1,7 @@
 package android.giifty.dk.giifty.web;
 
-import android.giifty.dk.giifty.giftcard.Company;
-import android.giifty.dk.giifty.giftcard.Giftcard;
+import android.giifty.dk.giifty.model.Company;
+import android.giifty.dk.giifty.model.Giftcard;
 
 import com.squareup.okhttp.RequestBody;
 

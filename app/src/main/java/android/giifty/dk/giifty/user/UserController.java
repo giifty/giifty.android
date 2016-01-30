@@ -1,6 +1,7 @@
 package android.giifty.dk.giifty.user;
 
 import android.content.Context;
+import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.WebApi;
 import android.util.Log;

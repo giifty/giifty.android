@@ -1,4 +1,4 @@
-package android.giifty.dk.giifty.giftcard;
+package android.giifty.dk.giifty.model;
 
 import com.google.gson.annotations.Expose;
 

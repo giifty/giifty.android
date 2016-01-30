@@ -3,6 +3,7 @@ package android.giifty.dk.giifty.giftcard;
 
 import android.giifty.dk.giifty.BuyGiftcardFrag;
 import android.giifty.dk.giifty.R;
+import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.utils.HelperMethods;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

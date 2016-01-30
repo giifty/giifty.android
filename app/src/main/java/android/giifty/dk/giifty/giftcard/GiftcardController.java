@@ -1,6 +1,7 @@
 package android.giifty.dk.giifty.giftcard;
 
 import android.giifty.dk.giifty.components.DataUpdateListener;
+import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.WebApi;
 import android.util.Log;

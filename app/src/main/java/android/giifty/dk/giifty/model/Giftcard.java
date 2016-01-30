@@ -1,6 +1,4 @@
-package android.giifty.dk.giifty.giftcard;
-
-import android.giifty.dk.giifty.user.User;
+package android.giifty.dk.giifty.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
