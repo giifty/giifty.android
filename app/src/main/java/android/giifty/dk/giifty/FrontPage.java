@@ -77,9 +77,10 @@ public class FrontPage extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        //do we need to know what is pressed here?
         if (id == R.id.nav_buy_giftcards) {
             // Handle the camera action
-            showFragment(id);
+
         } else if (id == R.id.nav_create_giftcards) {
 
         } else if (id == R.id.nav_bought_giftcards) {
@@ -89,7 +90,7 @@ public class FrontPage extends AppCompatActivity
         } else if (id == R.id.nav_nav_settings) {
 
         }
-
+        showFragment(id);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

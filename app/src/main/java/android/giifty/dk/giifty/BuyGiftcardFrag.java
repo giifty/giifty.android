@@ -1,7 +1,7 @@
 package android.giifty.dk.giifty;
 
 
-import android.giifty.dk.giifty.Components.DataUpateListener;
+import android.giifty.dk.giifty.Components.DataUpdateListener;
 import android.giifty.dk.giifty.Giftcards.CompanyAdapter;
 import android.giifty.dk.giifty.Giftcards.GiftcardController;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class BuyGiftcardFrag extends Fragment implements DataUpateListener {
+public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

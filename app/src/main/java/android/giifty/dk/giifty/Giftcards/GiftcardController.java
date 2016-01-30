@@ -1,6 +1,6 @@
 package android.giifty.dk.giifty.Giftcards;
 
-import android.giifty.dk.giifty.Components.DataUpateListener;
+import android.giifty.dk.giifty.Components.DataUpdateListener;
 import android.giifty.dk.giifty.Web.ServiceCreator;
 import android.giifty.dk.giifty.Web.WebApi;
 import android.util.Log;
@@ -23,7 +23,7 @@ public class GiftcardController implements Callback {
     private static GiftcardController instance;
     private final WebApi webApi;
     private List<Company> companyList;
-    private DataUpateListener listener;
+    private DataUpdateListener listener;
 
     public static GiftcardController getInstance() {
         return instance == null ? new GiftcardController() : instance;
@@ -72,7 +72,7 @@ public class GiftcardController implements Callback {
 
     }
 
-    public void setDataUpdateListener(DataUpateListener listener) {
+    public void setDataUpdateListener(DataUpdateListener listener) {
         this.listener = listener;
     }
 
@@ -80,11 +80,13 @@ public class GiftcardController implements Callback {
     public void onResponse(Response response, Retrofit retrofit) {
         Log.d(TAG, "onResponse() state:" + response.isSuccess() + "  code:" + response.code() + "  msg:" + response.message());
         if (response.isSuccess()) {
-            response.body().getClass().isInstance(List.class);
+            companyList = (List<Company>) response.body();
+
             if (listener != null) {
                 listener.onNewDataAvailable();
             }
         }
+
     }
 
     @Override
