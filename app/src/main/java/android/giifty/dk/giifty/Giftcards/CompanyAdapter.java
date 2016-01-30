@@ -56,6 +56,14 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         return companyList.size();
     }
 
+    public void updateData(List<Company> newData) {
+        companyList.clear();
+        for (Company c : newData) {
+            companyList.add(c);
+        }
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;

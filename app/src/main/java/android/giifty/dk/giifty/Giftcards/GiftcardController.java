@@ -1,5 +1,6 @@
 package android.giifty.dk.giifty.Giftcards;
 
+import android.giifty.dk.giifty.Components.DataUpateListener;
 import android.giifty.dk.giifty.Web.ServiceCreator;
 import android.giifty.dk.giifty.Web.WebApi;
 import android.util.Log;
@@ -22,6 +23,7 @@ public class GiftcardController implements Callback {
     private static GiftcardController instance;
     private final WebApi webApi;
     private List<Company> companyList;
+    private DataUpateListener listener;
 
     public static GiftcardController getInstance() {
         return instance == null ? new GiftcardController() : instance;
@@ -42,6 +44,9 @@ public class GiftcardController implements Callback {
     }
 
     public List<Company> getMainView() {
+        if (companyList.isEmpty()) {
+            downloadMainView();
+        }
         return Collections.unmodifiableList(companyList);
     }
 
@@ -67,18 +72,26 @@ public class GiftcardController implements Callback {
 
     }
 
+    public void setDataUpdateListener(DataUpateListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void onResponse(Response response, Retrofit retrofit) {
         Log.d(TAG, "onResponse() state:" + response.isSuccess() + "  code:" + response.code() + "  msg:" + response.message());
         if (response.isSuccess()) {
             response.body().getClass().isInstance(List.class);
-
+            if (listener != null) {
+                listener.onNewDataAvailable();
+            }
         }
     }
 
     @Override
     public void onFailure(Throwable t) {
         Log.d(TAG, "onFailure() msg: " + t.getMessage());
-
+        if (listener != null) {
+            listener.onNewUpdateFailed();
+        }
     }
 }
