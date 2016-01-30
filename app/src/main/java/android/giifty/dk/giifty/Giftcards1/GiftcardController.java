@@ -1,8 +1,8 @@
-package android.giifty.dk.giifty.Giftcards;
+package android.giifty.dk.giifty.Giftcards1;
 
-import android.giifty.dk.giifty.Components.DataUpdateListener;
-import android.giifty.dk.giifty.Web.ServiceCreator;
-import android.giifty.dk.giifty.Web.WebApi;
+import android.giifty.dk.giifty.Components1.DataUpdateListener;
+import android.giifty.dk.giifty.Web1.ServiceCreator;
+import android.giifty.dk.giifty.Web1.WebApi;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -44,6 +44,7 @@ public class GiftcardController implements Callback {
     }
 
     public List<Company> getMainView() {
+        Log.d(TAG, " getMainView()");
         if (companyList.isEmpty()) {
             downloadMainView();
         }
@@ -51,21 +52,9 @@ public class GiftcardController implements Callback {
     }
 
     private void downloadMainView() {
+        Log.d(TAG, " downloadMainView()");
         Call<List<Company>> request = webApi.getMainView();
-        request.enqueue(new Callback<List<Company>>() {
-            @Override
-            public void onResponse(Response<List<Company>> response, Retrofit retrofit) {
-                Log.d(TAG, "onResponse() state:" + response.isSuccess() + "  code:" + response.code() + "  msg:" + response.message());
-                if (response.isSuccess()) {
-                    companyList = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d(TAG, "onFailure() msg: " + t.getMessage());
-            }
-        });
+        request.enqueue(this);
     }
 
     private void downloadAllGiftcards() {

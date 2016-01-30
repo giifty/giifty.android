@@ -1,4 +1,4 @@
-package android.giifty.dk.giifty.User;
+package android.giifty.dk.giifty.User1;
 
 import com.google.gson.annotations.Expose;
 

@@ -1,4 +1,4 @@
-package android.giifty.dk.giifty.Web;
+package android.giifty.dk.giifty.Web1;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

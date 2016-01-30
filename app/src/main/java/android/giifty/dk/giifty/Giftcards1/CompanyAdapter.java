@@ -1,9 +1,9 @@
-package android.giifty.dk.giifty.Giftcards;
+package android.giifty.dk.giifty.Giftcards1;
 
 
 import android.giifty.dk.giifty.BuyGiftcardFrag;
 import android.giifty.dk.giifty.R;
-import android.giifty.dk.giifty.Utils.HelperMethods;
+import android.giifty.dk.giifty.Utils1.HelperMethods;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +38,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         Company company = companyList.get(position);
 
         holder.title.setText(company.getName());
-        String body = "Se alle " + company.getNumberOfCards() + " " + company.getName() + " gavekort der er til salg.";
+        String body = "Se " + company.getNumberOfCards() + " " + company.getName() + " gavekort der er til salg.";
         holder.body.setText(body);
         holder.discountText.setText("23%");
 
@@ -57,10 +57,10 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
     }
 
     public void updateData(List<Company> newData) {
-        companyList.clear();
-        for (Company c : newData) {
-            companyList.add(c);
-        }
+        companyList = newData;
+//        for (Company c : newData) {
+//            companyList.add(c);
+//        }
         notifyDataSetChanged();
     }
 
