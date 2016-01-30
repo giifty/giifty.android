@@ -18,7 +18,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:scaleType="fitCenter"
-        android:transitionName="hero"
         app:border_color="@color/icon_gray"
         app:border_width="2dp"
         app:shadow="false"/>
