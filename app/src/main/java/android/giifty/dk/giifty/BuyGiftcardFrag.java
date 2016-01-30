@@ -2,7 +2,7 @@ package android.giifty.dk.giifty;
 
 
 import android.giifty.dk.giifty.components.DataUpdateListener;
-import android.giifty.dk.giifty.giftcard.CompanyAdapter;
+import android.giifty.dk.giifty.giftcard.company.CompanyAdapter;
 import android.giifty.dk.giifty.giftcard.GiftcardController;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

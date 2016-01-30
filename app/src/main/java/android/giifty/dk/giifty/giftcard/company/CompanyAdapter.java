@@ -1,7 +1,10 @@
-package android.giifty.dk.giifty.giftcard;
+package android.giifty.dk.giifty.giftcard.company;
 
 
+import android.content.Intent;
 import android.giifty.dk.giifty.BuyGiftcardFrag;
+import android.giifty.dk.giifty.Constants;
+import android.giifty.dk.giifty.GiftcardActivity;
 import android.giifty.dk.giifty.R;
 import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.utils.HelperMethods;
@@ -20,11 +23,11 @@ import java.util.List;
 public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHolder> {
 
 
-    private final BuyGiftcardFrag fragment;
+    private final BuyGiftcardFrag parent;
     private List<Company> companyList;
 
     public CompanyAdapter(BuyGiftcardFrag fragment, List<Company> companyList) {
-        this.fragment = fragment;
+        this.parent = fragment;
         this.companyList = companyList;
     }
 
@@ -35,19 +38,22 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Company company = companyList.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Company company = companyList.get(position);
 
         holder.title.setText(company.getName());
         String body = "Se " + company.getNumberOfCards() + " " + company.getName() + " gavekort der er til salg.";
         holder.body.setText(body);
         holder.discountText.setText("23%");
 
-        HelperMethods.setImage(fragment.getContext(), holder.imageView, company.getImageUrl());
+        HelperMethods.setImage(parent.getContext(), holder.imageView, company.getImageUrl());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // start giftcaview
+                Intent intent = new Intent(parent.getContext(), GiftcardActivity.class);
+                intent.putExtra(Constants.EKSTRA_COMPANY_ID, company.getCompanyId());
+                HelperMethods.startActivityWithHero(parent.getActivity(), holder.itemView,
+                        intent,parent.getString(R.string.hero_gridview_item));
             }
         });
     }

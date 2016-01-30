@@ -1,7 +1,6 @@
 package android.giifty.dk.giifty.model;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
 
@@ -9,42 +8,70 @@ import org.joda.time.DateTime;
  * Created by mak on 11-01-2016.
  */
 public class Giftcard {
-    @SerializedName("Value")
     @Expose
-    private String value;
-    @SerializedName("Price")
+    private int value;
     @Expose
-    private String price;
-    @SerializedName("ExpirationDate")
+    private int price;
     @Expose
     private DateTime expirationDate;
-    @SerializedName("CreatedDate")
     @Expose
     private DateTime createdDate;
-    @SerializedName("Description")
     @Expose
     private String description;
-    @SerializedName("SalesPerson")
     @Expose
-    private User salesPerson;
-    @SerializedName("ImageUrl")
+    private User owner;
     @Expose
     private String imageUrl;
-    @SerializedName("GiftcardTypeId")
-    @Expose
-    private int giftcardTypeId;
-    @SerializedName("UserID")
     @Expose
     private int userID;
-    @SerializedName("CompanyId")
     @Expose
     private int companyId;
-    @SerializedName("Company")
     @Expose
-    private Company company;
-    @SerializedName("GiftcardType")
+    private int giftcardTypeId;
     @Expose
     private GiftcardType giftcardType;
 
+    public GiftcardType getGiftcardType() {
+        return giftcardType;
+    }
 
+    public int getGiftcardTypeId() {
+        return giftcardTypeId;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public DateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public DateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

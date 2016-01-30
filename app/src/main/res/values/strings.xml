@@ -27,4 +27,6 @@
 
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
+    <string name="title_activity_giftcard_view">GiftcardViewActivity</string>
+    <string name="hero_gridview_item">hero_for_grid_items</string>
 </resources>

@@ -44,6 +44,14 @@ public class GiftcardController implements Callback {
 
     }
 
+    public Company getCompany(int id) {
+        for (Company c : companyList) {
+            if (c.getCompanyId() == id)
+                return c;
+        }
+        return null;
+    }
+
     public List<Company> getMainView() {
         Log.d(TAG, " getMainView()");
         if (companyList.isEmpty()) {
