@@ -27,7 +27,7 @@ public class GiftcardController implements Callback {
     private DataUpdateListener listener;
 
     public static GiftcardController getInstance() {
-        return instance == null ? new GiftcardController() : instance;
+        return instance == null ?  (instance = new GiftcardController()) : instance;
     }
 
     public GiftcardController() {

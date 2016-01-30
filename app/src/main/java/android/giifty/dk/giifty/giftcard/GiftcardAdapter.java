@@ -28,13 +28,12 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
         this.giftcardActivity = giftcardActivity;
         this.company = company;
         giftcardList = company.getGiftcard();
-        body = "Køb gavekort til " + company.getName() + "\n";
+        body = "Køb gavekort til " + company.getName() + ":\n";
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.giftcard_gridview_item, parent, false));
-
     }
 
     @Override

@@ -38,7 +38,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Company company = companyList.get(position);
 
         holder.title.setText(company.getName());
@@ -46,14 +46,13 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         holder.body.setText(body);
         holder.discountText.setText("23%");
 
-        HelperMethods.setImage(parent.getContext(), holder.imageView, company.getImageUrl());
+       // HelperMethods.setImage(parent.getContext(), holder.imageView, company.getImageUrl());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(parent.getContext(), GiftcardActivity.class);
                 intent.putExtra(Constants.EKSTRA_COMPANY_ID, company.getCompanyId());
-                HelperMethods.startActivityWithHero(parent.getActivity(), holder.itemView,
-                        intent,parent.getString(R.string.hero_gridview_item));
+                HelperMethods.startActivityWithSlideIn(parent.getActivity(), intent);
             }
         });
     }
@@ -65,9 +64,6 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
 
     public void updateData(List<Company> newData) {
         companyList = newData;
-//        for (Company c : newData) {
-//            companyList.add(c);
-//        }
         notifyDataSetChanged();
     }
 

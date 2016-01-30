@@ -1,14 +1,14 @@
 package android.giifty.dk.giifty;
 
+import android.giifty.dk.giifty.components.BaseActivity;
 import android.giifty.dk.giifty.giftcard.GiftcardAdapter;
 import android.giifty.dk.giifty.giftcard.GiftcardController;
 import android.giifty.dk.giifty.model.Company;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-public class GiftcardActivity extends AppCompatActivity {
+public class GiftcardActivity extends BaseActivity {
 
     private GiftcardController controller;
     private GiftcardAdapter adapter;
@@ -32,7 +32,6 @@ public class GiftcardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-
     }
 
 }
