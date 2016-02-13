@@ -15,7 +15,7 @@ public class Giftcard {
     @Expose
     private DateTime expirationDate;
     @Expose
-    private DateTime createdDate;
+    private DateTime entryDate;
     @Expose
     private String description;
     @Expose
@@ -30,6 +30,12 @@ public class Giftcard {
     private int giftcardTypeId;
     @Expose
     private GiftcardType giftcardType;
+    @Expose
+    private int giftcardId;
+
+    public int getGiftcardId() {
+        return giftcardId;
+    }
 
     public GiftcardType getGiftcardType() {
         return giftcardType;
@@ -59,8 +65,8 @@ public class Giftcard {
         return description;
     }
 
-    public DateTime getCreatedDate() {
-        return createdDate;
+    public DateTime getEntryDate() {
+        return entryDate;
     }
 
     public DateTime getExpirationDate() {

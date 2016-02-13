@@ -7,7 +7,8 @@ import android.giifty.dk.giifty.Constants;
 import android.giifty.dk.giifty.GiftcardActivity;
 import android.giifty.dk.giifty.R;
 import android.giifty.dk.giifty.model.Company;
-import android.giifty.dk.giifty.utils.HelperMethods;
+import android.giifty.dk.giifty.utils.ActivityStarter;
+import android.giifty.dk.giifty.utils.Utils;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,13 +47,13 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         holder.body.setText(body);
         holder.discountText.setText("23%");
 
-       // HelperMethods.setImage(parent.getContext(), holder.imageView, company.getImageUrl());
+    //    Utils.setImage(parent.getContext(), holder.imageView, company.getImageUrl());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(parent.getContext(), GiftcardActivity.class);
                 intent.putExtra(Constants.EKSTRA_COMPANY_ID, company.getCompanyId());
-                HelperMethods.startActivityWithSlideIn(parent.getActivity(), intent);
+                ActivityStarter.startActivityWithSlideIn(parent.getActivity(), intent);
             }
         });
     }

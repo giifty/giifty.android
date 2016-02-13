@@ -35,7 +35,7 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".GiftcardActivity" />
         <activity android:name=".components.BaseActivity" />
-        <activity android:name=".GiftcardDetailsActivity"></activity>
+        <activity android:name=".GiftcardDetailsActivity"/>
     </application>
 
 </manifest>

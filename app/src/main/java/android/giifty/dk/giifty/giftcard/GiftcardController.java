@@ -2,12 +2,15 @@ package android.giifty.dk.giifty.giftcard;
 
 import android.giifty.dk.giifty.components.DataUpdateListener;
 import android.giifty.dk.giifty.model.Company;
+import android.giifty.dk.giifty.model.Giftcard;
 import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.WebApi;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Call;
@@ -25,23 +28,29 @@ public class GiftcardController implements Callback {
     private final WebApi webApi;
     private List<Company> companyList;
     private DataUpdateListener listener;
+    private HashMap<Integer, Giftcard> map;
 
     public static GiftcardController getInstance() {
-        return instance == null ?  (instance = new GiftcardController()) : instance;
+        return instance == null ? (instance = new GiftcardController()) : instance;
     }
 
     public GiftcardController() {
         webApi = ServiceCreator.creatService();
         companyList = new ArrayList<>();
         downloadMainView();
+        map = new HashMap<>();
     }
 
     public void createGiftCard() {
 
     }
 
-    public void getAllGiftcards() {
+    public Giftcard getGiftcard(int id){
+        return map.get(id);
+    }
 
+    public List<Giftcard> getAllGiftcards() {
+      return new ArrayList<>(map.values());
     }
 
     public Company getCompany(int id) {
@@ -83,6 +92,8 @@ public class GiftcardController implements Callback {
             if (listener != null) {
                 listener.onNewDataAvailable();
             }
+
+            createmapAsync();
         }
 
     }
@@ -94,4 +105,21 @@ public class GiftcardController implements Callback {
             listener.onNewUpdateFailed();
         }
     }
+
+    private void createmapAsync() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                for (Company c : companyList) {
+                    for (Giftcard g : c.getGiftcard()) {
+                        map.put(g.getGiftcardId(), g);
+                    }
+                }
+                return null;
+            }
+        }.execute();
+    }
+
 }

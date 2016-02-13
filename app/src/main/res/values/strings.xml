@@ -10,23 +10,20 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="facebook_app_id">Hello blank fragment</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hero_transition_giftcard">hero_giftcard</string>
 
-    <string name="new_message_notification_title_template">New message: %1$s</string>
-
-    <!-- TODO: remove this placeholder text -->
-    <string name="new_message_notification_placeholder_text_template">You said %1$s and lorem ipsum
-        dolor sit amet, consectetur adipiscing elit. Etiam non enim magna. Morbi dictum, velit vel
-        semper venenatis, magna odio volutpat velit, at ullamcorper nulla lacus sed turpis.
-        Pellentesque vitae metus elit, nec tincidunt tellus. Integer sed nisl sem, ullamcorper
-        ornare lacus. Duis ac mauris sed massa congue volutpat. Donec sed erat sit amet turpis
-        viverra rhoncus sit amet nec magna. Donec lacinia ligula at libero volutpat volutpat nec nec
-        tortor.
-    </string>
 
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
     <string name="title_activity_giftcard_view">GiftcardViewActivity</string>
     <string name="hero_gridview_item">hero_for_grid_items</string>
+    <string name="kr">kr.</string>
+
+    //drawer menu names
+    <string name="buy_giftcard">Køb gavekort</string>
+    <string name="create_giftcard">Opret gavekort</string>
+    <string name="purchased_giftcard">Købte gavekort</string>
+    <string name="my_giftcard">Mine gavekort</string>
+    <string name="settings">Indstillinger</string>
+
 </resources>

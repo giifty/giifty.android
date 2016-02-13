@@ -11,6 +11,7 @@
         android:id="@+id/user_image_id"
         android:layout_width="45dp"
         android:layout_height="55dp"
+        android:src="@drawable/ic_test_pic"
         android:layout_gravity="center_horizontal"
         android:scaleType="fitCenter"
         app:border_color="@color/icon_gray"
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Sælger:"
+            android:text="Sælger"
             android:id="@+id/textView8" />
 
         <TextView
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Mads modulla henriksen"
-            android:id="@+id/textView9" />
+            android:id="@+id/user_name_id" />
     </LinearLayout>
 
     <LinearLayout

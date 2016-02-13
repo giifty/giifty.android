@@ -51,10 +51,8 @@ public class NewMessageNotification {
 
 
         final String ticker = exampleString;
-        final String title = res.getString(
-                R.string.new_message_notification_title_template, exampleString);
-        final String text = res.getString(
-                R.string.new_message_notification_placeholder_text_template, exampleString);
+        final String title = "title";
+        final String text = "placeHolder";
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 

@@ -4,6 +4,7 @@ import android.giifty.dk.giifty.GiftcardActivity;
 import android.giifty.dk.giifty.R;
 import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.Giftcard;
+import android.giifty.dk.giifty.utils.ActivityStarter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +21,12 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
 
 
     private List<Giftcard> giftcardList;
-    private final GiftcardActivity giftcardActivity;
+    private final GiftcardActivity parent;
     private Company company;
     private final String body;
 
     public GiftcardAdapter(GiftcardActivity giftcardActivity, Company company) {
-        this.giftcardActivity = giftcardActivity;
+        this.parent = giftcardActivity;
         this.company = company;
         giftcardList = company.getGiftcard();
         body = "Køb gavekort til " + company.getName() + ":\n";
@@ -37,14 +38,21 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(GiftcardAdapter.ViewHolder holder, int position) {
-        Giftcard giftcard = giftcardList.get(position);
+    public void onBindViewHolder(final GiftcardAdapter.ViewHolder holder, int position) {
+        final Giftcard giftcard = giftcardList.get(position);
 
         holder.title.setText(company.getName());
         String body1 = body + "værdi " + giftcard.getValue() + ",-  din pris " + giftcard.getPrice() + ",-";
         holder.body.setText(body1);
         holder.discountText.setText(calculateDiscount(giftcard));
-        //  HelperMethods.setImage(giftcardActivity, holder.imageView, company.getImageUrl());
+     //   Utils.setImage(parent, holder.imageView, company.getImageUrl());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityStarter.startGiftCardDetails(parent, holder.imageView, giftcard.getGiftcardId());
+            }
+        });
     }
 
 

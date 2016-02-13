@@ -25,6 +25,8 @@ public class User {
     private final boolean phoneConfirmed;
     @Expose
     private final String accountNumber;
+    @Expose
+    private  String imageUrl;
 
     public User(String userId, String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.userId = userId;
@@ -78,4 +80,7 @@ public class User {
                 ", accountNumber:"+ accountNumber + "}";
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }
