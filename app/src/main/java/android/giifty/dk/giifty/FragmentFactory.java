@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
  */
 public class FragmentFactory {
 
-    public static Fragment getFragmentByID(int id) {
+    public static Fragment createFragment(int id) {
 
         switch (id) {
             case R.id.nav_buy_giftcards:

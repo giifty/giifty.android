@@ -8,27 +8,27 @@ import com.google.gson.annotations.Expose;
 public class User {
 
     @Expose
-    private final String userId;
+    private int userId;
     @Expose
-    private final String facebookId;
+    private String facebookId;
     @Expose
-    private  final String password;
+    private String password;
     @Expose
-    private final String name;
+    private String name;
     @Expose
-    private final String email;
+    private String email;
     @Expose
-    private final boolean emailConfirmed;
+    private boolean emailConfirmed;
     @Expose
-    private final String phone;
+    private String phone;
     @Expose
-    private final boolean phoneConfirmed;
+    private boolean phoneConfirmed;
     @Expose
-    private final String accountNumber;
+    private String accountNumber;
     @Expose
-    private  String imageUrl;
+    private String facebookProfileImageUrl;
 
-    public User(String userId, String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
+    public User(int userId, String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.userId = userId;
         this.facebookId = facebookId;
         this.password = password;
@@ -75,12 +75,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "{ userId:"+ userId + ", password:"+ password + ", name:"+name + ", email:"+ email +
-                ", emailConfirmed:"+ emailConfirmed + ", phone:"+ phone + ", phoneConfirmed:"+ phoneConfirmed +
-                ", accountNumber:"+ accountNumber + "}";
+        return "{ userId:" + userId + ", password:" + password + ", name:" + name + ", email:" + email +
+                ", emailConfirmed:" + emailConfirmed + ", phone:" + phone + ", phoneConfirmed:" + phoneConfirmed +
+                ", accountNumber:" + accountNumber + "}";
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getFacebookProfileImageUrl() {
+        return facebookProfileImageUrl;
     }
 }

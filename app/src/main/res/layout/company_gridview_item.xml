@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp">
+
+    <RelativeLayout
+        android:id="@+id/frame2_id"
+        android:layout_width="180dp"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_more_sales">
+
+        <RelativeLayout
+            android:id="@+id/frame1_id"
+            android:layout_width="162dp"
+            android:layout_height="201dp"
+            android:layout_centerInParent="true"
+          >
+
+            <ImageView
+                android:id="@+id/company_image_id"
+                android:layout_width="match_parent"
+                android:layout_height="116dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_no_picture"
+                android:transitionName="@string/hero_transition_giftcard" />
+
+            <TextView
+                android:id="@+id/discount_text_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/discount_circle_background"
+                android:gravity="center"
+                android:text="35%"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/company_image_id"
+                android:layout_marginTop="7dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/title_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Matas"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/title_id"
+                    android:layout_toEndOf="@+id/title_id"
+                    android:text=" gavekort"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/title_id"
+                    android:text="Se alle 32 matas gavekort til salg lige nu."
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

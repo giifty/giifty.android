@@ -40,9 +40,9 @@ public class GiftcardDetailsActivity extends AppCompatActivity {
             date.setText(Utils.calculateTime(giftcard.getEntryDate()));
             expiryDate.setText(Utils.calculateTime(giftcard.getExpirationDate()));
             description.setText(giftcard.getDescription());
-            // Utils.setImage(this, image, giftcard.getImageUrl());
+            // Utils.setImage(this, image, giftcard.getFacebookProfileImageUrl());
             ownerName.setText(giftcard.getOwner().getName());
-            Utils.setImage(this, ownerImage, giftcard.getOwner().getImageUrl());
+            Utils.setImage(this, ownerImage, giftcard.getOwner().getFacebookProfileImageUrl());
         }
     }
 }

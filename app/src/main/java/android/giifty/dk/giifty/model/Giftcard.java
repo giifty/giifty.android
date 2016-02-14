@@ -25,6 +25,8 @@ public class Giftcard {
     @Expose
     private int userID;
     @Expose
+    private String companyName;
+    @Expose
     private int companyId;
     @Expose
     private int giftcardTypeId;
@@ -32,6 +34,7 @@ public class Giftcard {
     private GiftcardType giftcardType;
     @Expose
     private int giftcardId;
+
 
     public int getGiftcardId() {
         return giftcardId;
@@ -79,5 +82,9 @@ public class Giftcard {
 
     public int getValue() {
         return value;
+    }
+
+    public String getCompanyName() {
+        return companyName;
     }
 }

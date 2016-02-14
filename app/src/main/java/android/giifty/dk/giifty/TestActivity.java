@@ -1,15 +1,18 @@
 package android.giifty.dk.giifty;
 
 
-import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.giftcard.GiftcardController;
+import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
+import android.giifty.dk.giifty.utils.Utils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -26,14 +29,14 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_layout);
 
-        final User testUser = new User(null, null, "mads_k", "mads", "madshgk@gmail.com", true, "40845645", false, "87483483783");
+        final User testUser = Utils.createFakeUser();
 
-        Button loginButton = (Button) findViewById(R.id.login_button_id);
+        Button loginButton = (Button) findViewById(R.id.test_stuff);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                Log.d(TAG, Utils.createAuthenticationHeader("akhil@test.dk:Akhil"));
+                Log.d(TAG, Utils.createAuthenticationHeader("APP:so8Zorro"));
             }
         });
         Button getMain = (Button) findViewById(R.id.get_main_id);
@@ -49,8 +52,8 @@ public class TestActivity extends AppCompatActivity {
         loginWithUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "loginWithUser(), user:" + testUser);
-               UserController.getInstance().loginWithUser();
+                Log.d(TAG, "loginWithUser()");
+                UserController.getInstance().loginWithUser();
             }
         });
 
@@ -59,7 +62,11 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               UserController.getInstance().createUser(testUser);
+                try {
+                    UserController.getInstance().createUser(testUser);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

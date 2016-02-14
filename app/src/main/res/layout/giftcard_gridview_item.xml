@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="130dp"
             android:scaleType="centerCrop"
+            android:padding="2dp"
             android:transitionName="@string/hero_transition_giftcard"
             android:src="@drawable/ic_no_picture"
             />

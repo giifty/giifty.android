@@ -2,6 +2,8 @@ package android.giifty.dk.giifty.web;
 
 import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.Giftcard;
+import android.giifty.dk.giifty.model.NullResponse;
+import android.giifty.dk.giifty.model.User;
 
 import com.squareup.okhttp.RequestBody;
 
@@ -33,10 +35,17 @@ public interface WebApi {
 
     @Multipart
     @POST("Users/User/Update/id")
-    Call<Boolean> updateUser(@Part("id") String id, @Body String userEntity);
+    Call<User> updateUser(@Part("id") String id, @Body String userEntity);
+
+    @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
+    @POST("Users/User/Create")
+    Call<User> createUser( @Body RequestBody requestBody);
 
     @POST("Users/User/Create")
-    Call<Integer> createUser(@Header("Authorization") String authorization, @Body RequestBody requestBody);
+    Call<User> createUser(@Header("Authorization") String authorization, @Body RequestBody requestBody);
+
+    @POST("login")
+    Call<NullResponse> loginUser(@Header("Authorization") String authorization);
 
 
     //v1.0/Giftcards/GetAllGiftcards
@@ -44,7 +53,7 @@ public interface WebApi {
     Call<Giftcard> getAllGiftCards();
 
     @GET("Giftcards/GetAllGiftcards/id")
-    Call<Giftcard> getSpecifikGiftCard();
+    Call<Giftcard> getSpecificGiftCard();
 
     @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @GET("Giftcards/GetMainView")

@@ -1,6 +1,6 @@
 package android.giifty.dk.giifty.giftcard;
 
-import android.giifty.dk.giifty.GiftcardActivity;
+import android.app.Activity;
 import android.giifty.dk.giifty.R;
 import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.Giftcard;
@@ -21,15 +21,16 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
 
 
     private List<Giftcard> giftcardList;
-    private final GiftcardActivity parent;
+    private final Activity parent;
     private Company company;
     private final String body;
 
-    public GiftcardAdapter(GiftcardActivity giftcardActivity, Company company) {
+    public GiftcardAdapter(Activity giftcardActivity, Company company) {
         this.parent = giftcardActivity;
         this.company = company;
         giftcardList = company.getGiftcard();
         body = "Køb gavekort til " + company.getName() + ":\n";
+
     }
 
     @Override
@@ -45,7 +46,7 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
         String body1 = body + "værdi " + giftcard.getValue() + ",-  din pris " + giftcard.getPrice() + ",-";
         holder.body.setText(body1);
         holder.discountText.setText(calculateDiscount(giftcard));
-     //   Utils.setImage(parent, holder.imageView, company.getImageUrl());
+     //   Utils.setImage(parent, holder.imageView, company.getFacebookProfileImageUrl());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,10 +54,11 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
                 ActivityStarter.startGiftCardDetails(parent, holder.imageView, giftcard.getGiftcardId());
             }
         });
+
+
     }
 
-
-    private String calculateDiscount(Giftcard giftcard) {
+      private String calculateDiscount(Giftcard giftcard) {
         return String.valueOf(Math.floor(giftcard.getPrice() / giftcard.getValue())) + "%";
     }
 

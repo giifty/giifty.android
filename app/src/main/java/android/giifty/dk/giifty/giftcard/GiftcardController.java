@@ -1,12 +1,16 @@
 package android.giifty.dk.giifty.giftcard;
 
+import android.giifty.dk.giifty.Constants;
 import android.giifty.dk.giifty.components.DataUpdateListener;
 import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.Giftcard;
+import android.giifty.dk.giifty.utils.MyPrefrences;
 import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.WebApi;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +29,9 @@ public class GiftcardController implements Callback {
 
     private static final String TAG = GiftcardController.class.getSimpleName();
     private static GiftcardController instance;
-    private final WebApi webApi;
+    private final WebApi webService;
+    private final MyPrefrences myPreferences;
+    private final List<Giftcard> giftcardsOnSale, giftcardsPurchased;
     private List<Company> companyList;
     private DataUpdateListener listener;
     private HashMap<Integer, Giftcard> map;
@@ -35,22 +41,26 @@ public class GiftcardController implements Callback {
     }
 
     public GiftcardController() {
-        webApi = ServiceCreator.creatService();
+        webService = ServiceCreator.creatService();
+        myPreferences = MyPrefrences.getInstance();
         companyList = new ArrayList<>();
         downloadMainView();
         map = new HashMap<>();
+        giftcardsOnSale = myPreferences.hasKey(Constants.KEY_MY_GC_ON_SALE) ?
+                (List<Giftcard>) myPreferences.getObject(Constants.KEY_MY_GC_ON_SALE, new TypeToken<List<Giftcard>>() {
+        }) : new ArrayList<Giftcard>();
+
+        giftcardsPurchased = myPreferences.hasKey(Constants.KEY_MY_GC_PURCHASED) ?
+                (List<Giftcard>) myPreferences.getObject(Constants.KEY_MY_GC_PURCHASED, new TypeToken<List<Giftcard>>() {
+        }) : new ArrayList<Giftcard>();
     }
 
-    public void createGiftCard() {
-
-    }
-
-    public Giftcard getGiftcard(int id){
+    public Giftcard getGiftcard(int id) {
         return map.get(id);
     }
 
     public List<Giftcard> getAllGiftcards() {
-      return new ArrayList<>(map.values());
+        return new ArrayList<>(map.values());
     }
 
     public Company getCompany(int id) {
@@ -71,12 +81,26 @@ public class GiftcardController implements Callback {
 
     private void downloadMainView() {
         Log.d(TAG, " downloadMainView()");
-        Call<List<Company>> request = webApi.getMainView();
+        Call<List<Company>> request = webService.getMainView();
         request.enqueue(this);
     }
 
-    private void downloadAllGiftcards() {
+    public List<Giftcard> getMyGiftcardForSale() {
+        return Collections.unmodifiableList(giftcardsOnSale);
+    }
 
+    public List<Giftcard> getMyGiftcardPurchased() {
+       return Collections.unmodifiableList(getMyGiftcardPurchased());
+    }
+
+    public void addPurchased(Giftcard giftcard){
+        giftcardsPurchased.add(giftcard);
+        myPreferences.persistObject(Constants.KEY_MY_GC_PURCHASED, giftcardsPurchased);
+    }
+
+    public void addGiftCardOnSale(Giftcard giftcard){
+        giftcardsOnSale.add(giftcard);
+        myPreferences.persistObject(Constants.KEY_MY_GC_ON_SALE, giftcardsOnSale);
     }
 
     public void setDataUpdateListener(DataUpdateListener listener) {
@@ -92,10 +116,8 @@ public class GiftcardController implements Callback {
             if (listener != null) {
                 listener.onNewDataAvailable();
             }
-
             createmapAsync();
         }
-
     }
 
     @Override

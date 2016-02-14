@@ -13,11 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class FrontPage extends AppCompatActivity
+public class FrontPageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String FRONTPAGE_FRAGMENT = "frontpageFrag";
-    private static final String TAG = FrontPage.class.getSimpleName();
+    private static final String TAG = FrontPageActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +77,9 @@ public class FrontPage extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        item.setEnabled(true);
         //do we need to know what is pressed here?
         if (id == R.id.nav_buy_giftcards) {
-            // Handle the camera action
 
         } else if (id == R.id.nav_create_giftcards) {
 
@@ -97,7 +97,7 @@ public class FrontPage extends AppCompatActivity
     }
 
     private void showFragment(int fragId) {
-        Fragment fragment = FragmentFactory.getFragmentByID(fragId);
+        Fragment fragment = FragmentFactory.createFragment(fragId);
         Log.d(TAG, "showFragment() name:" + fragment.getClass().getSimpleName());
         getSupportFragmentManager()
                 .beginTransaction()
