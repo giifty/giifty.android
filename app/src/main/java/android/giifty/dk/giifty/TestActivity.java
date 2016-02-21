@@ -6,6 +6,7 @@ import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
 import android.giifty.dk.giifty.utils.Utils;
+import android.giifty.dk.giifty.web.SignInHandler;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Button;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,8 +37,7 @@ public class TestActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, Utils.createAuthenticationHeader("akhil@test.dk:Akhil"));
-                Log.d(TAG, Utils.createAuthenticationHeader("APP:so8Zorro"));
+
             }
         });
         Button getMain = (Button) findViewById(R.id.get_main_id);
@@ -53,7 +54,11 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "loginWithUser()");
-                UserController.getInstance().loginWithUser();
+                try {
+                    SignInHandler.getInstance().loginWithUser();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

@@ -3,7 +3,6 @@ package android.giifty.dk.giifty.web;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.giifty.dk.giifty.R;
-import android.giifty.dk.giifty.user.SignInHandler;
 import android.os.AsyncTask;
 
 import java.io.IOException;

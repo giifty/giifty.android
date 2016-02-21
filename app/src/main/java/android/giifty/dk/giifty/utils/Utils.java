@@ -4,6 +4,8 @@ import android.content.Context;
 import android.giifty.dk.giifty.model.User;
 import android.widget.ImageView;
 
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
@@ -12,6 +14,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.json.JSONObject;
 
 
 /**
@@ -55,7 +58,10 @@ public class Utils {
     }
 
     public static User createFakeUser(){
-        return new User(-1, "", "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
+        return null; //new User(-1, "", "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
     }
 
+    public static RequestBody createRequestBodyFromJson(JSONObject json) {
+        return RequestBody.create(MediaType.parse("application/json"), json.toString());
+    }
 }

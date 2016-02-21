@@ -35,14 +35,11 @@ public interface WebApi {
 
     @Multipart
     @POST("Users/User/Update/id")
-    Call<User> updateUser(@Part("id") String id, @Body String userEntity);
+    Call<User> updateUser(@Header("Authorization") String authorization, @Part("id") int id, @Body RequestBody userEntity);
 
     @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @POST("Users/User/Create")
     Call<User> createUser( @Body RequestBody requestBody);
-
-    @POST("Users/User/Create")
-    Call<User> createUser(@Header("Authorization") String authorization, @Body RequestBody requestBody);
 
     @POST("Authenticate/Login")
     Call<NullResponse> loginUser(@Header("Authorization") String authorization);

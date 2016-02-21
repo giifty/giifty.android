@@ -1,7 +1,8 @@
-package android.giifty.dk.giifty.user;
+package android.giifty.dk.giifty.utils;
 
 import android.giifty.dk.giifty.SignInListener;
 import android.giifty.dk.giifty.model.User;
+import android.giifty.dk.giifty.user.UserUpdatedListener;
 import android.giifty.dk.giifty.web.ServerToken;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class GlobalObserver {
     }
 
     public static void setCurrentUser(User currentUser) {
+        //TODO is this really needed if all get theier user from this class
+        fireUserUpdatedEvent();
         synchronized (lockUser) {
             GlobalObserver.currentUser = currentUser;
         }
@@ -36,9 +39,9 @@ public class GlobalObserver {
         }
     }
 
-    public static boolean hasSignedIn() {
+    public static boolean isSignedIn() {
         synchronized (lockUser) {
-            return currentUser.hasSignedIn();
+            return currentUser.isSignedIn();
         }
     }
 
@@ -55,7 +58,7 @@ public class GlobalObserver {
     }
 
     public static void fireSignInEvent() {
-        getCurrentUser().setSignedIn(true);
+        getCurrentUser().setIsSignedIn(true);
         synchronized (lockSingIn) {
             for (SignInListener listener : signInListeners) {
                 listener.onSignedIn();
@@ -65,7 +68,7 @@ public class GlobalObserver {
 
     public static void fireSignOutEvent() {
         setServerToken(null);
-        getCurrentUser().setSignedIn(false);
+        getCurrentUser().setIsSignedIn(false);
         synchronized (lockSingIn) {
             for (SignInListener listener : signInListeners) {
                 listener.onSignedOut();
@@ -85,7 +88,7 @@ public class GlobalObserver {
         }
     }
 
-    public void fireUserUpdatedEvent() {
+    public static void fireUserUpdatedEvent() {
         synchronized (lockUser) {
             for (UserUpdatedListener listener : userUpdatedListeners) {
                 listener.onUserUpdated();

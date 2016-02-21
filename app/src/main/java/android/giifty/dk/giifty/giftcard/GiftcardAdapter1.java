@@ -3,8 +3,8 @@ package android.giifty.dk.giifty.giftcard;
 import android.app.Activity;
 import android.giifty.dk.giifty.R;
 import android.giifty.dk.giifty.model.Giftcard;
-import android.giifty.dk.giifty.user.UserController;
 import android.giifty.dk.giifty.utils.ActivityStarter;
+import android.giifty.dk.giifty.utils.GlobalObserver;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +27,7 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
     public GiftcardAdapter1(Activity giftcardActivity, List<Giftcard> data) {
         this.parent = giftcardActivity;
         giftcardList = data;
-        userId = UserController.getInstance().getUser().getUserId();
+        userId = GlobalObserver.getCurrentUser().getUserId();
     }
 
     @Override

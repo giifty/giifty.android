@@ -1,9 +1,8 @@
-package android.giifty.dk.giifty.user;
+package android.giifty.dk.giifty.web;
 
 import android.giifty.dk.giifty.model.User;
-import android.giifty.dk.giifty.web.ServerToken;
-import android.giifty.dk.giifty.web.ServiceCreator;
-import android.giifty.dk.giifty.web.WebApi;
+import android.giifty.dk.giifty.user.UserUpdatedListener;
+import android.giifty.dk.giifty.utils.GlobalObserver;
 import android.util.Base64;
 
 import com.squareup.okhttp.Authenticator;
@@ -48,7 +47,7 @@ public class SignInHandler implements Callback, Authenticator, UserUpdatedListen
 
     @DebugLog
     public boolean refreshToken() throws IOException {
-        if (currentUser != null && currentUser.hasSignedIn()) {
+        if (currentUser != null && currentUser.isSignedIn()) {
             String auth = createAuthenticationHeader(createAuthText());
             Response response = webService.loginUser(auth).execute();
             if (response.isSuccess()) {

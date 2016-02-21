@@ -8,30 +8,31 @@ import com.google.gson.annotations.Expose;
 public class User {
 
     @Expose
-    private int userId;
+    private final int userId;
     @Expose
-    private String facebookId;
+    private  final String facebookId;
     @Expose
-    private String password;
+    private final String password;
     @Expose
-    private String name;
+    private final String name;
     @Expose
-    private String email;
+    private final String email;
     @Expose
     private boolean emailConfirmed;
     @Expose
-    private String phone;
+    private final String phone;
     @Expose
     private boolean phoneConfirmed;
     @Expose
-    private String accountNumber;
+    private final String accountNumber;
+    @Expose
+    private boolean accountConfirmed;
     @Expose
     private String facebookProfileImageUrl;
 
-    private boolean signedOut;
+    private boolean hasSignedIn;
 
-    public User(int userId, String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
-        this.userId = userId;
+    public User(String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.facebookId = facebookId;
         this.password = password;
         this.name = name;
@@ -40,6 +41,29 @@ public class User {
         this.phone = phone;
         this.phoneConfirmed = phoneConfirmed;
         this.accountNumber = accountNumber;
+        this.userId = -1;
+    }
+
+
+
+    public void setIsSignedIn(boolean hasSignedIn) {
+        this.hasSignedIn = hasSignedIn;
+    }
+
+    public void setFacebookProfileImageUrl(String facebookProfileImageUrl) {
+        this.facebookProfileImageUrl = facebookProfileImageUrl;
+    }
+
+    public void setAccountConfirmed(boolean accountConfirmed) {
+        this.accountConfirmed = accountConfirmed;
+    }
+
+    public void setPhoneConfirmed(boolean phoneConfirmed) {
+        this.phoneConfirmed = phoneConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
     }
 
     public int getUserId() {
@@ -78,23 +102,22 @@ public class User {
         return accountNumber;
     }
 
-
-    @Override
-    public String toString() {
-        return "{ userId:" + userId + ", password:" + password + ", name:" + name + ", email:" + email +
-                ", emailConfirmed:" + emailConfirmed + ", phone:" + phone + ", phoneConfirmed:" + phoneConfirmed +
-                ", accountNumber:" + accountNumber + "}";
+    public boolean isAccountConfirmed() {
+        return accountConfirmed;
     }
 
     public String getFacebookProfileImageUrl() {
         return facebookProfileImageUrl;
     }
 
-    public boolean hasSignedIn() {
-        return signedOut;
+    public boolean isSignedIn() {
+        return hasSignedIn;
     }
 
-    public void setSignedIn(boolean signedOut) {
-        this.signedOut = signedOut;
+    @Override
+    public String toString() {
+        return "{ userId:" + userId + ", password:" + password + ", name:" + name + ", email:" + email +
+                ", emailConfirmed:" + emailConfirmed + ", phone:" + phone + ", phoneConfirmed:" + phoneConfirmed +
+                ", accountNumber:" + accountNumber + "}";
     }
 }

@@ -1,7 +1,5 @@
 package android.giifty.dk.giifty.web;
 
-import android.giifty.dk.giifty.user.SignInHandler;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -27,7 +25,7 @@ public class ServiceCreator {
                 .create();
 
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setAuthenticator(SignInHandler.getInstance());
+        okHttpClient.setAuthenticator(new MyAuthenticator());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
