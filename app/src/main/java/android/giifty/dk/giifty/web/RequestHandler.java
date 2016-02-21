@@ -53,7 +53,7 @@ public class RequestHandler implements Callback {
         if (context != null) {
             if (mProgressDialog == null) {
                 mProgressDialog = new ProgressDialog(context);
-                mProgressDialog.setMessage(context.getString(R.string.loading));
+                mProgressDialog.setMessage(context.getString(R.string.msg_loading));
                 mProgressDialog.setIndeterminate(true);
             }
             mProgressDialog.show();

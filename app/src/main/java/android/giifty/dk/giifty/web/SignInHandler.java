@@ -37,7 +37,7 @@ public class SignInHandler implements Callback, Authenticator, UserUpdatedListen
     }
 
     @DebugLog
-    public void loginWithUser() throws IOException {
+    public void signInUser() throws IOException {
         if (GlobalObserver.hasCurrentUser()) {
             currentUser = GlobalObserver.getCurrentUser();
             String auth = createAuthenticationHeader(createAuthText());

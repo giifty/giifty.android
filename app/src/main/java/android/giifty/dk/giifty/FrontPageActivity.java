@@ -1,6 +1,8 @@
 package android.giifty.dk.giifty;
 
 import android.content.Intent;
+import android.giifty.dk.giifty.utils.GlobalObserver;
+import android.giifty.dk.giifty.web.SignInHandler;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,12 +14,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+
+import hugo.weaving.DebugLog;
 
 public class FrontPageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String FRONTPAGE_FRAGMENT = "frontpageFrag";
     private static final String TAG = FrontPageActivity.class.getSimpleName();
+    private TextView naviHeaderName;
+    private SignInHandler signInHandler;
+    private View createUserHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +46,46 @@ public class FrontPageActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         navigationView.setCheckedItem(R.id.nav_buy_giftcards);
+        naviHeaderName = (TextView) navigationView.findViewById(R.id.user_name_id);
+        createUserHeader = navigationView.getHeaderView(0);
+
         showFragment(R.id.nav_buy_giftcards);
+        signInHandler = SignInHandler.getInstance();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateNaviHeader();
+    }
+
+    @DebugLog
+    private void updateNaviHeader() {
+        try {
+            if (GlobalObserver.hasCurrentUser()) {
+                naviHeaderName.setText(GlobalObserver.getCurrentUser().getName());
+                if (GlobalObserver.getCurrentUser().isAutoSignIn()) {
+                    signInHandler.signInUser();
+                }
+            }else {
+                naviHeaderName.setText(R.string.user_name_create_user);
+                createUserHeader.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startCreateUserActivity();
+                    }
+                });
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startCreateUserActivity(){
+        Toast.makeText(this, "TODO createUseractivity", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -58,12 +107,8 @@ public class FrontPageActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        int id = item.getItemId();
         if (id == R.id.test_activity_id) {
             startActivity(new Intent(this, TestActivity.class));
             return true;
@@ -106,8 +151,8 @@ public class FrontPageActivity extends AppCompatActivity
                 .commit();
     }
 
-    private void popFromBackstack(){
+    private void popFromBackstack() {
         getSupportFragmentManager().popBackStack();
-         }
+    }
 
 }

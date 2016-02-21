@@ -32,6 +32,8 @@ public class User {
 
     private boolean hasSignedIn;
 
+    private boolean autoSignIn;
+
     public User(String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.facebookId = facebookId;
         this.password = password;
@@ -45,6 +47,13 @@ public class User {
     }
 
 
+    public boolean isAutoSignIn() {
+        return autoSignIn;
+    }
+
+    public void setAutoSignIn(boolean autoSignIn) {
+        this.autoSignIn = autoSignIn;
+    }
 
     public void setIsSignedIn(boolean hasSignedIn) {
         this.hasSignedIn = hasSignedIn;

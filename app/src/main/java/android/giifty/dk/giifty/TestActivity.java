@@ -53,9 +53,9 @@ public class TestActivity extends AppCompatActivity {
         loginWithUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "loginWithUser()");
+                Log.d(TAG, "signInUser()");
                 try {
-                    SignInHandler.getInstance().loginWithUser();
+                    SignInHandler.getInstance().signInUser();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
