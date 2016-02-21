@@ -3,6 +3,8 @@ package android.giifty.dk.giifty.giftcard;
 import android.app.Activity;
 import android.giifty.dk.giifty.R;
 import android.giifty.dk.giifty.model.Giftcard;
+import android.giifty.dk.giifty.user.UserController;
+import android.giifty.dk.giifty.utils.ActivityStarter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +20,14 @@ import java.util.List;
 public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.ViewHolder> {
 
 
+    private final int userId;
     private List<Giftcard> giftcardList;
     private final Activity parent;
 
     public GiftcardAdapter1(Activity giftcardActivity, List<Giftcard> data) {
         this.parent = giftcardActivity;
         giftcardList = data;
+        userId = UserController.getInstance().getUser().getUserId();
     }
 
     @Override
@@ -43,15 +47,17 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(giftcard);
-                //TODO start new activity, either edit own giftcard or se giftcard info
+                startActivity(giftcard, holder.imageView);
             }
         });
     }
 
-    private void startActivity(Giftcard giftcard) {
-        // if(giftcard.getOwner().getName() == giftcard.getUserID())
-        //   ActivityStarter.startGiftCardDetails(parent, holder.imageView, giftcard.getGiftcardId());
+    private void startActivity(Giftcard giftcard, ImageView view) {
+        if (giftcard.getSellerId() == userId) {
+            //start Edit Giftcard
+        } else if (giftcard.getBuyerId() == userId) {
+            ActivityStarter.startGiftCardDetails(parent, view, giftcard.getGiftcardId());
+        }
     }
 
     @Override

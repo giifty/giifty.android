@@ -19,11 +19,7 @@ public class Giftcard {
     @Expose
     private String description;
     @Expose
-    private User owner;
-    @Expose
     private String imageUrl;
-    @Expose
-    private int userID;
     @Expose
     private String companyName;
     @Expose
@@ -34,57 +30,78 @@ public class Giftcard {
     private GiftcardType giftcardType;
     @Expose
     private int giftcardId;
+    @Expose
+    private int buyerId;
+    @Expose
+    private User buyer;
+    @Expose
+    private int sellerId;
+    @Expose
+    private User seller;
+    @Expose
+    private double savingInProcent;
 
-
-    public int getGiftcardId() {
-        return giftcardId;
-    }
-
-    public GiftcardType getGiftcardType() {
-        return giftcardType;
-    }
-
-    public int getGiftcardTypeId() {
-        return giftcardTypeId;
-    }
-
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public DateTime getEntryDate() {
-        return entryDate;
-    }
-
-    public DateTime getExpirationDate() {
-        return expirationDate;
+    public int getValue() {
+        return value;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public int getValue() {
-        return value;
+    public DateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public DateTime getEntryDate() {
+        return entryDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public String getCompanyName() {
         return companyName;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public int getGiftcardTypeId() {
+        return giftcardTypeId;
+    }
+
+    public GiftcardType getGiftcardType() {
+        return giftcardType;
+    }
+
+    public int getGiftcardId() {
+        return giftcardId;
+    }
+
+    public int getBuyerId() {
+        return buyerId;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public int getSellerId() {
+        return sellerId;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public double getSavingInProcent() {
+        return savingInProcent;
     }
 }

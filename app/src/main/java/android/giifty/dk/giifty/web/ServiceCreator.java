@@ -1,7 +1,10 @@
 package android.giifty.dk.giifty.web;
 
+import android.giifty.dk.giifty.user.SignInHandler;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
 
@@ -23,8 +26,12 @@ public class ServiceCreator {
                 .registerTypeAdapter(DateTime.class, new TypeAdapterYodaTime())
                 .create();
 
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.setAuthenticator(SignInHandler.getInstance());
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

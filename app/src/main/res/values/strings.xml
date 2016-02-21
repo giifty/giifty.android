@@ -1,23 +1,23 @@
 <resources>
+    // text
     <string name="app_name">Giifty</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="logged_in_as">Logget ind som:</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="facebook_app_id">Hello blank fragment</string>
-
-    <string name="hero_transition_giftcard">hero_giftcard</string>
-
-
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
     <string name="title_activity_giftcard_view">GiftcardViewActivity</string>
     <string name="hero_gridview_item">hero_for_grid_items</string>
     <string name="kr">kr.</string>
+    <string name="action_settings">Settings</string>
+    <string name="logged_in_as">Logget ind som:</string>
+    <string name="facebook_app_id">Hello blank fragment</string>
+
+
+    //user msg
+    <string name="loading">Opdaterer...</string>
+
+
+    // transition names
+    <string name="hero_transition_giftcard">hero_giftcard</string>
+
 
     //drawer menu names
     <string name="buy_giftcard">Køb gavekort</string>
@@ -26,7 +26,9 @@
     <string name="my_giftcard">Mine gavekort</string>
     <string name="settings">Indstillinger</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="msg_no_puchased_gc">Du har ikke nogen købte gavekort endnu.</string>
+    <string name="msg_you_have_no_gc_for_sale">Du har ikke nogen gavekort til salg</string>
 
 </resources>

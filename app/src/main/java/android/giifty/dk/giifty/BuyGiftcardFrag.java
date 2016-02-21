@@ -27,18 +27,8 @@ public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
     private CompanyAdapter adapter;
 
     public BuyGiftcardFrag() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BuyGiftcardFrag.
-     */
-    // TODO: Rename and change types and number of parameters
     public static BuyGiftcardFrag newInstance(String param1, String param2) {
         BuyGiftcardFrag fragment = new BuyGiftcardFrag();
         Bundle args = new Bundle();
@@ -66,7 +56,7 @@ public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
 
         controller.setDataUpdateListener(this);
 
-        adapter = new CompanyAdapter(this, controller.getMainView());
+        adapter = new CompanyAdapter(this, controller.getMainView(getContext()));
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
@@ -79,7 +69,7 @@ public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
 
     @Override
     public void onNewDataAvailable() {
-        adapter.updateData(controller.getMainView());
+        adapter.updateData(controller.getMainView(getContext()));
     }
 
     @Override

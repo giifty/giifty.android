@@ -21,7 +21,7 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == android.R.id.home){
-            onBackPressed();
+            finish();
         }
         return true;
     }
@@ -29,6 +29,12 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
         overridePendingTransition(R.animator.fade_in, R.animator.slide_out_right);
     }
 }

@@ -1,15 +1,15 @@
 package android.giifty.dk.giifty;
 
+import android.giifty.dk.giifty.components.BaseActivity;
 import android.giifty.dk.giifty.giftcard.GiftcardController;
 import android.giifty.dk.giifty.model.Giftcard;
 import android.giifty.dk.giifty.utils.Utils;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GiftcardDetailsActivity extends AppCompatActivity {
+public class GiftcardDetailsActivity extends BaseActivity {
 
     private TextView value, salesPrice, date, expiryDate, description;
     private ImageView image;
@@ -41,8 +41,8 @@ public class GiftcardDetailsActivity extends AppCompatActivity {
             expiryDate.setText(Utils.calculateTime(giftcard.getExpirationDate()));
             description.setText(giftcard.getDescription());
             // Utils.setImage(this, image, giftcard.getFacebookProfileImageUrl());
-            ownerName.setText(giftcard.getOwner().getName());
-            Utils.setImage(this, ownerImage, giftcard.getOwner().getFacebookProfileImageUrl());
+            ownerName.setText(giftcard.getSeller().getName());
+            Utils.setImage(this, ownerImage, giftcard.getSeller().getFacebookProfileImageUrl());
         }
     }
 }

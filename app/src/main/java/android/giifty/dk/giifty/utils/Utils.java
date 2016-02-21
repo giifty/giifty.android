@@ -2,8 +2,6 @@ package android.giifty.dk.giifty.utils;
 
 import android.content.Context;
 import android.giifty.dk.giifty.model.User;
-import android.util.Base64;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -14,8 +12,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
-
-import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -58,22 +54,8 @@ public class Utils {
 
     }
 
-
-
-    public static String createAuthenticationHeader(String text) {
-        byte[] plain = new byte[0];
-        try {
-            plain = text.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String auth = ("Basic " + Base64.encodeToString(plain, Base64.DEFAULT)).trim();
-        Log.d(TAG, auth);
-        return auth;
-    }
-
     public static User createFakeUser(){
-        return new User(-1, "", "443345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
+        return new User(-1, "", "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
     }
 
 }

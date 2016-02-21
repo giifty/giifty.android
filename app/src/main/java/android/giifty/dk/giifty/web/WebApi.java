@@ -31,7 +31,7 @@ public interface WebApi {
 
     @Multipart
     @PUT("Users/User/Delete/id")
-    Call<Boolean> deleteUser(@Part("id") String id);
+    Call<Boolean> deleteUser(@Part("id") int id);
 
     @Multipart
     @POST("Users/User/Update/id")
@@ -44,7 +44,7 @@ public interface WebApi {
     @POST("Users/User/Create")
     Call<User> createUser(@Header("Authorization") String authorization, @Body RequestBody requestBody);
 
-    @POST("login")
+    @POST("Authenticate/Login")
     Call<NullResponse> loginUser(@Header("Authorization") String authorization);
 
 
@@ -55,7 +55,6 @@ public interface WebApi {
     @GET("Giftcards/GetAllGiftcards/id")
     Call<Giftcard> getSpecificGiftCard();
 
-    @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @GET("Giftcards/GetMainView")
     Call<List<Company>> getMainView();
 }

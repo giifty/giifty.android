@@ -6,6 +6,7 @@ import android.giifty.dk.giifty.model.NullResponse;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.utils.MyPrefrences;
 import android.giifty.dk.giifty.utils.Utils;
+import android.giifty.dk.giifty.web.RequestHandler;
 import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.WebApi;
 import android.util.Log;
@@ -17,7 +18,7 @@ import com.squareup.okhttp.RequestBody;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import retrofit.Call;
+import hugo.weaving.DebugLog;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -31,8 +32,10 @@ public class UserController implements Callback {
     private static UserController instance;
     private Context context;
     private WebApi webService;
-    private User user;
-    MyPrefrences myPrefrences;
+    private User user, userToUpdate;
+    private MyPrefrences myPrefrences;
+    private RequestHandler requestHandler;
+    private String serverToken;
 
     public static UserController getInstance() {
         if (instance == null) {
@@ -47,21 +50,18 @@ public class UserController implements Callback {
     public void initController(Context applicationContext) {
         Log.d(TAG, "initController()");
         this.context = applicationContext;
+        requestHandler = new RequestHandler(this);
         myPrefrences = MyPrefrences.getInstance();
         webService = ServiceCreator.creatService();
         if (myPrefrences.hasKey(Constants.KEY_USER)) {
             user = myPrefrences.getObject(Constants.KEY_USER, new TypeToken<User>() {
             });
-            loginWithUser();
         }
     }
 
-    public void loginWithUser() {
-        String auth = Utils.createAuthenticationHeader(createAuthText());
-        webService.loginUser(auth);
-    }
 
-    public void createUser(User user) throws JSONException {
+    @DebugLog
+    public void createUser(Context context, User user) throws JSONException {
         String auth = "APP:so8Zorro";
         JSONObject json = new JSONObject();
         json.put("password", user.getPassword());
@@ -72,15 +72,14 @@ public class UserController implements Callback {
 
         auth = Utils.createAuthenticationHeader(auth);
 
-        Log.d(TAG, "createUser() auth:" + auth);
+        userToUpdate = user;
+
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json.toString());
-        Call<User> request = webService.createUser(auth, requestBody);
-        request.enqueue(this);
+        requestHandler.enqueueRequest(webService.createUser(auth, requestBody), context);
     }
 
-    public void deleteUser() {
-        Call<Boolean> request = webService.deleteUser("");
-        request.enqueue(this);
+    public void deleteUser(Context context) {
+        requestHandler.enqueueRequest(webService.deleteUser(getUser().getUserId()), context);
     }
 
 
@@ -88,41 +87,36 @@ public class UserController implements Callback {
         return user;
     }
 
-    public Boolean hasUser() {
-        return user != null;
-    }
 
-    public String createAuthText() {
-        return (user.getName() + ":" + user.getPassword()).trim();
-    }
 
+
+    @DebugLog
     @Override
     public void onResponse(Response response, Retrofit retrofit) {
         Log.d(TAG, "onResponse() state:" + response.isSuccess() + "  code:" + response.code() + "  msg:" + response.message());
-
         if (response.code() == 200) {
             Object responseBody = response.body();
-
+            boolean isVerified = false;
             if (User.class.isInstance(responseBody)) {
-                user = (User) responseBody;
-                persistUser(user);
+                persistUser(userToUpdate);
             } else if (Boolean.class.isInstance(responseBody)) {
-                boolean isVerified = (boolean) responseBody;
-            }else if (NullResponse.class.isInstance(responseBody)) {
-                boolean isVerified = (boolean) responseBody;
+                isVerified = (boolean) responseBody;
+            } else if (NullResponse.class.isInstance(responseBody)) {
+                isVerified = (boolean) responseBody;
             }
-
-            String tokenResponse = response.headers().get("token");
+            if (isVerified) {
+                serverToken = response.headers().get("token");
+            }
         }
+    }
+
+    @DebugLog
+    @Override
+    public void onFailure(Throwable t) {
     }
 
     private void persistUser(User user) {
         myPrefrences.persistObject(Constants.KEY_USER, user);
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        Log.d(TAG, "onFailure() msg: " + t.getMessage());
     }
 
 }

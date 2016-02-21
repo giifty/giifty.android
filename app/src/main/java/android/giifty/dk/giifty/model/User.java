@@ -28,6 +28,8 @@ public class User {
     @Expose
     private String facebookProfileImageUrl;
 
+    private boolean signedOut;
+
     public User(int userId, String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.userId = userId;
         this.facebookId = facebookId;
@@ -38,6 +40,10 @@ public class User {
         this.phone = phone;
         this.phoneConfirmed = phoneConfirmed;
         this.accountNumber = accountNumber;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getFacebookId() {
@@ -82,5 +88,13 @@ public class User {
 
     public String getFacebookProfileImageUrl() {
         return facebookProfileImageUrl;
+    }
+
+    public boolean hasSignedIn() {
+        return signedOut;
+    }
+
+    public void setSignedIn(boolean signedOut) {
+        this.signedOut = signedOut;
     }
 }

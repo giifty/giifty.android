@@ -43,7 +43,7 @@ public class TestActivity extends AppCompatActivity {
         getMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Company> l = GiftcardController.getInstance().getMainView();
+                List<Company> l = GiftcardController.getInstance().getMainView(TestActivity.this);
                 Log.d(TAG, l.size() + " ");
             }
         });
@@ -63,7 +63,7 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    UserController.getInstance().createUser(testUser);
+                    UserController.getInstance().createUser(TestActivity.this, testUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
