@@ -67,7 +67,7 @@ public class UserController implements Callback {
         requestHandler.enqueueRequest(webService.createUser(Utils.createRequestBodyFromJson(json)), context);
     }
 
-    private void updateUser(Context context, UpdatedUser updatedUser) throws JSONException {
+    public void updateUser(Context context, UpdatedUser updatedUser) throws JSONException {
         User current = GlobalObserver.getCurrentUser();
         requestHandler.enqueueRequest(webService.updateUser(GlobalObserver.getServerToken(),
                 current.getUserId(), updatedUser.createUpdateRequest(current)), context);

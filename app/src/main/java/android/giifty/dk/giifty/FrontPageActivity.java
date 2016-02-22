@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class FrontPageActivity extends AppCompatActivity
     private TextView naviHeaderName;
     private SignInHandler signInHandler;
     private View createUserHeader;
+    private ImageView naviUserImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +49,9 @@ public class FrontPageActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_buy_giftcards);
-        naviHeaderName = (TextView) navigationView.findViewById(R.id.user_name_id);
         createUserHeader = navigationView.getHeaderView(0);
-
+        naviHeaderName = (TextView) createUserHeader.findViewById(R.id.user_name_id);
+        naviUserImage = (ImageView)createUserHeader.findViewById(R.id.user_image_id);
         showFragment(R.id.nav_buy_giftcards);
         signInHandler = SignInHandler.getInstance();
 
@@ -66,11 +68,12 @@ public class FrontPageActivity extends AppCompatActivity
         try {
             if (GlobalObserver.hasCurrentUser()) {
                 naviHeaderName.setText(GlobalObserver.getCurrentUser().getName());
+            //    Utils.setImage(this, naviUserImage, GlobalObserver.getCurrentUser().getFacebookProfileImageUrl());
                 if (GlobalObserver.getCurrentUser().isAutoSignIn()) {
                     signInHandler.signInUser();
                 }
-            }else {
-                naviHeaderName.setText(R.string.user_name_create_user);
+            } else {
+                naviHeaderName.setText(getString(R.string.user_name_create_user));
                 createUserHeader.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -84,7 +87,7 @@ public class FrontPageActivity extends AppCompatActivity
         }
     }
 
-    private void startCreateUserActivity(){
+    private void startCreateUserActivity() {
         Toast.makeText(this, "TODO createUseractivity", Toast.LENGTH_SHORT).show();
     }
 

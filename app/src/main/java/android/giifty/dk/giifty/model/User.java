@@ -10,7 +10,7 @@ public class User {
     @Expose
     private final int userId;
     @Expose
-    private  final String facebookId;
+    private  final int facebookId;
     @Expose
     private final String password;
     @Expose
@@ -34,7 +34,7 @@ public class User {
 
     private boolean autoSignIn;
 
-    public User(String facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
+    public User(int facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.facebookId = facebookId;
         this.password = password;
         this.name = name;
@@ -79,7 +79,7 @@ public class User {
         return userId;
     }
 
-    public String getFacebookId() {
+    public int getFacebookId() {
         return facebookId;
     }
 

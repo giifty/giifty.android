@@ -13,7 +13,7 @@ import org.json.JSONObject;
  */
 public class UpdatedUser {
     public int userId;
-    public String facebookId;
+    public int facebookId;
     public String password;
     public String name;
     public String email;
@@ -43,37 +43,37 @@ public class UpdatedUser {
 
     private void updateUser(User user) {
 
-        this.userId = user.getUserId();
-        if (facebookId == null) {
-            this.facebookId = user.getFacebookId();
-        }
-        if (password == null) {
-            this.password = user.getPassword();
-        }
-        if (name == null) {
-            this.name = user.getName();
-        }
-        if (email == null) {
-            this.email = user.getEmail();
-        }
-        if (emailConfirmed == null) {
-            this.emailConfirmed = user.isEmailConfirmed();
-        }
-        if (phone == null) {
-            this.phone = user.getPhone();
-        }
-        if (phoneConfirmed == null) {
-            this.phoneConfirmed = user.isPhoneConfirmed();
-        }
-        if (accountNumber == null) {
-            this.accountNumber = user.getAccountNumber();
-        }
-        if (accountConfirmed == null) {
-            this.accountConfirmed = user.isAccountConfirmed();
-        }
-        if (facebookProfileImageUrl == null) {
-            this.facebookProfileImageUrl = user.getFacebookProfileImageUrl();
-        }
+//        this.userId = user.getUserId();
+//        if (facebookId == null) {
+//            this.facebookId = user.getFacebookId();
+//        }
+//        if (password == null) {
+//            this.password = user.getPassword();
+//        }
+//        if (name == null) {
+//            this.name = user.getName();
+//        }
+//        if (email == null) {
+//            this.email = user.getEmail();
+//        }
+//        if (emailConfirmed == null) {
+//            this.emailConfirmed = user.isEmailConfirmed();
+//        }
+//        if (phone == null) {
+//            this.phone = user.getPhone();
+//        }
+//        if (phoneConfirmed == null) {
+//            this.phoneConfirmed = user.isPhoneConfirmed();
+//        }
+//        if (accountNumber == null) {
+//            this.accountNumber = user.getAccountNumber();
+//        }
+//        if (accountConfirmed == null) {
+//            this.accountConfirmed = user.isAccountConfirmed();
+//        }
+//        if (facebookProfileImageUrl == null) {
+//            this.facebookProfileImageUrl = user.getFacebookProfileImageUrl();
+//        }
 
     }
 

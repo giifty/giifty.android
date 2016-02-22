@@ -1,9 +1,8 @@
 package android.giifty.dk.giifty;
 
 
-import android.giifty.dk.giifty.giftcard.GiftcardController;
-import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.User;
+import android.giifty.dk.giifty.user.UpdatedUser;
 import android.giifty.dk.giifty.user.UserController;
 import android.giifty.dk.giifty.utils.Utils;
 import android.giifty.dk.giifty.web.SignInHandler;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by mak on 16-01-2016.
@@ -40,12 +38,18 @@ public class TestActivity extends AppCompatActivity {
 
             }
         });
-        Button getMain = (Button) findViewById(R.id.get_main_id);
+        Button getMain = (Button) findViewById(R.id.update_user_id);
         getMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Company> l = GiftcardController.getInstance().getMainView(TestActivity.this);
-                Log.d(TAG, l.size() + " ");
+                UpdatedUser u = new UpdatedUser();
+                u.name = "Mads Mads";
+                u.phone ="33333333";
+                try {
+                    UserController.getInstance().updateUser(TestActivity.this, u);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
