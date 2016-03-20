@@ -10,6 +10,7 @@ import android.giifty.dk.giifty.utils.Broadcasts;
 import android.giifty.dk.giifty.utils.MyPreferences;
 import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.WebApi;
+import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -18,8 +19,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import hugo.weaving.DebugLog;
-import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -74,11 +73,13 @@ public class GiftcardRepository {
     }
 
     public List<Giftcard> getCompanyGiftcards(int companyId) {
+        Log.d(TAG, "getCompanyGiftcards()  companyId:" + companyId );
         return Collections.unmodifiableList(map.containsKey(companyId) ? map.get(companyId) : new ArrayList<Giftcard>());
     }
 
-    @DebugLog
+
     public Company getCompany(int id) {
+        Log.d(TAG, "getCompany()  companyId:" + id );
         for (Company c : companyList) {
             if (c.getCompanyId() == id)
                 return c;
@@ -86,38 +87,33 @@ public class GiftcardRepository {
         return null;
     }
 
-    @DebugLog
+
     public List<Company> getMainView(Context context) {
         return Collections.unmodifiableList(companyList);
     }
 
-    @DebugLog
+
     public List<Giftcard> getMyGiftcardForSale() {
         return Collections.unmodifiableList(giftcardsOnSale);
     }
 
-    @DebugLog
     public List<Giftcard> getMyGiftcardPurchased() {
         return Collections.unmodifiableList(giftcardsPurchased);
     }
 
-    @DebugLog
     public void addPurchased(Giftcard giftcard) {
         giftcardsPurchased.add(giftcard);
         myPreferences.persistObject(Constants.KEY_MY_GC_PURCHASED, giftcardsPurchased);
     }
 
-    @DebugLog
     public void addGiftCardOnSale(Giftcard giftcard) {
         giftcardsOnSale.add(giftcard);
         myPreferences.persistObject(Constants.KEY_MY_GC_ON_SALE, giftcardsOnSale);
     }
 
     private void downloadMainView() {
-
-        Call<List<Company>> request = webService.getMainView();
-
-        request.enqueue(new Callback<List<Company>>() {
+        Log.d(TAG, "downloadMainView()");
+        webService.getMainView().enqueue(new Callback<List<Company>>() {
             @Override
             public void onResponse(Response<List<Company>> response, Retrofit retrofit) {
                 boolean isSucces = response.isSuccess();
@@ -137,9 +133,8 @@ public class GiftcardRepository {
 
     private void downloadGiftcards() {
 
-        Call<List<Giftcard>> request = webService.getAllGiftCards();
-
-        request.enqueue(new Callback<List<Giftcard>>() {
+        Log.d(TAG, "downloadGiftcards()");
+        webService.getAllGiftCards().enqueue(new Callback<List<Giftcard>>() {
             @Override
             public void onResponse(Response<List<Giftcard>> response, Retrofit retrofit) {
                 boolean isSucces = response.isSuccess();

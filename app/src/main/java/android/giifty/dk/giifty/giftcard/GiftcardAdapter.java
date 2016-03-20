@@ -30,7 +30,6 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
         this.company = company;
         giftcardList = companyGiftcards;
         body = "Køb gavekort til " + company.getName() + ":\n";
-
     }
 
     @Override

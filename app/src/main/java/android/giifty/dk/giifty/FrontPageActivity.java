@@ -52,9 +52,9 @@ public class FrontPageActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_buy_giftcards);
         createUserHeader = navigationView.getHeaderView(0);
         naviHeaderName = (TextView) createUserHeader.findViewById(R.id.user_name_id);
-        naviUserImage = (ImageView)createUserHeader.findViewById(R.id.user_image_id);
+        naviUserImage = (ImageView) createUserHeader.findViewById(R.id.user_image_id);
         showFragment(R.id.nav_buy_giftcards);
-     userController = UserController.getInstance();
+        userController = UserController.getInstance();
         signInHandler = SignInHandler.getInstance();
 
     }
@@ -70,7 +70,7 @@ public class FrontPageActivity extends AppCompatActivity
         try {
             if (userController.hasUser()) {
                 naviHeaderName.setText(userController.getUser().getName());
-            //    Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
+                //    Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
                 signInHandler.refreshTokenAsync();
             } else {
                 naviHeaderName.setText(getString(R.string.user_name_create_user));
