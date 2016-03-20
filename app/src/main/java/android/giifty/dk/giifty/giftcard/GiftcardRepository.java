@@ -6,8 +6,8 @@ import android.giifty.dk.giifty.Constants;
 import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.model.Company;
 import android.giifty.dk.giifty.model.Giftcard;
-import android.giifty.dk.giifty.utils.BroadcastFilters;
-import android.giifty.dk.giifty.utils.MyPrefrences;
+import android.giifty.dk.giifty.utils.Broadcasts;
+import android.giifty.dk.giifty.utils.MyPreferences;
 import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.WebApi;
 
@@ -32,7 +32,7 @@ public class GiftcardRepository {
     private static final String TAG = GiftcardRepository.class.getSimpleName();
     private static GiftcardRepository instance;
     private WebApi webService;
-    private MyPrefrences myPreferences;
+    private MyPreferences myPreferences;
     private List<Giftcard> giftcardsOnSale;
     private List<Giftcard> giftcardsPurchased;
     private List<Company> companyList;
@@ -45,9 +45,9 @@ public class GiftcardRepository {
 
     public void initController(Context applicationContext) {
         this.applicationContext = applicationContext;
-        applicationContext.registerReceiver(new MyReceiver(), new IntentFilter(BroadcastFilters.ON_SIGNED_IN_FILTER));
+        applicationContext.registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
         webService = ServiceCreator.creatServiceWithAuthenticator();
-        myPreferences = MyPrefrences.getInstance();
+        myPreferences = MyPreferences.getInstance();
         companyList = new ArrayList<>();
         map = new HashMap<>();
         downloadMainView();
@@ -169,7 +169,7 @@ public class GiftcardRepository {
     }
 
     private void fireDownloadEvent(boolean isSucces) {
-        BroadcastFilters.fireNewDataEvent(applicationContext, isSucces);
+        Broadcasts.fireNewDataEvent(applicationContext, isSucces);
     }
 
     class MyReceiver extends MyBroadcastReceiver {

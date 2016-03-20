@@ -9,9 +9,9 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Created by mak on 11-12-2015.
  */
-public class MyPrefrences {
+public class MyPreferences {
 
-    private static MyPrefrences myPrefs;
+    private static MyPreferences myPrefs;
     private Context context;
     private static final String NAME_SPACE = "namespace_giifty";
     private Gson gson = new Gson();
@@ -20,9 +20,9 @@ public class MyPrefrences {
         this.context = context;
     }
 
-    public static MyPrefrences getInstance() {
+    public static MyPreferences getInstance() {
         if (myPrefs == null) {
-            myPrefs = new MyPrefrences();
+            myPrefs = new MyPreferences();
         }
         return myPrefs;
     }

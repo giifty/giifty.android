@@ -57,9 +57,9 @@ public class TestActivity extends AppCompatActivity {
         loginWithUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "signInUser()");
+                Log.d(TAG, "refreshTokenAsync()");
                 try {
-                    SignInHandler.getInstance().signInUser();
+                    SignInHandler.getInstance().refreshTokenAsync();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

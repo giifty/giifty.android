@@ -19,7 +19,7 @@ public class MyAuthenticator implements Authenticator {
     @DebugLog
     @Override
     public Request authenticate(Proxy proxy, com.squareup.okhttp.Response response) throws IOException {
-        if (SignInHandler.getInstance().refreshToken()) {
+        if (SignInHandler.getInstance().refreshTokenSynchronous()) {
             return response
                     .request()
                     .newBuilder()

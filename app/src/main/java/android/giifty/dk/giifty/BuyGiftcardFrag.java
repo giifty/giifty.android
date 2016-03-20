@@ -5,7 +5,7 @@ import android.content.IntentFilter;
 import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.giftcard.GiftcardRepository;
 import android.giifty.dk.giifty.giftcard.company.CompanyAdapter;
-import android.giifty.dk.giifty.utils.BroadcastFilters;
+import android.giifty.dk.giifty.utils.Broadcasts;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -65,7 +65,7 @@ public class BuyGiftcardFrag extends Fragment {
         recyclerView.setAdapter(adapter);
 
         myReceiver = new MyReceiver();
-        getContext().registerReceiver(myReceiver, new IntentFilter(BroadcastFilters.NEW_DOWNLOADS_FILTER));
+        getContext().registerReceiver(myReceiver, new IntentFilter(Broadcasts.NEW_DOWNLOADS_FILTER));
         return root;
     }
 

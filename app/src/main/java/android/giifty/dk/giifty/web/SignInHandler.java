@@ -5,8 +5,7 @@ import android.giifty.dk.giifty.MyApp;
 import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
-import android.giifty.dk.giifty.utils.BroadcastFilters;
-import android.giifty.dk.giifty.utils.GlobalObserver;
+import android.giifty.dk.giifty.utils.Broadcasts;
 import android.util.Base64;
 
 import org.joda.time.DateTime;
@@ -27,6 +26,7 @@ public class SignInHandler implements Callback {
     private WebApi webService;
     public static SignInHandler instance;
     private User currentUser;
+    private static ServerToken serverToken;
 
     public static SignInHandler getInstance() {
         return instance == null ? (instance = new SignInHandler()) : instance;
@@ -35,11 +35,11 @@ public class SignInHandler implements Callback {
     public SignInHandler() {
         webService = ServiceCreator.createServiceNoAuthenticator();
         userController = UserController.getInstance();
-        MyApp.getMyApplicationContext().registerReceiver(new MyReceiver(), new IntentFilter(BroadcastFilters.USER_UPDATED_FILTER));
+        MyApp.getMyApplicationContext().registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
     @DebugLog
-    public void signInUser() throws IOException {
+    public void refreshTokenAsync() throws IOException {
 
         if (userController.hasUser()) {
             currentUser = userController.getCurrentUser();
@@ -49,12 +49,12 @@ public class SignInHandler implements Callback {
     }
 
     @DebugLog
-    public boolean refreshToken() throws IOException {
+    public boolean refreshTokenSynchronous() throws IOException {
         if (currentUser != null && currentUser.isSignedIn()) {
             String auth = createAuthenticationHeader(createAuthText());
             Response response = webService.signInUser(auth).execute();
             if (response.isSuccess()) {
-                GlobalObserver.setServerToken(new ServerToken(response.headers().get("Token"),
+                setServerToken( new ServerToken(response.headers().get("Token"),
                         new DateTime(response.headers().get("tokenExpiry"))));
                 return true;
             }
@@ -67,9 +67,9 @@ public class SignInHandler implements Callback {
     @Override
     public void onResponse(Response response, Retrofit retrofit) {
         if (response.isSuccess()) {
-            GlobalObserver.setServerToken(new ServerToken(response.headers().get("Token"),
+            setServerToken(new ServerToken(response.headers().get("Token"),
                     new DateTime(response.headers().get("tokenExpiry"))));
-            GlobalObserver.fireSignInEvent();
+         Broadcasts.fireOnSignedInEvent(MyApp.getMyApplicationContext());
         }
     }
 
@@ -78,6 +78,14 @@ public class SignInHandler implements Callback {
     public void onFailure(Throwable t) {
     }
 
+
+    public static ServerToken getServerToken() {
+        return serverToken;
+    }
+
+    private static void setServerToken(ServerToken serverToken) {
+        SignInHandler.serverToken = serverToken;
+    }
 
     @DebugLog
     public String createAuthenticationHeader(String text) {

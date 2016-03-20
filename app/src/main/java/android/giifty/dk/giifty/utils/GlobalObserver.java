@@ -57,24 +57,7 @@ public class GlobalObserver {
         }
     }
 
-    public static void fireSignInEvent() {
-        getCurrentUser().setIsSignedIn(true);
-        synchronized (lockSingIn) {
-            for (SignInListener listener : signInListeners) {
-                listener.onSignedIn();
-            }
-        }
-    }
 
-    public static void fireSignOutEvent() {
-        setServerToken(null);
-        getCurrentUser().setIsSignedIn(false);
-        synchronized (lockSingIn) {
-            for (SignInListener listener : signInListeners) {
-                listener.onSignedOut();
-            }
-        }
-    }
 
     public static void registerSignInListener(SignInListener listener) {
         synchronized (lockSingIn) {

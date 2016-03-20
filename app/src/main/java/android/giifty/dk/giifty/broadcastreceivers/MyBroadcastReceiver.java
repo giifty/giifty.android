@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.giifty.dk.giifty.Constants;
-import android.giifty.dk.giifty.utils.BroadcastFilters;
+import android.giifty.dk.giifty.utils.Broadcasts;
 import android.util.Log;
 
 /**
@@ -18,11 +18,11 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         Log.d(TAG, "action:" + action);
-        if (action.contentEquals(BroadcastFilters.ON_SIGNED_IN_FILTER)){
+        if (action.contentEquals(Broadcasts.ON_SIGNED_IN_FILTER)){
             onSignIn();
-        }else if(action.contentEquals(BroadcastFilters.NEW_DOWNLOADS_FILTER)){
+        }else if(action.contentEquals(Broadcasts.NEW_DOWNLOADS_FILTER)){
             downloadCompleted(intent.getBooleanExtra(Constants.BOOLEAN_EXSTRA, false));
-        }else if(action.contentEquals(BroadcastFilters.USER_UPDATED_FILTER)){
+        }else if(action.contentEquals(Broadcasts.USER_UPDATED_FILTER)){
 
         }
     }

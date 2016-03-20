@@ -70,7 +70,7 @@ public class FrontPageActivity extends AppCompatActivity
                 naviHeaderName.setText(GlobalObserver.getCurrentUser().getName());
             //    Utils.setImage(this, naviUserImage, GlobalObserver.getCurrentUser().getFacebookProfileImageUrl());
                 if (GlobalObserver.getCurrentUser().isAutoSignIn()) {
-                    signInHandler.signInUser();
+                    signInHandler.refreshTokenAsync();
                 }
             } else {
                 naviHeaderName.setText(getString(R.string.user_name_create_user));

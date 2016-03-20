@@ -4,8 +4,9 @@ import android.content.Context;
 import android.giifty.dk.giifty.Constants;
 import android.giifty.dk.giifty.model.NullResponse;
 import android.giifty.dk.giifty.model.User;
+import android.giifty.dk.giifty.utils.Broadcasts;
 import android.giifty.dk.giifty.utils.GlobalObserver;
-import android.giifty.dk.giifty.utils.MyPrefrences;
+import android.giifty.dk.giifty.utils.MyPreferences;
 import android.giifty.dk.giifty.utils.Utils;
 import android.giifty.dk.giifty.web.RequestHandler;
 import android.giifty.dk.giifty.web.ServiceCreator;
@@ -31,9 +32,10 @@ public class UserController implements Callback {
     private static UserController instance;
     private WebApi webService;
     private User userToUpdate;
-    private MyPrefrences myPrefrences;
+    private MyPreferences myPreferences;
     private RequestHandler requestHandler;
     private User currentUser;
+    private Context applicationContext;
 
     public static UserController getInstance() {
         if (instance == null) {
@@ -46,23 +48,25 @@ public class UserController implements Callback {
     }
 
     public void initController(Context applicationContext) {
+        this.applicationContext = applicationContext;
         Log.d(TAG, "initController()");
         requestHandler = new RequestHandler(this);
-        myPrefrences = MyPrefrences.getInstance();
+        myPreferences = MyPreferences.getInstance();
         webService = ServiceCreator.creatServiceWithAuthenticator();
-        if (myPrefrences.hasKey(Constants.KEY_USER)) {
-          currentUser = myPrefrences.getObject(Constants.KEY_USER, new TypeToken<User>() {
-             });
+        if (myPreferences.hasKey(Constants.KEY_USER)) {
+            currentUser = myPreferences.getObject(Constants.KEY_USER, new TypeToken<User>() {
+            });
         }
     }
 
-    public boolean hasUser(){
+    public boolean hasUser() {
         return currentUser != null;
     }
 
     public User getCurrentUser() {
         return currentUser;
     }
+
     @DebugLog
     public void createUser(Context context, User newUser) throws JSONException {
         JSONObject json = new JSONObject();
@@ -93,9 +97,9 @@ public class UserController implements Callback {
             Object responseBody = response.body();
             boolean isVerified = false;
             if (User.class.isInstance(responseBody)) {
-                GlobalObserver.setCurrentUser(userToUpdate);
                 persistUser(userToUpdate);
                 userToUpdate = null;
+                Broadcasts.fireUserUpdated(applicationContext);
             } else if (Boolean.class.isInstance(responseBody)) {
                 isVerified = (boolean) responseBody;
             } else if (NullResponse.class.isInstance(responseBody)) {
@@ -113,7 +117,7 @@ public class UserController implements Callback {
     }
 
     private void persistUser(User user) {
-        myPrefrences.persistObject(Constants.KEY_USER, user);
+        myPreferences.persistObject(Constants.KEY_USER, user);
     }
 
 }

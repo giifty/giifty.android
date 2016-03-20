@@ -104,7 +104,7 @@ public class RequestHandler implements Callback {
             protected String doInBackground(Void... params) {
 
                 try {
-                    if (signInHandler.refreshToken()) {
+                    if (signInHandler.refreshTokenSynchronous()) {
                         Call c = getClonedRequest();
                     } else {
                         finishWork(false, null, null);

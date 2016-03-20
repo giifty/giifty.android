@@ -8,18 +8,18 @@ import org.joda.time.DateTime;
 public class ServerToken {
 
     private final String token;
-    private final DateTime experationTime;
+    private final DateTime expirationTime;
 
-    public ServerToken(String token, DateTime experationTime) {
+    public ServerToken(String token, DateTime expirationTime) {
         this.token = token;
-        this.experationTime = experationTime;
+        this.expirationTime = expirationTime;
     }
 
     public String getToken() {
         return token;
     }
 
-    public DateTime getExperationTime() {
-        return experationTime;
+    public DateTime getExpirationTime() {
+        return expirationTime;
     }
 }
