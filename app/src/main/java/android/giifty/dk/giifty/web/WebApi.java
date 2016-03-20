@@ -42,7 +42,7 @@ public interface WebApi {
     Call<User> createUser( @Body RequestBody requestBody);
 
     @POST("Authenticate/Login")
-    Call<NullResponse> loginUser(@Header("Authorization") String authorization);
+    Call<NullResponse> signInUser(@Header("Authorization") String authorization);
 
 
     //v1.0/Giftcards/GetAllGiftcards

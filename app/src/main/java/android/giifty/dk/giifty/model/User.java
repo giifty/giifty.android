@@ -30,8 +30,6 @@ public class User {
     @Expose
     private String facebookProfileImageUrl;
 
-    private boolean hasSignedIn;
-
     private boolean autoSignIn;
 
     private boolean termsAccepted;
@@ -57,9 +55,6 @@ public class User {
         this.autoSignIn = autoSignIn;
     }
 
-    public void setIsSignedIn(boolean hasSignedIn) {
-        this.hasSignedIn = hasSignedIn;
-    }
 
     public void setFacebookProfileImageUrl(String facebookProfileImageUrl) {
         this.facebookProfileImageUrl = facebookProfileImageUrl;
@@ -122,7 +117,7 @@ public class User {
     }
 
     public boolean isSignedIn() {
-        return hasSignedIn;
+        return password != null && password.isEmpty();
     }
 
     @Override

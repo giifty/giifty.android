@@ -18,7 +18,7 @@ public class ServiceCreator {
     private ServiceCreator() {
     }
 
-    public static WebApi creatService() {
+    public static WebApi creatServiceWithAuthenticator() {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class, new TypeAdapterYodaTime())
@@ -36,4 +36,17 @@ public class ServiceCreator {
         return retrofit.create(WebApi.class);
     }
 
+    public static  WebApi createServiceNoAuthenticator(){
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(DateTime.class, new TypeAdapterYodaTime())
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(new OkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(WebApi.class);
+    }
 }

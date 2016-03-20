@@ -2,7 +2,7 @@ package android.giifty.dk.giifty;
 
 import android.giifty.dk.giifty.components.BaseActivity;
 import android.giifty.dk.giifty.giftcard.GiftcardAdapter;
-import android.giifty.dk.giifty.giftcard.GiftcardController;
+import android.giifty.dk.giifty.giftcard.GiftcardRepository;
 import android.giifty.dk.giifty.model.Company;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 
 public class GiftcardActivity extends BaseActivity {
 
-    private GiftcardController controller;
+    private GiftcardRepository controller;
     private GiftcardAdapter adapter;
 
     @Override
@@ -22,7 +22,7 @@ public class GiftcardActivity extends BaseActivity {
             companyId = getIntent().getIntExtra(Constants.EKSTRA_COMPANY_ID, -1);
         }
 
-        controller = GiftcardController.getInstance();
+        controller = GiftcardRepository.getInstance();
 
         Company company = controller.getCompany(companyId);
 

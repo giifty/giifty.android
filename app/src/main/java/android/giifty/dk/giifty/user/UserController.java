@@ -33,6 +33,7 @@ public class UserController implements Callback {
     private User userToUpdate;
     private MyPrefrences myPrefrences;
     private RequestHandler requestHandler;
+    private User currentUser;
 
     public static UserController getInstance() {
         if (instance == null) {
@@ -48,13 +49,20 @@ public class UserController implements Callback {
         Log.d(TAG, "initController()");
         requestHandler = new RequestHandler(this);
         myPrefrences = MyPrefrences.getInstance();
-        webService = ServiceCreator.creatService();
+        webService = ServiceCreator.creatServiceWithAuthenticator();
         if (myPrefrences.hasKey(Constants.KEY_USER)) {
-            GlobalObserver.setCurrentUser((User) myPrefrences.getObject(Constants.KEY_USER, new TypeToken<User>() {
-            }));
+          currentUser = myPrefrences.getObject(Constants.KEY_USER, new TypeToken<User>() {
+             });
         }
     }
 
+    public boolean hasUser(){
+        return currentUser != null;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
     @DebugLog
     public void createUser(Context context, User newUser) throws JSONException {
         JSONObject json = new JSONObject();
@@ -107,4 +115,5 @@ public class UserController implements Callback {
     private void persistUser(User user) {
         myPrefrences.persistObject(Constants.KEY_USER, user);
     }
+
 }

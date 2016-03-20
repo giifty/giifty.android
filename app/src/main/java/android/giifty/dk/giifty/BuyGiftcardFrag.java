@@ -3,7 +3,7 @@ package android.giifty.dk.giifty;
 
 import android.content.IntentFilter;
 import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
-import android.giifty.dk.giifty.giftcard.GiftcardController;
+import android.giifty.dk.giifty.giftcard.GiftcardRepository;
 import android.giifty.dk.giifty.giftcard.company.CompanyAdapter;
 import android.giifty.dk.giifty.utils.BroadcastFilters;
 import android.os.Bundle;
@@ -25,7 +25,7 @@ public class BuyGiftcardFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private GiftcardController controller;
+    private GiftcardRepository controller;
     private CompanyAdapter adapter;
     private MyReceiver myReceiver;
 
@@ -55,7 +55,7 @@ public class BuyGiftcardFrag extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_buy_giftcard, container, false);
 
-        controller = GiftcardController.getInstance();
+        controller = GiftcardRepository.getInstance();
 
         adapter = new CompanyAdapter(this, controller.getMainView(getContext()));
 

@@ -10,6 +10,7 @@ import android.giifty.dk.giifty.Constants;
 public class BroadcastFilters {
     public static final String NEW_DOWNLOADS_FILTER = "newDls";
     public static final String ON_SIGNED_IN_FILTER = "signedInfilter";
+    public static final String USER_UPDATED_FILTER = "userUpdated";
 
     public static void fireOnSignedInEvent(Context context){
         context.sendBroadcast(new Intent(ON_SIGNED_IN_FILTER));

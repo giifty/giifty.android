@@ -2,7 +2,7 @@ package android.giifty.dk.giifty;
 
 
 import android.giifty.dk.giifty.giftcard.GiftcardAdapter1;
-import android.giifty.dk.giifty.giftcard.GiftcardController;
+import android.giifty.dk.giifty.giftcard.GiftcardRepository;
 import android.giifty.dk.giifty.model.Giftcard;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +22,7 @@ import java.util.List;
 public class PurchasedGiftcardsFrag extends Fragment {
 
 
-    private GiftcardController controller;
+    private GiftcardRepository controller;
     private GiftcardAdapter1 adapter;
 
     public PurchasedGiftcardsFrag() {
@@ -34,7 +34,7 @@ public class PurchasedGiftcardsFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_giftcards, container, false);
-        controller = GiftcardController.getInstance();
+        controller = GiftcardRepository.getInstance();
 
         List<Giftcard> list = controller.getMyGiftcardPurchased();
         adapter = new GiftcardAdapter1(getActivity(), list);

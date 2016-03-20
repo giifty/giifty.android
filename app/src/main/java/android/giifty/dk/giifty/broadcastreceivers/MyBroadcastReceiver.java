@@ -22,6 +22,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             onSignIn();
         }else if(action.contentEquals(BroadcastFilters.NEW_DOWNLOADS_FILTER)){
             downloadCompleted(intent.getBooleanExtra(Constants.BOOLEAN_EXSTRA, false));
+        }else if(action.contentEquals(BroadcastFilters.USER_UPDATED_FILTER)){
+
         }
     }
 
@@ -30,6 +32,10 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     }
 
     public void onSignIn() {
+
+    }
+
+    public void onUserUpdated(){
 
     }
 }

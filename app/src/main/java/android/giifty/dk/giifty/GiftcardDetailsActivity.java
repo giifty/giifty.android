@@ -1,7 +1,7 @@
 package android.giifty.dk.giifty;
 
 import android.giifty.dk.giifty.components.BaseActivity;
-import android.giifty.dk.giifty.giftcard.GiftcardController;
+import android.giifty.dk.giifty.giftcard.GiftcardRepository;
 import android.giifty.dk.giifty.model.Giftcard;
 import android.giifty.dk.giifty.utils.Utils;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ public class GiftcardDetailsActivity extends BaseActivity {
 
         TextView ownerName = (TextView) ownerLayout.findViewById(R.id.user_name_id);
 
-        Giftcard giftcard = GiftcardController.getInstance().
+        Giftcard giftcard = GiftcardRepository.getInstance().
                 getGiftcard(getIntent().getIntExtra(Constants.EKSTRA_GIFTCARD_ID, -1));
 
         if (giftcard != null) {

@@ -27,10 +27,10 @@ import retrofit.Retrofit;
 /**
  * Created by mak on 16-01-2016.
  */
-public class GiftcardController {
+public class GiftcardRepository {
 
-    private static final String TAG = GiftcardController.class.getSimpleName();
-    private static GiftcardController instance;
+    private static final String TAG = GiftcardRepository.class.getSimpleName();
+    private static GiftcardRepository instance;
     private WebApi webService;
     private MyPrefrences myPreferences;
     private List<Giftcard> giftcardsOnSale;
@@ -39,17 +39,19 @@ public class GiftcardController {
     private HashMap<Integer, List<Giftcard>> map;
     private Context applicationContext;
 
-    public static GiftcardController getInstance() {
-        return instance == null ? (instance = new GiftcardController()) : instance;
+    public static GiftcardRepository getInstance() {
+        return instance == null ? (instance = new GiftcardRepository()) : instance;
     }
 
     public void initController(Context applicationContext) {
         this.applicationContext = applicationContext;
         applicationContext.registerReceiver(new MyReceiver(), new IntentFilter(BroadcastFilters.ON_SIGNED_IN_FILTER));
-        webService = ServiceCreator.creatService();
+        webService = ServiceCreator.creatServiceWithAuthenticator();
         myPreferences = MyPrefrences.getInstance();
         companyList = new ArrayList<>();
         map = new HashMap<>();
+        downloadMainView();
+        downloadGiftcards();
         giftcardsOnSale = myPreferences.hasKey(Constants.KEY_MY_GC_ON_SALE) ?
                 (List<Giftcard>) myPreferences.getObject(Constants.KEY_MY_GC_ON_SALE, new TypeToken<List<Giftcard>>() {
                 }) : new ArrayList<Giftcard>();
@@ -175,8 +177,7 @@ public class GiftcardController {
         @Override
         public void onSignIn() {
             super.onSignIn();
-            downloadMainView();
-            downloadGiftcards();
+
         }
     }
 
