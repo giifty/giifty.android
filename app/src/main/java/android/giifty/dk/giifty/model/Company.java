@@ -2,8 +2,6 @@ package android.giifty.dk.giifty.model;
 
 import com.google.gson.annotations.Expose;
 
-import java.util.List;
-
 /**
  * Created by mak on 16-01-2016.
  */
@@ -12,41 +10,44 @@ public class Company {
     @Expose
     private int companyId;
     @Expose
-    private String name;
+    private int categoryId;
+    @Expose
+    private String Name;
     @Expose
     private String description;
     @Expose
-    private String shop; // ?
+    private String companyImageUrl;
     @Expose
-    private String imageUrl;
+    private int numberOfGiftcards;
     @Expose
-    private List<Giftcard> giftcard;
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
+    private double savingInProcent;
 
     public int getCompanyId() {
         return companyId;
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
     public String getName() {
-        return name;
+        return Name;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getShop() {
-        return shop;
+    public String getCompanyImageUrl() {
+        return companyImageUrl;
     }
 
-    public List<android.giifty.dk.giifty.model.Giftcard> getGiftcard() {
-        return giftcard;
+    public int getNumberOfGiftcards() {
+        return numberOfGiftcards;
     }
 
-    public int getNumberOfCards(){
-        return getGiftcard().size();
+    public double getSavingInProcent() {
+        return savingInProcent;
     }
 }
+

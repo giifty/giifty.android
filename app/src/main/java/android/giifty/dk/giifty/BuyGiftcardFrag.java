@@ -1,9 +1,11 @@
 package android.giifty.dk.giifty;
 
 
-import android.giifty.dk.giifty.components.DataUpdateListener;
-import android.giifty.dk.giifty.giftcard.company.CompanyAdapter;
+import android.content.IntentFilter;
+import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.giftcard.GiftcardController;
+import android.giifty.dk.giifty.giftcard.company.CompanyAdapter;
+import android.giifty.dk.giifty.utils.BroadcastFilters;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
+public class BuyGiftcardFrag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -25,6 +27,7 @@ public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
 
     private GiftcardController controller;
     private CompanyAdapter adapter;
+    private MyReceiver myReceiver;
 
     public BuyGiftcardFrag() {
     }
@@ -54,8 +57,6 @@ public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
 
         controller = GiftcardController.getInstance();
 
-        controller.setDataUpdateListener(this);
-
         adapter = new CompanyAdapter(this, controller.getMainView(getContext()));
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
@@ -63,17 +64,25 @@ public class BuyGiftcardFrag extends Fragment implements DataUpdateListener {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
+        myReceiver = new MyReceiver();
+        getContext().registerReceiver(myReceiver, new IntentFilter(BroadcastFilters.NEW_DOWNLOADS_FILTER));
         return root;
     }
 
 
     @Override
-    public void onNewDataAvailable() {
-        adapter.updateData(controller.getMainView(getContext()));
+    public void onDestroy() {
+        super.onDestroy();
+        getContext().unregisterReceiver(myReceiver);
     }
 
-    @Override
-    public void onNewUpdateFailed() {
+    class MyReceiver extends MyBroadcastReceiver {
 
+        @Override
+        public void downloadCompleted(boolean isSucces) {
+            if (isSucces) {
+                adapter.updateData(controller.getMainView(getContext()));
+            }
+        }
     }
 }

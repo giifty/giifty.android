@@ -5,14 +5,10 @@ import android.giifty.dk.giifty.user.UserUpdatedListener;
 import android.giifty.dk.giifty.utils.GlobalObserver;
 import android.util.Base64;
 
-import com.squareup.okhttp.Authenticator;
-import com.squareup.okhttp.Request;
-
 import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.Proxy;
 
 import hugo.weaving.DebugLog;
 import retrofit.Callback;
@@ -22,7 +18,7 @@ import retrofit.Retrofit;
 /**
  * Created by mak on 20-02-2016.
  */
-public class SignInHandler implements Callback, Authenticator, UserUpdatedListener {
+public class SignInHandler implements Callback, UserUpdatedListener {
     private WebApi webService;
     public static SignInHandler instance;
     private User currentUser;
@@ -75,23 +71,6 @@ public class SignInHandler implements Callback, Authenticator, UserUpdatedListen
     public void onFailure(Throwable t) {
     }
 
-    @DebugLog
-    @Override
-    public Request authenticate(Proxy proxy, com.squareup.okhttp.Response response) throws IOException {
-        if (refreshToken()) {
-            return response
-                    .request()
-                    .newBuilder()
-                    .header("Authorization", GlobalObserver.getServerToken())
-                    .build();
-        }
-        return null;
-    }
-
-    @Override
-    public Request authenticateProxy(Proxy proxy, com.squareup.okhttp.Response response) throws IOException {
-        return null;
-    }
 
     @DebugLog
     public String createAuthenticationHeader(String text) {

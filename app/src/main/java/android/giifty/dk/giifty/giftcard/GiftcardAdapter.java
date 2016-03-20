@@ -25,10 +25,10 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
     private Company company;
     private final String body;
 
-    public GiftcardAdapter(Activity giftcardActivity, Company company) {
+    public GiftcardAdapter(Activity giftcardActivity, Company company, List<Giftcard> companyGiftcards) {
         this.parent = giftcardActivity;
         this.company = company;
-        giftcardList = company.getGiftcard();
+        giftcardList = companyGiftcards;
         body = "Køb gavekort til " + company.getName() + ":\n";
 
     }

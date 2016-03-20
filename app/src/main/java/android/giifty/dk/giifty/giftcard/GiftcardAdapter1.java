@@ -39,7 +39,7 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
     public void onBindViewHolder(final GiftcardAdapter1.ViewHolder holder, int position) {
         final Giftcard giftcard = giftcardList.get(position);
 
-        holder.title.setText(giftcard.getCompanyName());
+        holder.title.setText(giftcard.getCompany());
         holder.bodyValue.setText(giftcard.getValue());
         holder.bodySales.setText(giftcard.getPrice());
         //   Utils.setImage(parent, holder.imageView, company.getFacebookProfileImageUrl());

@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 /**
  * Created by mak on 11-01-2016.
  */
@@ -19,9 +21,9 @@ public class Giftcard {
     @Expose
     private String description;
     @Expose
-    private String imageUrl;
+    private List<Image> image;
     @Expose
-    private String companyName;
+    private String company;
     @Expose
     private int companyId;
     @Expose
@@ -61,12 +63,12 @@ public class Giftcard {
         return description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<Image> getImage() {
+        return image;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getCompany() {
+        return company;
     }
 
     public int getCompanyId() {
@@ -104,4 +106,6 @@ public class Giftcard {
     public double getSavingInProcent() {
         return savingInProcent;
     }
+
+
 }

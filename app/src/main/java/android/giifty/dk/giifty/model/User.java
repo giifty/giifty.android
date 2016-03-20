@@ -34,6 +34,8 @@ public class User {
 
     private boolean autoSignIn;
 
+    private boolean termsAccepted;
+
     public User(int facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.facebookId = facebookId;
         this.password = password;
@@ -128,5 +130,13 @@ public class User {
         return "{ userId:" + userId + ", password:" + password + ", name:" + name + ", email:" + email +
                 ", emailConfirmed:" + emailConfirmed + ", phone:" + phone + ", phoneConfirmed:" + phoneConfirmed +
                 ", accountNumber:" + accountNumber + "}";
+    }
+
+    public boolean isTermsAccepted() {
+        return termsAccepted;
+    }
+
+    public void setTermsAccepted(boolean termsAccepted) {
+        this.termsAccepted = termsAccepted;
     }
 }

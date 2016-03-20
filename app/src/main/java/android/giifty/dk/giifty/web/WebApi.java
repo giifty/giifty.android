@@ -47,7 +47,7 @@ public interface WebApi {
 
     //v1.0/Giftcards/GetAllGiftcards
     @GET("Giftcards/GetAllGiftcards")
-    Call<Giftcard> getAllGiftCards();
+    Call<List<Giftcard>> getAllGiftCards();
 
     @GET("Giftcards/GetAllGiftcards/id")
     Call<Giftcard> getSpecificGiftCard();

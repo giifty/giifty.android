@@ -46,7 +46,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Company company = companyList.get(position);
         holder.title.setText(company.getName());
-        String body = "Se " + company.getNumberOfCards() + " " + company.getName() + " gavekort der er til salg.";
+        String body = "Se " + company.getNumberOfGiftcards() + " " + company.getName() + " gavekort der er til salg.";
         holder.body.setText(body);
         holder.discountText.setText("23%");
 
@@ -60,7 +60,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
             }
         });
 
-        setFrame(holder.frame1, holder.frame2, company.getNumberOfCards());
+        setFrame(holder.frame1, holder.frame2, company.getNumberOfGiftcards());
     }
 
 
