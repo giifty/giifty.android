@@ -42,7 +42,7 @@ public class SignInHandler implements Callback {
     public void refreshTokenAsync() throws IOException {
 
         if (userController.hasUser()) {
-            currentUser = userController.getCurrentUser();
+            currentUser = userController.getUser();
             String auth = createAuthenticationHeader(createAuthText());
             webService.signInUser(auth).enqueue(this);
         }
@@ -79,8 +79,8 @@ public class SignInHandler implements Callback {
     }
 
 
-    public static ServerToken getServerToken() {
-        return serverToken;
+    public static String getServerToken() {
+        return serverToken.getToken();
     }
 
     private static void setServerToken(ServerToken serverToken) {
@@ -108,7 +108,7 @@ public class SignInHandler implements Callback {
 
        @Override
        public void onUserUpdated() {
-         currentUser =  userController.getCurrentUser();
+         currentUser =  userController.getUser();
        }
    }
 }

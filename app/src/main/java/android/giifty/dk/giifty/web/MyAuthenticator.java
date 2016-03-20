@@ -1,7 +1,5 @@
 package android.giifty.dk.giifty.web;
 
-import android.giifty.dk.giifty.utils.GlobalObserver;
-
 import com.squareup.okhttp.Authenticator;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -23,7 +21,7 @@ public class MyAuthenticator implements Authenticator {
             return response
                     .request()
                     .newBuilder()
-                    .header("Authorization", GlobalObserver.getServerToken())
+                    .header("Authorization", SignInHandler.getServerToken())
                     .build();
         }
         return null;

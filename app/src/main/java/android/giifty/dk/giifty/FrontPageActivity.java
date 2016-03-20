@@ -1,7 +1,7 @@
 package android.giifty.dk.giifty;
 
 import android.content.Intent;
-import android.giifty.dk.giifty.utils.GlobalObserver;
+import android.giifty.dk.giifty.user.UserController;
 import android.giifty.dk.giifty.web.SignInHandler;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -32,6 +32,7 @@ public class FrontPageActivity extends AppCompatActivity
     private SignInHandler signInHandler;
     private View createUserHeader;
     private ImageView naviUserImage;
+    private UserController userController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class FrontPageActivity extends AppCompatActivity
         naviHeaderName = (TextView) createUserHeader.findViewById(R.id.user_name_id);
         naviUserImage = (ImageView)createUserHeader.findViewById(R.id.user_image_id);
         showFragment(R.id.nav_buy_giftcards);
+     userController = UserController.getInstance();
         signInHandler = SignInHandler.getInstance();
 
     }
@@ -66,12 +68,10 @@ public class FrontPageActivity extends AppCompatActivity
     @DebugLog
     private void updateNaviHeader() {
         try {
-            if (GlobalObserver.hasCurrentUser()) {
-                naviHeaderName.setText(GlobalObserver.getCurrentUser().getName());
-            //    Utils.setImage(this, naviUserImage, GlobalObserver.getCurrentUser().getFacebookProfileImageUrl());
-                if (GlobalObserver.getCurrentUser().isAutoSignIn()) {
-                    signInHandler.refreshTokenAsync();
-                }
+            if (userController.hasUser()) {
+                naviHeaderName.setText(userController.getUser().getName());
+            //    Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
+                signInHandler.refreshTokenAsync();
             } else {
                 naviHeaderName.setText(getString(R.string.user_name_create_user));
                 createUserHeader.setOnClickListener(new View.OnClickListener() {

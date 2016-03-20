@@ -30,8 +30,6 @@ public class User {
     @Expose
     private String facebookProfileImageUrl;
 
-    private boolean autoSignIn;
-
     private boolean termsAccepted;
 
     public User(int facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
@@ -45,16 +43,6 @@ public class User {
         this.accountNumber = accountNumber;
         this.userId = -1;
     }
-
-
-    public boolean isAutoSignIn() {
-        return autoSignIn;
-    }
-
-    public void setAutoSignIn(boolean autoSignIn) {
-        this.autoSignIn = autoSignIn;
-    }
-
 
     public void setFacebookProfileImageUrl(String facebookProfileImageUrl) {
         this.facebookProfileImageUrl = facebookProfileImageUrl;

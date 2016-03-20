@@ -5,11 +5,11 @@ import android.giifty.dk.giifty.Constants;
 import android.giifty.dk.giifty.model.NullResponse;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.utils.Broadcasts;
-import android.giifty.dk.giifty.utils.GlobalObserver;
 import android.giifty.dk.giifty.utils.MyPreferences;
 import android.giifty.dk.giifty.utils.Utils;
 import android.giifty.dk.giifty.web.RequestHandler;
 import android.giifty.dk.giifty.web.ServiceCreator;
+import android.giifty.dk.giifty.web.SignInHandler;
 import android.giifty.dk.giifty.web.WebApi;
 import android.util.Log;
 
@@ -34,7 +34,7 @@ public class UserController implements Callback {
     private User userToUpdate;
     private MyPreferences myPreferences;
     private RequestHandler requestHandler;
-    private User currentUser;
+    private User user;
     private Context applicationContext;
 
     public static UserController getInstance() {
@@ -54,17 +54,17 @@ public class UserController implements Callback {
         myPreferences = MyPreferences.getInstance();
         webService = ServiceCreator.creatServiceWithAuthenticator();
         if (myPreferences.hasKey(Constants.KEY_USER)) {
-            currentUser = myPreferences.getObject(Constants.KEY_USER, new TypeToken<User>() {
+            user = myPreferences.getObject(Constants.KEY_USER, new TypeToken<User>() {
             });
         }
     }
 
     public boolean hasUser() {
-        return currentUser != null;
+        return user != null;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public User getUser() {
+        return user;
     }
 
     @DebugLog
@@ -80,13 +80,12 @@ public class UserController implements Callback {
     }
 
     public void updateUser(Context context, UpdatedUser updatedUser) throws JSONException {
-        User current = GlobalObserver.getCurrentUser();
-        requestHandler.enqueueRequest(webService.updateUser(GlobalObserver.getServerToken(),
-                current.getUserId(), updatedUser.createUpdateRequest(current)), context);
+        requestHandler.enqueueRequest(webService.updateUser(SignInHandler.getServerToken(),
+                user.getUserId(), updatedUser.createUpdateRequest(user)), context);
     }
 
     public void deleteUser(Context context) {
-        requestHandler.enqueueRequest(webService.deleteUser(GlobalObserver.getCurrentUser().getUserId()), context);
+        requestHandler.enqueueRequest(webService.deleteUser(user.getUserId()), context);
     }
 
     @DebugLog
