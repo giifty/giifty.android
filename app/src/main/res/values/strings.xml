@@ -31,4 +31,15 @@
     <string name="logged_in_as">Logget ind som:</string>
     <string name="facebook_app_id">Hello blank fragment</string>
     <string name="user_name_create_user">Opret en bruger</string>
+    <string name="create_user">Opret bruger</string>
+    <string name="password_repeated">Password gentaget</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="last_name">Efternavn</string>
+    <string name="first_name">Fornavn</string>
+    <string name="create_manuel">Eller indtast manuelt:</string>
+    <string name="fetch_from_facebook">Hent oplysningerne fra Facebook</string>
+    <string name="account_nr">konto nr</string>
+    <string name="phone_nr">Telefon</string>
+    <string name="reg">reg nr</string>
 </resources>

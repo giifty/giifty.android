@@ -14,6 +14,20 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="EditTextHintStyle" parent="TextAppearance.AppCompat">
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:textColorHint">@color/icon_gray</item>
+        <item name="android:textColor">@color/icon_gray</item>
+        <item name="android:textSize">14sp</item>
+        <item name="colorControlNormal">@color/icon_gray</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
+
+    <style name="EditTextStyle" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/textWhite</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

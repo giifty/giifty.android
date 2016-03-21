@@ -16,7 +16,7 @@
         android:id="@+id/user_image_id"
         android:layout_width="80dp"
         android:layout_height="90dp"
-        android:src="@drawable/ic_test_pic"
+        android:src="@drawable/avatar"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:scaleType="fitCenter"

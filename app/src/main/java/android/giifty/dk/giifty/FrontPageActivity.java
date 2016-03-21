@@ -2,6 +2,7 @@ package android.giifty.dk.giifty;
 
 import android.content.Intent;
 import android.giifty.dk.giifty.user.UserController;
+import android.giifty.dk.giifty.utils.ActivityStarter;
 import android.giifty.dk.giifty.web.SignInHandler;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,14 +18,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import hugo.weaving.DebugLog;
 
 public class FrontPageActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String FRONTPAGE_FRAGMENT = "frontpageFrag";
     private static final String TAG = FrontPageActivity.class.getSimpleName();
@@ -53,6 +53,8 @@ public class FrontPageActivity extends AppCompatActivity
         createUserHeader = navigationView.getHeaderView(0);
         naviHeaderName = (TextView) createUserHeader.findViewById(R.id.user_name_id);
         naviUserImage = (ImageView) createUserHeader.findViewById(R.id.user_image_id);
+        naviHeaderName.setOnClickListener(this);
+        naviUserImage.setOnClickListener(this);
         showFragment(R.id.nav_buy_giftcards);
         userController = UserController.getInstance();
         signInHandler = SignInHandler.getInstance();
@@ -70,16 +72,10 @@ public class FrontPageActivity extends AppCompatActivity
         try {
             if (userController.hasUser()) {
                 naviHeaderName.setText(userController.getUser().getName());
-                //    Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
+               //  Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
                 signInHandler.refreshTokenAsync();
             } else {
                 naviHeaderName.setText(getString(R.string.user_name_create_user));
-                createUserHeader.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startCreateUserActivity();
-                    }
-                });
             }
 
         } catch (IOException e) {
@@ -87,9 +83,6 @@ public class FrontPageActivity extends AppCompatActivity
         }
     }
 
-    private void startCreateUserActivity() {
-        Toast.makeText(this, "TODO createUseractivity", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onBackPressed() {
@@ -158,4 +151,13 @@ public class FrontPageActivity extends AppCompatActivity
         getSupportFragmentManager().popBackStack();
     }
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        if(id == R.id.user_name_id || id == R.id.user_image_id){
+            ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
+        }
+
+    }
 }

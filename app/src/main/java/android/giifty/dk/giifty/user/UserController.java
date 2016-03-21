@@ -67,7 +67,18 @@ public class UserController implements Callback {
         return user;
     }
 
-    @DebugLog
+    public void createUser(Context context, String name, String phone, String email, String password, String accountNumber) throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("password", password);
+        json.put("name", name);
+        json.put("email", email);
+        json.put("phone", phone);
+        json.put("accountNumber", accountNumber);
+      //  userToUpdate = newUser;
+        requestHandler.enqueueRequest(webService.createUser(Utils.createRequestBodyFromJson(json)), context);
+    }
+
+    //TODO remove
     public void createUser(Context context, User newUser) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("password", newUser.getPassword());

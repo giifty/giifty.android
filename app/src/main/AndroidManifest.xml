@@ -36,7 +36,7 @@
         <activity android:name=".GiftcardActivity" />
         <activity android:name=".components.BaseActivity" />
         <activity android:name=".GiftcardDetailsActivity" />
-        <activity android:name=".CreateUserActivity"></activity>
+        <activity android:name=".CreateUserActivity"/>
     </application>
 
 </manifest>
