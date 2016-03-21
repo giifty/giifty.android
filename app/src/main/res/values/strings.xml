@@ -35,8 +35,7 @@
     <string name="password_repeated">Password gentaget</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
-    <string name="last_name">Efternavn</string>
-    <string name="first_name">Fornavn</string>
+    <string name="full_name">Fornavn og efternavn</string>
     <string name="create_manuel">Eller indtast manuelt:</string>
     <string name="fetch_from_facebook">Hent oplysningerne fra Facebook</string>
     <string name="account_nr">konto nr</string>

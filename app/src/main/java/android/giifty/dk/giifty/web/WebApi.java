@@ -5,12 +5,9 @@ import android.giifty.dk.giifty.model.Giftcard;
 import android.giifty.dk.giifty.model.NullResponse;
 import android.giifty.dk.giifty.model.User;
 
-import com.squareup.okhttp.RequestBody;
-
 import java.util.List;
 
 import retrofit.Call;
-import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Headers;
@@ -33,13 +30,14 @@ public interface WebApi {
     @PUT("Users/User/Delete/id")
     Call<Boolean> deleteUser(@Part("id") int id);
 
+
     @Multipart
     @POST("Users/User/Update/id")
-    Call<User> updateUser(@Header("Authorization") String authorization, @Part("id") int id, @Body RequestBody userEntity);
+    Call<User> updateUser(@Header("Authorization") String authorization, @Part("id") int id, @Part("user") User userToUpdate);
 
     @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @POST("Users/User/Create")
-    Call<User> createUser( @Body RequestBody requestBody);
+    Call<User> createUser(User userToUpdate);
 
     @POST("Authenticate/Login")
     Call<NullResponse> signInUser(@Header("Authorization") String authorization);

@@ -46,7 +46,7 @@ public class TestActivity extends AppCompatActivity {
                 u.name = "Mads Mads";
                 u.phone ="33333333";
                 try {
-                    UserController.getInstance().updateUser(TestActivity.this, u);
+               UserController.getInstance().updateUser(TestActivity.this, null);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -72,7 +72,7 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    UserController.getInstance().createUser(TestActivity.this, testUser);
+                    UserController.getInstance().updateUser(TestActivity.this, testUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

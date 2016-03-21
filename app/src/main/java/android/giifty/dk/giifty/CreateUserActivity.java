@@ -21,6 +21,7 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
     private Button createUserButton, getFacebookInfo;
     private ImageView userImage;
     private UserController userController;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
         password = (EditText) findViewById(R.id.password_id);
         passwordRep = (EditText) findViewById(R.id.password_rep_id);
         phone = (EditText) findViewById(R.id.phone_id);
+        phone.addTextChangedListener(this);
         account = (EditText) findViewById(R.id.account_id);
         reg = (EditText) findViewById(R.id.reg_id);
         reg.addTextChangedListener(this);
@@ -55,15 +57,22 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
     @Override
     protected void onResume() {
         super.onResume();
+        setValues();
     }
 
-    private void initActivity() {
-        User user;
-        if(userController.hasUser()){
+    private void setValues() {
+        if (userController.hasUser()) {
             user = userController.getUser();
             fullName.setText(user.getName());
-        }
+            email.setText(user.getEmail());
+            phone.setText(user.getPhone());
 
+            String[] splitString = user.getAccountNumber().split(" ");
+            reg.setText(splitString[0]);
+            account.setText(splitString[0]);
+            password.setText(user.getPassword());
+            passwordRep.setText(user.getPassword());
+        }
     }
 
 
@@ -78,12 +87,23 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
         passRep = passwordRep.getText().toString();
         acc = account.getText().toString();
         regNr = reg.getText().toString();
+
         if (!name.isEmpty() || !emailAdd.isEmpty() || !phoneNr.isEmpty() ||
                 !pass.isEmpty() || !passRep.isEmpty() || !acc.isEmpty() || !regNr.isEmpty()) {
+
             if (comparePasswords()) {
                 acc = regNr + acc;
+                if (user == null) {
+                    user = new User();
+                }
+                user.setName(name);
+                user.setEmail(emailAdd);
+                user.setPhone(phoneNr);
+                user.setAccountNumber(acc);
+                user.setPassword(pass);
+
                 try {
-                    userController.createUser(this, name, phoneNr, emailAdd, pass, acc);
+                    userController.updateUser(this, user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -92,8 +112,8 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
             }
         } else {
             showUserMsg("Alle felter skal udfyldes");
-
         }
+
     }
 
     private void showUserMsg(String msg) {
@@ -105,7 +125,7 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
     }
 
     //TODO verify account?
-    private boolean verifyAccount(){
+    private boolean verifyAccount() {
         return true;
     }
 
@@ -121,9 +141,9 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
 
     @Override
     public void afterTextChanged(Editable s) {
-        if(reg.hasFocus() && s.toString().length() == 4){
+        if (reg.hasFocus() && s.toString().length() == 4) {
             account.requestFocus();
-        }else if(phone.hasFocus() && s.toString().length() == 8 ){
+        } else if (phone.hasFocus() && s.toString().length() == 8) {
             reg.requestFocus();
         }
     }

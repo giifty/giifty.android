@@ -50,7 +50,7 @@ public class SignInHandler implements Callback {
 
     @DebugLog
     public boolean refreshTokenSynchronous() throws IOException {
-        if (currentUser != null && currentUser.isSignedIn()) {
+        if (currentUser != null ) {
             String auth = createAuthenticationHeader(createAuthText());
             Response response = webService.signInUser(auth).execute();
             if (response.isSuccess()) {
@@ -80,7 +80,7 @@ public class SignInHandler implements Callback {
 
 
     public static String getServerToken() {
-        return serverToken.getToken();
+        return serverToken != null ? serverToken.getToken() : "dummy_token";
     }
 
     private static void setServerToken(ServerToken serverToken) {

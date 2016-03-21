@@ -79,7 +79,7 @@
                     style="@style/EditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/first_name"
+                    android:hint="@string/full_name"
                     android:inputType="textCapWords" />
             </android.support.design.widget.TextInputLayout>
 
@@ -112,38 +112,6 @@
                     android:ems="10"
                     android:hint="@string/phone_nr"
                     android:inputType="phone" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:theme="@style/EditTextHintStyle">
-
-                <EditText
-                    android:id="@+id/password_id"
-                    style="@style/EditTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:ems="10"
-                    android:hint="@string/password"
-                    android:inputType="textPassword" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:theme="@style/EditTextHintStyle">
-
-                <EditText
-                    android:id="@+id/password_rep_id"
-                    style="@style/EditTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/password_repeated"
-                    android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -186,6 +154,38 @@
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:theme="@style/EditTextHintStyle">
+
+                <EditText
+                    android:id="@+id/password_id"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:theme="@style/EditTextHintStyle">
+
+                <EditText
+                    android:id="@+id/password_rep_id"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/password_repeated"
+                    android:inputType="textPassword" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
         </LinearLayout>
