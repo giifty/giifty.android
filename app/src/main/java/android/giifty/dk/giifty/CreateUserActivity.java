@@ -17,7 +17,7 @@ import org.json.JSONException;
 
 public class CreateUserActivity extends AppCompatActivity implements TextWatcher {
 
-    private EditText fullName, lastName, email, password, passwordRep, phone, reg, account;
+    private EditText fullName, email, password, passwordRep, phone, reg, account;
     private Button createUserButton, getFacebookInfo;
     private ImageView userImage;
     private UserController userController;
@@ -121,8 +121,10 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
 
     @Override
     public void afterTextChanged(Editable s) {
-        if(s.toString().length() == 4){
+        if(reg.hasFocus() && s.toString().length() == 4){
             account.requestFocus();
+        }else if(phone.hasFocus() && s.toString().length() == 8 ){
+            reg.requestFocus();
         }
     }
 }

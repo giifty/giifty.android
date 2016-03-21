@@ -124,6 +124,7 @@ public class UserController implements Callback {
 
     @Override
     public void onFailure(Throwable t) {
+        t.printStackTrace();
     }
 
     private void persistUser(User user) {
