@@ -1,13 +1,15 @@
 package android.giifty.dk.giifty;
 
+import android.content.IntentFilter;
+import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
+import android.giifty.dk.giifty.utils.Broadcasts;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,12 +24,15 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
     private ImageView userImage;
     private UserController userController;
     private User user;
+    private MyReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         fullName = (EditText) findViewById(R.id.name_id);
         email = (EditText) findViewById(R.id.email_id);
@@ -51,6 +56,8 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
 
         userImage = (ImageView) findViewById(R.id.user_image_id);
         userController = UserController.getInstance();
+        myReceiver = new MyReceiver();
+        registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
 
@@ -146,5 +153,25 @@ public class CreateUserActivity extends AppCompatActivity implements TextWatcher
         } else if (phone.hasFocus() && s.toString().length() == 8) {
             reg.requestFocus();
         }
+    }
+
+    class MyReceiver extends MyBroadcastReceiver {
+
+        @Override
+        public void onUserUpdated() {
+            finish();
+        }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.animator.fade_in, R.animator.slide_out_right);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myReceiver);
     }
 }

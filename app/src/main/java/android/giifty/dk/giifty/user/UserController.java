@@ -95,7 +95,6 @@ public class UserController implements Callback {
                 userUpdated.setAccountNumber(newAccount);
                 userUpdated.setPassword(newPassword);
                 persistUser(userUpdated);
-                Broadcasts.fireUserUpdated(applicationContext);
             } else if (Boolean.class.isInstance(responseBody)) {
                 isVerified = (boolean) responseBody;
             } else if (NullResponse.class.isInstance(responseBody)) {
@@ -105,11 +104,13 @@ public class UserController implements Callback {
                 //TODO what?
             }
         }
+        Broadcasts.fireUserUpdated(applicationContext);
     }
 
 
     @Override
     public void onFailure(Throwable t) {
+        Broadcasts.fireUserUpdated(applicationContext);
     }
 
     private void persistUser(User user) {
