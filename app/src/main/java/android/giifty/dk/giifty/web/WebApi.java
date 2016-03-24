@@ -8,6 +8,7 @@ import android.giifty.dk.giifty.model.User;
 import java.util.List;
 
 import retrofit.Call;
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Headers;
@@ -37,7 +38,7 @@ public interface WebApi {
 
     @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @POST("Users/User/Create")
-    Call<User> createUser(User userToUpdate);
+    Call<User> createUser(@Body User userToUpdate);
 
     @POST("Authenticate/Login")
     Call<NullResponse> signInUser(@Header("Authorization") String authorization);

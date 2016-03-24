@@ -4,6 +4,7 @@ package android.giifty.dk.giifty;
 import android.giifty.dk.giifty.giftcard.GiftcardAdapter1;
 import android.giifty.dk.giifty.giftcard.GiftcardRepository;
 import android.giifty.dk.giifty.model.Giftcard;
+import android.giifty.dk.giifty.user.UserController;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,17 +36,30 @@ public class MyGiftcardsFrag extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_giftcards, container, false);
         controller = GiftcardRepository.getInstance();
-        List<Giftcard> list = controller.getMyGiftcardForSale();
         TextView emptyText = (TextView) root.findViewById(R.id.no_giftcards_text_id);
-        if (list.isEmpty()) {
-            emptyText.setText(getText(R.string.msg_you_have_no_gc_for_sale));
+        int userId = -1;
+        List<Giftcard> list = controller.getMyGiftcardPurchased();
+        if (UserController.getInstance().hasUser()) {
+            userId = UserController.getInstance().getUser().getUserId();
+            if (list.isEmpty()) {
+                emptyText.setText(getText(R.string.msg_no_puchased_gc));
+            }
         }
-        adapter = new GiftcardAdapter1(getActivity(), list);
+        adapter = new GiftcardAdapter1(getActivity(), list, userId);
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         return root;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!UserController.getInstance().hasUser()){
+            MyDialogBuilder.createNoUserDialog(getActivity()).show();
+        }
+    }
+
 
 }

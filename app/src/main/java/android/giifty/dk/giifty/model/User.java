@@ -10,26 +10,26 @@ public class User {
     @Expose
     private int userId;
     @Expose
-    private  int facebookId;
+    private int facebookId;
     @Expose
-    private  String password;
+    private String password;
     @Expose
-    private  String name;
+    private String name;
     @Expose
-    private  String email;
+    private String email;
     @Expose
     private boolean emailConfirmed;
     @Expose
-    private  String phone;
+    private String phone;
     @Expose
     private boolean phoneConfirmed;
     @Expose
-    private  String accountNumber;
+    private String accountNumber;
     @Expose
     private boolean accountConfirmed;
     @Expose
     private String facebookProfileImageUrl;
-
+    @Expose
     private boolean termsAccepted;
 
 
