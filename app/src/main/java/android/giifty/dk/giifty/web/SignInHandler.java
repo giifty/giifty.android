@@ -39,22 +39,28 @@ public class SignInHandler implements Callback {
     }
 
     @DebugLog
-    public void refreshTokenAsync() throws IOException {
+    public boolean refreshTokenAsync() throws IOException {
 
-        if (userController.hasUser()) {
+        boolean hasUser = userController.hasUser();
+        if (!isTokenExpired()) {
+            fireSigInEvent();
+            return hasUser;
+        } else if (hasUser) {
+
             currentUser = userController.getUser();
             String auth = createAuthenticationHeader(createAuthText());
             webService.signInUser(auth).enqueue(this);
         }
+        return hasUser;
     }
 
     @DebugLog
     public boolean refreshTokenSynchronous() throws IOException {
-        if (currentUser != null ) {
+        if (currentUser != null) {
             String auth = createAuthenticationHeader(createAuthText());
             Response response = webService.signInUser(auth).execute();
             if (response.isSuccess()) {
-                setServerToken( new ServerToken(response.headers().get("Token"),
+                setServerToken(new ServerToken(response.headers().get("Token"),
                         new DateTime(response.headers().get("tokenExpiry"))));
                 return true;
             }
@@ -69,8 +75,12 @@ public class SignInHandler implements Callback {
         if (response.isSuccess()) {
             setServerToken(new ServerToken(response.headers().get("Token"),
                     new DateTime(response.headers().get("tokenExpiry"))));
-         Broadcasts.fireOnSignedInEvent(MyApp.getMyApplicationContext());
+            fireSigInEvent();
         }
+    }
+
+    private void fireSigInEvent() {
+        Broadcasts.fireOnSignedInEvent(MyApp.getMyApplicationContext());
     }
 
     @DebugLog
@@ -87,6 +97,10 @@ public class SignInHandler implements Callback {
         SignInHandler.serverToken = serverToken;
     }
 
+    public boolean isTokenExpired() {
+        return serverToken == null || serverToken.getExpirationTime().isBeforeNow();
+    }
+
     @DebugLog
     public String createAuthenticationHeader(String text) {
         byte[] plain = new byte[0];
@@ -95,8 +109,7 @@ public class SignInHandler implements Callback {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String auth = ("Basic " + Base64.encodeToString(plain, Base64.DEFAULT)).trim();
-        return auth;
+        return String.format("Basic %s", Base64.encodeToString(plain, Base64.DEFAULT)).trim();
     }
 
     @DebugLog
@@ -104,11 +117,11 @@ public class SignInHandler implements Callback {
         return (currentUser.getEmail() + ":" + currentUser.getPassword()).trim();
     }
 
-   class MyReceiver extends MyBroadcastReceiver{
+    class MyReceiver extends MyBroadcastReceiver {
 
-       @Override
-       public void onUserUpdated() {
-         currentUser =  userController.getUser();
-       }
-   }
+        @Override
+        public void onUserUpdated() {
+            currentUser = userController.getUser();
+        }
+    }
 }

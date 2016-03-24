@@ -1,5 +1,6 @@
 package android.giifty.dk.giifty;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 /**
@@ -7,7 +8,7 @@ import android.support.v4.app.Fragment;
  */
 public class FragmentFactory {
 
-    public static Fragment createFragment(int id) {
+    public static Fragment createFragment(int id, Context context) {
 
         switch (id) {
             case R.id.nav_buy_giftcards:
@@ -15,11 +16,11 @@ public class FragmentFactory {
             case R.id.nav_create_giftcards:
                 return BuyGiftcardFrag.newInstance("4", "4");
             case R.id.nav_bought_giftcards:
-                return BuyGiftcardFrag.newInstance("4", "4");
+                return Fragment.instantiate(context, PurchasedGiftcardsFrag.class.getName());
             case R.id.nav_my_giftcards:
-                return BuyGiftcardFrag.newInstance("4", "4");
+                return Fragment.instantiate(context, MyGiftcardsFrag.class.getName());
             case R.id.nav_nav_settings:
-                return BuyGiftcardFrag.newInstance("4", "4");
+                return Fragment.instantiate(context, SettingsFrag.class.getName());
             default:
                 return BuyGiftcardFrag.newInstance("4", "4");
         }
