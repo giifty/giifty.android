@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.giifty.dk.giifty.Constants;
 import android.giifty.dk.giifty.CreateUserActivity;
+import android.giifty.dk.giifty.UpdateUserActivity;
 import android.giifty.dk.giifty.GiftcardDetailsActivity;
 import android.giifty.dk.giifty.R;
 import android.os.Build;
@@ -18,10 +19,13 @@ public class ActivityStarter {
     private static final String TAG = ActivityStarter.class.getSimpleName();
 
 
+    public static void startUpdateUserActivity(Activity activity) {
+        startActivityWithSlideIn(activity, new Intent(activity, UpdateUserActivity.class));
+    }
+
     public static void startCreateUserActivity(Activity activity) {
         startActivityWithSlideIn(activity, new Intent(activity, CreateUserActivity.class));
     }
-
     public static void startGiftCardDetails(Activity activity, View transitionView, int giftcardId) {
         Intent intent = new Intent(activity, GiftcardDetailsActivity.class);
         intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);

@@ -46,10 +46,33 @@
                 android:textColor="@color/textWhite" />
         </RelativeLayout>
 
-        <FrameLayout
-            android:id="@+id/fragment_container_id"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+            <include
+                android:id="@+id/user_info_layout_id"
+                layout="@layout/user_info_layout" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <include
+                android:id="@+id/user_iaccount_layout_id"
+                layout="@layout/user_account_layout" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/create_user_button_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_marginTop="18dp"
+            android:text="@string/update_user" />
 
     </LinearLayout>
 </ScrollView>

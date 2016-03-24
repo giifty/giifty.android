@@ -44,9 +44,9 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 UpdatedUser u = new UpdatedUser();
                 u.name = "Mads Mads";
-                u.phone ="33333333";
+                u.phone = "33333333";
                 try {
-               UserController.getInstance().updateUser(TestActivity.this, null);
+                    UserController.getInstance().updateUser(TestActivity.this, null);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -76,6 +76,16 @@ public class TestActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        Button deleteUser = (Button) findViewById(R.id.delete_user_id);
+        deleteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    UserController.getInstance().deleteUser();
+
             }
         });
     }

@@ -23,7 +23,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         }else if(action.contentEquals(Broadcasts.NEW_DOWNLOADS_FILTER)){
             downloadCompleted(intent.getBooleanExtra(Constants.BOOLEAN_EXSTRA, false));
         }else if(action.contentEquals(Broadcasts.USER_UPDATED_FILTER)){
-
+            onUserUpdated();
         }
     }
 

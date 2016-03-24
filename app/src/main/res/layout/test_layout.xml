@@ -2,10 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,5 +24,9 @@
             android:layout_height="wrap_content"
             android:text="create user"
             android:id="@+id/create_user_id" />
-    </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete user"
+            android:id="@+id/delete_user_id" />
 </LinearLayout>

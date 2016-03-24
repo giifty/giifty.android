@@ -2,6 +2,7 @@ package android.giifty.dk.giifty.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.giifty.dk.giifty.model.User;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +16,9 @@ public class MyPreferences {
     private Context context;
     private static final String NAME_SPACE = "namespace_giifty";
     private Gson gson = new Gson();
+
+    private static final String KEY_USER = "user_user";
+
 
     public void setContext(Context context) {
         this.context = context;
@@ -84,5 +88,18 @@ public class MyPreferences {
 
     public void deleteKey(String keyToDelete) {
         getPrefs().edit().remove(keyToDelete).commit();
+    }
+
+    public User getUser() {
+        return getObject(KEY_USER, new TypeToken<User>() {
+        });
+    }
+
+    public void clearUser() {
+        deleteKey(KEY_USER);
+    }
+
+    public void persistUser(User user) {
+        persistObject(KEY_USER, user);
     }
 }

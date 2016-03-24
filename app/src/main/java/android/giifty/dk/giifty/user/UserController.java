@@ -1,7 +1,6 @@
 package android.giifty.dk.giifty.user;
 
 import android.content.Context;
-import android.giifty.dk.giifty.Constants;
 import android.giifty.dk.giifty.model.NullResponse;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.utils.Broadcasts;
@@ -11,8 +10,6 @@ import android.giifty.dk.giifty.web.ServiceCreator;
 import android.giifty.dk.giifty.web.SignInHandler;
 import android.giifty.dk.giifty.web.WebApi;
 import android.util.Log;
-
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 
@@ -51,10 +48,7 @@ public class UserController implements Callback {
         requestHandler = new RequestHandler(this);
         myPreferences = MyPreferences.getInstance();
         webService = ServiceCreator.creatServiceWithAuthenticator();
-        if (myPreferences.hasKey(Constants.KEY_USER)) {
-            user = myPreferences.getObject(Constants.KEY_USER, new TypeToken<User>() {
-            });
-        }
+        user = myPreferences.getUser();
     }
 
     public boolean hasUser() {
@@ -70,17 +64,19 @@ public class UserController implements Callback {
         newPassword = userToUpdate.getPassword();
         newAccount = userToUpdate.getAccountNumber();
 
-        if(hasUser()){
+        if (hasUser()) {
             requestHandler.enqueueRequest(webService.updateUser(SignInHandler.getServerToken(),
                     user.getUserId(), userToUpdate), context);
-        }else{
+        } else {
             requestHandler.enqueueRequest(webService.createUser(userToUpdate), context);
 
         }
     }
 
-    public void deleteUser(Context context) {
-        requestHandler.enqueueRequest(webService.deleteUser(user.getUserId()), context);
+    public void deleteUser() {
+        user = null;
+        myPreferences.clearUser();
+        Broadcasts.fireUserUpdated();
     }
 
 
@@ -104,17 +100,22 @@ public class UserController implements Callback {
                 //TODO what?
             }
         }
-        Broadcasts.fireUserUpdated(applicationContext);
+        Broadcasts.fireUserUpdated();
     }
 
 
     @Override
     public void onFailure(Throwable t) {
-        Broadcasts.fireUserUpdated(applicationContext);
+        Broadcasts.fireUserUpdated();
     }
 
     private void persistUser(User user) {
-        myPreferences.persistObject(Constants.KEY_USER, user);
+        myPreferences.persistUser(user);
+        setUser(user);
+    }
+
+    private void setUser(User user) {
+        this.user = user;
     }
 
 }

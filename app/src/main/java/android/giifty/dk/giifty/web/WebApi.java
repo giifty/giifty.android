@@ -14,7 +14,6 @@ import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
-import retrofit.http.PUT;
 import retrofit.http.Part;
 
 /**
@@ -26,10 +25,6 @@ public interface WebApi {
     @Multipart
     @POST("Users/User/Verify/id/code")
     Call<Boolean> verifyUser(@Part("id") String id, @Part("code") String code);
-
-    @Multipart
-    @PUT("Users/User/Delete/id")
-    Call<Boolean> deleteUser(@Part("id") int id);
 
 
     @Multipart

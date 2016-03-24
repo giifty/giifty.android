@@ -80,7 +80,7 @@ public class SignInHandler implements Callback {
     }
 
     private void fireSigInEvent() {
-        Broadcasts.fireOnSignedInEvent(MyApp.getMyApplicationContext());
+        Broadcasts.fireOnSignedInEvent();
     }
 
     @DebugLog

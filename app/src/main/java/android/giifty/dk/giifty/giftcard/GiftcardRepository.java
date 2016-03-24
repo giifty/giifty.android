@@ -164,7 +164,7 @@ public class GiftcardRepository {
     }
 
     private void fireDownloadEvent(boolean isSucces) {
-        Broadcasts.fireNewDataEvent(applicationContext, isSucces);
+        Broadcasts.fireNewDataEvent(isSucces);
     }
 
     class MyReceiver extends MyBroadcastReceiver {

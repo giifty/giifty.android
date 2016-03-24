@@ -2,6 +2,7 @@ package android.giifty.dk.giifty;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.giifty.dk.giifty.utils.ActivityStarter;
 
@@ -22,4 +23,13 @@ public class MyDialogBuilder {
                 })
                 .create();
     }
+    public static AlertDialog createTermsAndConditionsDialog(final Context context, DialogInterface.OnClickListener clickListener){
+        return new AlertDialog.Builder(context)
+                .setTitle(R.string.terms_conditions_title)
+                .setMessage(R.string.terms_conditions_body)
+                .setPositiveButton(R.string.accept, clickListener)
+                .setNegativeButton(R.string.decline, clickListener)
+                .create();
+    }
+
 }

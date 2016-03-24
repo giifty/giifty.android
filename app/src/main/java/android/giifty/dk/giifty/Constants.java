@@ -14,7 +14,6 @@ public class Constants {
 
 
     // preference keys
-    public static final String KEY_USER = "user_user";
     public static final String KEY_MY_GC_ON_SALE = "giftcardsOnSale";
     public static final String KEY_MY_GC_PURCHASED = "giftcardsPurchased";
 }

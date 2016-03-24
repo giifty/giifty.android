@@ -93,7 +93,6 @@ public class FrontPageActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -169,10 +168,12 @@ public class FrontPageActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         int id = v.getId();
-
         if (id == R.id.user_name_id || id == R.id.user_image_id) {
-            ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
+            if(userController.hasUser()){
+                ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
+            }else{
+                ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
+            }
         }
-
     }
 }
