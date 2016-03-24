@@ -57,7 +57,7 @@ public class Utils {
 
     }
 
-    public static User createFakeUser(){
+    public static User createFakeUser() {
         return new User(-1, "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
     }
 

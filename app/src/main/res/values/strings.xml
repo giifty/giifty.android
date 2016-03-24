@@ -41,4 +41,7 @@
     <string name="account_nr">konto nr</string>
     <string name="phone_nr">Telefon</string>
     <string name="reg">reg nr</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
