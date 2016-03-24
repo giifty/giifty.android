@@ -33,48 +33,38 @@ public class FrontPageActivity extends AppCompatActivity
     private View createUserHeader;
     private ImageView naviUserImage;
     private UserController userController;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_page);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        navigationView.setCheckedItem(R.id.nav_buy_giftcards);
         createUserHeader = navigationView.getHeaderView(0);
         naviHeaderName = (TextView) createUserHeader.findViewById(R.id.user_name_id);
         naviUserImage = (ImageView) createUserHeader.findViewById(R.id.user_image_id);
         naviHeaderName.setOnClickListener(this);
         naviUserImage.setOnClickListener(this);
-
+        showFragment(R.id.nav_buy_giftcards);
         userController = UserController.getInstance();
         signInHandler = SignInHandler.getInstance();
-    }
 
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         updateNaviHeader();
-        showDefaultView();
-    }
-
-    private void showDefaultView() {
-        toolbar.setTitle(getString(R.string.buy_giftcard));
-        showFragment(R.id.nav_buy_giftcards);
-        navigationView.setCheckedItem(R.id.nav_buy_giftcards);
     }
 
     @DebugLog
@@ -82,7 +72,7 @@ public class FrontPageActivity extends AppCompatActivity
         try {
             if (userController.hasUser()) {
                 naviHeaderName.setText(userController.getUser().getName());
-                //  Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
+               //  Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
                 signInHandler.refreshTokenAsync();
             } else {
                 naviHeaderName.setText(getString(R.string.user_name_create_user));
@@ -141,19 +131,14 @@ public class FrontPageActivity extends AppCompatActivity
         } else if (id == R.id.nav_nav_settings) {
 
         }
-        setToolbarTitle(item.getTitle().toString());
         showFragment(id);
-
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void setToolbarTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
     private void showFragment(int fragId) {
-        Fragment fragment = FragmentFactory.createFragment(fragId, this);
+        Fragment fragment = FragmentFactory.createFragment(fragId);
         Log.d(TAG, "showFragment() name:" + fragment.getClass().getSimpleName());
         getSupportFragmentManager()
                 .beginTransaction()
@@ -170,7 +155,7 @@ public class FrontPageActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.user_name_id || id == R.id.user_image_id) {
+        if(id == R.id.user_name_id || id == R.id.user_image_id){
             ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
         }
 
