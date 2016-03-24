@@ -5,6 +5,7 @@ import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
 import android.giifty.dk.giifty.utils.Broadcasts;
+import android.giifty.dk.giifty.utils.Utils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -13,13 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
 public class UpdateUserActivity extends AppCompatActivity implements TextWatcher {
 
-    private EditText fullName, email, password, passwordRep, phone, reg, account;
+    private EditText fullName, email, password, passwordRep, phone, reg, account, cardHolderName;
     private Button createUserButton, getFacebookInfo;
     private ImageView userImage;
     private UserController userController;
@@ -34,8 +34,6 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
             getSupportActionBar().hide();
         }
 
-        View infoLayout = findViewById(R.id.user_info_layout_id);
-
         fullName = (EditText) findViewById(R.id.name_id);
         email = (EditText) findViewById(R.id.email_id);
         password = (EditText) findViewById(R.id.password_id);
@@ -45,7 +43,8 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         account = (EditText) findViewById(R.id.account_id);
         reg = (EditText) findViewById(R.id.reg_id);
         reg.addTextChangedListener(this);
-
+        //TODO cardholder related stuff
+        cardHolderName = (EditText) findViewById(R.id.cardholder_name_id);
         createUserButton = (Button) findViewById(R.id.create_user_button_id);
         getFacebookInfo = (Button) findViewById(R.id.facebook_button_id);
 
@@ -78,7 +77,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
             password.setText(user.getPassword());
             passwordRep.setText(user.getPassword());
 
-            if(user.getAccountNumber() != null){
+            if (user.getAccountNumber() != null) {
                 String[] splitString = user.getAccountNumber().split(" ");
                 reg.setText(splitString[0]);
                 account.setText(splitString[0]);
@@ -119,16 +118,12 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
                     e.printStackTrace();
                 }
             } else {
-                showUserMsg("Dine passwords matcher ikke");
+                Utils.makeToast(getString(R.string.msg_password_mismatch));
             }
         } else {
-            showUserMsg("Alle felter skal udfyldes");
+            Utils.makeToast(getString(R.string.msg_all_fields_be_filled));
         }
 
-    }
-
-    private void showUserMsg(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private boolean comparePasswords() {

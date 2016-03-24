@@ -49,8 +49,10 @@
     <string name="accept">Acceptér</string>
     <string name="decline">Afvis</string>
     <string name="terms_conditions_title">Handelsbetingelser</string>
-    <string name="add_later">Senerer</string>
+    <string name="add_later">Senere</string>
     <string name="add_account">Tilføj konto</string>
     <string name="account_info_title">Konto oplysninger</string>
     <string name="update_user">Opdater bruger</string>
+    <string name="msg_password_mismatch">Dine passwords matcher ikke</string>
+    <string name="msg_all_fields_be_filled">Alle felter skal udfyldes</string>
 </resources>

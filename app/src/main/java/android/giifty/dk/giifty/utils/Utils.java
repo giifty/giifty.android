@@ -1,8 +1,10 @@
 package android.giifty.dk.giifty.utils;
 
 import android.content.Context;
+import android.giifty.dk.giifty.MyApp;
 import android.giifty.dk.giifty.model.User;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
@@ -65,5 +67,7 @@ public class Utils {
         return RequestBody.create(MediaType.parse("application/json"), json.toString());
     }
 
-
+    public static void makeToast(String msg) {
+        Toast.makeText(MyApp.getMyApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 }

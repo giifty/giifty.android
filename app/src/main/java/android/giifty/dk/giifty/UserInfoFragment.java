@@ -6,6 +6,7 @@ import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
 import android.giifty.dk.giifty.utils.Broadcasts;
+import android.giifty.dk.giifty.utils.Utils;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -110,10 +111,10 @@ public class UserInfoFragment extends Fragment implements TextWatcher {
                     e.printStackTrace();
                 }
             } else {
-                showUserMsg("Dine passwords matcher ikke");
+                Utils.makeToast(getString(R.string.msg_password_mismatch));
             }
         } else {
-            showUserMsg("Alle felter skal udfyldes");
+            Utils.makeToast(getString(R.string.msg_all_fields_be_filled));
         }
 
     }

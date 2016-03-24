@@ -21,7 +21,7 @@
         android:layout_marginBottom="10dp"
         android:textSize="16sp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/textWhite" />
+        android:textColor="@color/icon_gray" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
