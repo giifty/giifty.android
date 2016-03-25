@@ -70,6 +70,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
 
     private void setValues() {
         if (userController.hasUser()) {
+            Utils.setUserImage(this, userImage, userController.getUser().getFacebookProfileImageUrl());
             user = userController.getUser();
             fullName.setText(user.getName());
             email.setText(user.getEmail());

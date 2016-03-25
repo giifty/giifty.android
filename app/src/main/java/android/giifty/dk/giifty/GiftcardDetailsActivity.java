@@ -40,9 +40,9 @@ public class GiftcardDetailsActivity extends BaseActivity {
             date.setText(Utils.calculateTime(giftcard.getEntryDate()));
             expiryDate.setText(Utils.calculateTime(giftcard.getExpirationDate()));
             description.setText(giftcard.getDescription());
-            // Utils.setImage(this, image, giftcard.getFacebookProfileImageUrl());
+            Utils.setImage(this, image, giftcard.getImage().get(0).getUrl());
             ownerName.setText(giftcard.getSeller().getName());
-            Utils.setImage(this, ownerImage, giftcard.getSeller().getFacebookProfileImageUrl());
+            Utils.setUserImage(this, ownerImage, giftcard.getSeller().getFacebookProfileImageUrl());
         }
     }
 }

@@ -2,6 +2,7 @@ package android.giifty.dk.giifty.utils;
 
 import android.content.Context;
 import android.giifty.dk.giifty.MyApp;
+import android.giifty.dk.giifty.R;
 import android.giifty.dk.giifty.model.User;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -39,7 +40,11 @@ public class Utils {
     private static final String TAG = Utils.class.getSimpleName();
 
     public static void setImage(Context context, ImageView imageView, String imageUrl) {
-        Picasso.with(context).load(imageUrl).into(imageView);
+        Picasso.with(context).load(imageUrl).placeholder(R.drawable.ic_no_picture).into(imageView);
+    }
+
+    public static void setUserImage(Context context, ImageView imageView, String imageUrl) {
+        Picasso.with(context).load(imageUrl).placeholder(R.drawable.avatar).into(imageView);
     }
 
     public static String calculateTime(DateTime createdDate) {

@@ -36,7 +36,7 @@
                 app:shadow="false" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/user_name_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_image_id"

@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +25,6 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     private EditText account, reg, cardholderName;
     private boolean isTermsAccepted;
     private Button laterButton, saveAccountButton;
-    private TextView userName;
-    private User user;
 
     public UserAccountFragment() {
         // Required empty public constructor
@@ -38,7 +35,6 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.user_account_frag, container, false);
 
-        userName = (TextView) root.findViewById(R.id.user_name_id);
         account = (EditText) root.findViewById(R.id.account_id);
         reg = (EditText) root.findViewById(R.id.reg_id);
         reg.addTextChangedListener(this);
@@ -57,19 +53,12 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
                 showTermsAndConditions();
             }
         });
-
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setValues();
-    }
-
-    private void setValues() {
-        user = UserController.getInstance().getUser();
-        userName.setText(user.getName());
     }
 
     private void showTermsAndConditions() {
@@ -83,6 +72,7 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     }
 
     private void saveAccountInfo() {
+        User user = UserController.getInstance().getUser();
         String cardHolder = cardholderName.getText().toString(),
                 regNr = reg.getText().toString(),
                 accountNr = account.getText().toString();
@@ -113,6 +103,4 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
             cardholderName.requestFocus();
         }
     }
-
-
 }

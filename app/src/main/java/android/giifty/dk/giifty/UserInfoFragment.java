@@ -177,9 +177,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher {
 
         @Override
         public void onUserUpdated() {
-            if (userController.hasUser()){
-                notifyActivity();
-            }
+            notifyActivity();
         }
     }
 }

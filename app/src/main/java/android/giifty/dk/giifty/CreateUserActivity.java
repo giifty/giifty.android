@@ -1,18 +1,18 @@
 package android.giifty.dk.giifty;
 
-import android.content.BroadcastReceiver;
-import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.user.UserController;
+import android.giifty.dk.giifty.utils.Utils;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class CreateUserActivity extends AppCompatActivity implements UserInfoFragment.OnFragmentInteractionListener {
 
-    private BroadcastReceiver myReceiver;
     private ImageView userImage;
     private UserController userController;
+    private TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+        userName = (TextView) findViewById(R.id.user_name_id);
         userImage = (ImageView) findViewById(R.id.user_image_id);
         userController = UserController.getInstance();
         showFragment(new UserInfoFragment());
@@ -30,20 +31,18 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
 
     @Override
     public void onFragmentInteraction() {
-        showFragment(new UserAccountFragment());
+
+        if (userController.hasUser()){
+            userName.setText(userController.getUser().getName());
+            Utils.setUserImage(this, userImage, userController.getUser().getFacebookProfileImageUrl());
+            showFragment(new UserAccountFragment());
+        }
     }
 
     private void showFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_id, fragment).commit();
     }
 
-    class MyReceiver extends MyBroadcastReceiver {
-
-        @Override
-        public void onUserUpdated() {
-
-        }
-    }
 
     @Override
     public void finish() {
