@@ -3,11 +3,15 @@ package android.giifty.dk.giifty;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
+import android.giifty.dk.giifty.broadcastreceivers.MyBroadcastReceiver;
 import android.giifty.dk.giifty.model.User;
 import android.giifty.dk.giifty.user.UserController;
+import android.giifty.dk.giifty.utils.Broadcasts;
 import android.giifty.dk.giifty.utils.Utils;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -16,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -23,8 +29,10 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
 
 
     private EditText account, reg, cardholderName;
-    private boolean isTermsAccepted;
     private Button laterButton, saveAccountButton;
+    private User user;
+    private UserController usercontroller;
+    private MyReceiver myReceiver;
 
     public UserAccountFragment() {
         // Required empty public constructor
@@ -50,9 +58,12 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
         saveAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTermsAndConditions();
+                saveAccountInfo();
             }
         });
+        usercontroller = UserController.getInstance();
+        myReceiver = new MyReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
         return root;
     }
 
@@ -67,12 +78,16 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        isTermsAccepted = (which == Dialog.BUTTON_POSITIVE);
-        saveAccountInfo();
+        user.setTermsAccepted((which == Dialog.BUTTON_POSITIVE));
+        try {
+            usercontroller.updateUser(getContext(), user);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveAccountInfo() {
-        User user = UserController.getInstance().getUser();
+        user = usercontroller.getUser();
         String cardHolder = cardholderName.getText().toString(),
                 regNr = reg.getText().toString(),
                 accountNr = account.getText().toString();
@@ -80,9 +95,9 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
         if (!cardHolder.isEmpty() && !regNr.isEmpty() && !accountNr.isEmpty()) {
             accountNr = regNr + accountNr;
             user.setAccountNumber(accountNr);
-            user.setTermsAccepted(isTermsAccepted);
             // TODO add cardholderName?
-        }else{
+            showTermsAndConditions();
+        } else {
             Utils.makeToast(getString(R.string.msg_all_fields_be_filled));
         }
     }
@@ -101,6 +116,21 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     public void afterTextChanged(Editable s) {
         if (reg.hasFocus() && s.toString().length() == 4) {
             cardholderName.requestFocus();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
+    }
+
+    class MyReceiver extends MyBroadcastReceiver {
+
+        @Override
+        public void onUserUpdated() {
+            //TODO should this just close, or do we need some feedback in case of failed reqeust
+            getActivity().finish();
         }
     }
 }

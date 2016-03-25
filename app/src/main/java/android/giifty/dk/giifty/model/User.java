@@ -32,7 +32,6 @@ public class User {
     @Expose
     private boolean termsAccepted;
 
-
     public User(int facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.facebookId = facebookId;
         this.password = password;

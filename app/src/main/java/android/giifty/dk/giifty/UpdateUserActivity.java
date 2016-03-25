@@ -15,16 +15,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 import org.json.JSONException;
 
 public class UpdateUserActivity extends AppCompatActivity implements TextWatcher {
 
     private EditText fullName, email, password, passwordRep, phone, reg, account, cardHolderName;
-    private Button createUserButton, getFacebookInfo;
+    private Button createUserButton;
+    private LoginButton getFacebookInfo;
     private ImageView userImage;
     private UserController userController;
     private User user;
     private MyReceiver myReceiver;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +56,31 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         //TODO cardholder related stuff
         cardHolderName = (EditText) findViewById(R.id.cardholder_name_id);
         createUserButton = (Button) findViewById(R.id.create_user_button_id);
-        getFacebookInfo = (Button) findViewById(R.id.facebook_button_id);
+
+        getFacebookInfo = (LoginButton) findViewById(R.id.facebook_button_id);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
+        getFacebookInfo.setReadPermissions("public_profile", "user_friends");
+        callbackManager = CallbackManager.Factory.create();
+        getFacebookInfo.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+             loginResult.getAccessToken();
+                Profile.fetchProfileForCurrentAccessToken();
+               Profile.getCurrentProfile();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
 
         createUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
