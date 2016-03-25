@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.facebook.login.widget.LoginButton
+    <Button
         android:id="@+id/facebook_button_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="12dp"
         android:text="@string/fetch_from_facebook" />
 
     <TextView

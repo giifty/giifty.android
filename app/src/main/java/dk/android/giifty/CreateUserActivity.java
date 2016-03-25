@@ -31,9 +31,11 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
     }
 
     @Override
-    public void onFragmentInteraction() {
+    public void onFragmentInteraction(String facebookImageUrl) {
 
-        if (userController.hasUser()){
+        if (facebookImageUrl != null) {
+            Utils.setUserImage(this, userImage, facebookImageUrl);
+        } else if (userController.hasUser()) {
             userName.setText(userController.getUser().getName());
             Utils.setUserImage(this, userImage, userController.getUser().getFacebookProfileImageUrl());
             showFragment(new UserAccountFragment());

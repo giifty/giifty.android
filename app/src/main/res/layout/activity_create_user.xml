@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="8dp">
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/user_image_id"

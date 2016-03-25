@@ -1,5 +1,6 @@
 package dk.android.giifty;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +14,8 @@ import android.widget.ImageView;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 
@@ -24,13 +23,12 @@ import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserController;
 import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.FacebookSignInHandler;
 import dk.android.giifty.utils.Utils;
 
-public class UpdateUserActivity extends AppCompatActivity implements TextWatcher {
+public class UpdateUserActivity extends AppCompatActivity implements TextWatcher, FacebookCallback<LoginResult> {
 
     private EditText fullName, email, password, passwordRep, phone, reg, account, cardHolderName;
-    private Button createUserButton;
-    private LoginButton getFacebookInfo;
     private ImageView userImage;
     private UserController userController;
     private User user;
@@ -44,6 +42,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+        Utils.initFacebookSdk();
 
         fullName = (EditText) findViewById(R.id.name_id);
         email = (EditText) findViewById(R.id.email_id);
@@ -56,39 +55,22 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         reg.addTextChangedListener(this);
         //TODO cardholder related stuff
         cardHolderName = (EditText) findViewById(R.id.cardholder_name_id);
-        createUserButton = (Button) findViewById(R.id.create_user_button_id);
-
-        getFacebookInfo = (LoginButton) findViewById(R.id.facebook_button_id);
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-
-        getFacebookInfo.setReadPermissions("public_profile", "user_friends");
-        callbackManager = CallbackManager.Factory.create();
-        getFacebookInfo.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-             loginResult.getAccessToken();
-                Profile.fetchProfileForCurrentAccessToken();
-               Profile.getCurrentProfile();
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
-
+        Button createUserButton = (Button) findViewById(R.id.create_user_button_id);
         createUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUSer();
+                createUser();
             }
         });
+
+        Button getFacebookInfo = (Button) findViewById(R.id.facebook_button_id);
+        getFacebookInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callbackManager = new FacebookSignInHandler().signInWithFb(UpdateUserActivity.this, UpdateUserActivity.this);
+            }
+        });
+
 
         userImage = (ImageView) findViewById(R.id.user_image_id);
         userController = UserController.getInstance();
@@ -122,7 +104,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
     }
 
 
-    private void createUSer() {
+    private void createUser() {
 
         String name, phoneNr, emailAdd, acc, regNr, pass, passRep;
 
@@ -188,6 +170,29 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         } else if (phone.hasFocus() && s.toString().length() == 8) {
             reg.requestFocus();
         }
+    }
+
+    @Override
+    public void onSuccess(LoginResult loginResult) {
+        Profile.fetchProfileForCurrentAccessToken();
+        Profile.getCurrentProfile();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+          Utils.makeToast(getString(R.string.msg_facebook_error));
     }
 
     class MyReceiver extends MyBroadcastReceiver {

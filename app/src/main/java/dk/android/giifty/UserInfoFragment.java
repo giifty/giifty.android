@@ -1,26 +1,36 @@
 package dk.android.giifty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest.GraphJSONObjectCallback;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserController;
 import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.FacebookSignInHandler;
 import dk.android.giifty.utils.Utils;
 
 /**
@@ -29,26 +39,28 @@ import dk.android.giifty.utils.Utils;
  * {@link UserInfoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class UserInfoFragment extends Fragment implements TextWatcher {
+public class UserInfoFragment extends Fragment implements TextWatcher, FacebookCallback<LoginResult>, GraphJSONObjectCallback {
 
     private OnFragmentInteractionListener mListener;
     private MyReceiver myReceiver;
+    private CallbackManager callbackManager;
+    private FacebookSignInHandler faceSignInHandler;
+    private String facebookImageUrl;
+    private EditText fullName, email, password, passwordRep, phone;
+    private UserController userController;
+    private User user;
+    private String facebookId;
 
     public UserInfoFragment() {
         // Required empty public constructor
     }
-
-    private EditText fullName, email, password, passwordRep, phone;
-    private Button createUserButton, getFacebookInfo;
-    private ImageView userImage;
-    private UserController userController;
-    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.user_info_frag, container, false);
+        Utils.initFacebookSdk();
 
         fullName = (EditText) root.findViewById(R.id.name_id);
         email = (EditText) root.findViewById(R.id.email_id);
@@ -56,20 +68,23 @@ public class UserInfoFragment extends Fragment implements TextWatcher {
         passwordRep = (EditText) root.findViewById(R.id.password_rep_id);
         phone = (EditText) root.findViewById(R.id.phone_id);
         phone.addTextChangedListener(this);
-        createUserButton = (Button) root.findViewById(R.id.create_user_button_id);
-        getFacebookInfo = (Button) root.findViewById(R.id.facebook_button_id);
+        Button createUserButton = (Button) root.findViewById(R.id.create_user_button_id);
+        Button getFacebookInfo = (Button) root.findViewById(R.id.facebook_button_id);
+        faceSignInHandler = new FacebookSignInHandler();
         getFacebookInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                callbackManager = faceSignInHandler.signInWithFb(UserInfoFragment.this, UserInfoFragment.this);
             }
         });
+
         createUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createUSer();
             }
         });
+
         userController = UserController.getInstance();
         myReceiver = new MyReceiver();
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
@@ -80,6 +95,12 @@ public class UserInfoFragment extends Fragment implements TextWatcher {
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void createUSer() {
@@ -105,30 +126,34 @@ public class UserInfoFragment extends Fragment implements TextWatcher {
                 user.setEmail(emailAdd);
                 user.setPhone(phoneNr);
                 user.setPassword(pass);
-
-                try {
-                    userController.updateUser(getContext(), user);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                user.setFacebookProfileImageUrl(facebookImageUrl);
+                if (hasAutoGenPassword()){
+                    user.setHasAutoGeneratedPassword(true);
                 }
+                    try {
+                        userController.updateUser(getContext(), user);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
             } else {
                 Utils.makeToast(getString(R.string.msg_password_mismatch));
             }
         } else {
             Utils.makeToast(getString(R.string.msg_all_fields_be_filled));
         }
-
     }
 
     private boolean comparePasswords() {
-        return (!password.getText().toString().isEmpty() && password.getText().toString().trim().contentEquals(passwordRep.getText().toString().trim()));
+        return (!password.getText().toString().isEmpty() &&
+                !passwordRep.getText().toString().isEmpty() &&
+                password.getText().toString().trim().contentEquals(passwordRep.getText().toString().trim()));
     }
 
-    private void showUserMsg(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    private boolean hasAutoGenPassword(){
+        return (!facebookId.isEmpty() &&
+                !password.getText().toString().isEmpty() &&
+                password.getText().toString().trim().contentEquals(facebookId.trim()));
     }
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -164,13 +189,50 @@ public class UserInfoFragment extends Fragment implements TextWatcher {
         }
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction();
+    @Override
+    public void onSuccess(LoginResult loginResult) {
+        faceSignInHandler.fetchUserData(loginResult.getAccessToken(), this);
     }
 
-    public void notifyActivity() {
+    @Override
+    public void onCancel() {
+        Utils.makeToast(getString(R.string.msg_facebook_error));
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+        Utils.makeToast(getString(R.string.msg_facebook_error));
+    }
+
+    @Override
+    public void onCompleted(JSONObject object, GraphResponse response) {
+        Log.d("Graph request:", object.toString());
+        setValues(object);
+    }
+
+    private void setValues(JSONObject profile) {
+        try {
+            facebookImageUrl = Profile.getCurrentProfile().getProfilePictureUri(80, 90).toString();
+            notifyActivity(facebookImageUrl);
+            fullName.setText(profile.getString("name"));
+            email.setText(profile.getString("email"));
+            facebookId = profile.getString("id");
+            password.setText(facebookId);
+            passwordRep.setText(facebookId);
+
+        } catch (JSONException e) {
+            Utils.makeToast(getString(R.string.msg_facebook_error));
+            e.printStackTrace();
+        }
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(String facebookImageUrl);
+    }
+
+    public void notifyActivity(String imageUrl) {
         if (mListener != null) {
-            mListener.onFragmentInteraction();
+            mListener.onFragmentInteraction(imageUrl);
         }
     }
 
@@ -178,7 +240,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher {
 
         @Override
         public void onUserUpdated() {
-            notifyActivity();
+            notifyActivity(null);
         }
     }
 }
