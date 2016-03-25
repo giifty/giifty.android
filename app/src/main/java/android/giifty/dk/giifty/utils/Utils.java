@@ -40,7 +40,7 @@ public class Utils {
     private static final String TAG = Utils.class.getSimpleName();
 
     public static void setImage(Context context, ImageView imageView, String imageUrl) {
-        Picasso.with(context).load(imageUrl).placeholder(R.drawable.ic_no_picture).into(imageView);
+        Picasso.with(context).load(imageUrl).into(imageView);
     }
 
     public static void setUserImage(Context context, ImageView imageView, String imageUrl) {
