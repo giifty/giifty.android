@@ -19,7 +19,7 @@ import org.json.JSONException;
 
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
 
@@ -32,7 +32,7 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     private EditText account, reg, cardholderName;
     private Button laterButton, saveAccountButton;
     private User user;
-    private UserController usercontroller;
+    private UserRepository usercontroller;
     private MyReceiver myReceiver;
 
     public UserAccountFragment() {
@@ -62,7 +62,7 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
                 saveAccountInfo();
             }
         });
-        usercontroller = UserController.getInstance();
+        usercontroller = UserRepository.getInstance();
         myReceiver = new MyReceiver();
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
         return root;

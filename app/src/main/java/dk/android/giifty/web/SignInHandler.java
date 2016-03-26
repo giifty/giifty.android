@@ -1,7 +1,9 @@
 package dk.android.giifty.web;
 
 import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 
@@ -11,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import dk.android.giifty.MyApp;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
 import hugo.weaving.DebugLog;
 import retrofit.Callback;
@@ -22,7 +24,8 @@ import retrofit.Retrofit;
  * Created by mak on 20-02-2016.
  */
 public class SignInHandler implements Callback {
-    private final UserController userController;
+    private static final String TAG = SignInHandler.class.getSimpleName();
+    private final UserRepository userRepository;
     private WebApi webService;
     public static SignInHandler instance;
     private User currentUser;
@@ -34,8 +37,9 @@ public class SignInHandler implements Callback {
 
     public SignInHandler() {
         webService = ServiceCreator.createServiceNoAuthenticator();
-        userController = UserController.getInstance();
-        MyApp.getMyApplicationContext().registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
+        userRepository = UserRepository.getInstance();
+        LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
+                .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
 
@@ -113,10 +117,10 @@ public class SignInHandler implements Callback {
     }
 
     class MyReceiver extends MyBroadcastReceiver {
-
         @Override
         public void onUserUpdated() {
-            currentUser = userController.getUser();
+            Log.d(TAG, "onUserUpdated()");
+            currentUser = userRepository.getUser();
         }
     }
 }

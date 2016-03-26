@@ -20,29 +20,27 @@ import retrofit.Retrofit;
 /**
  * Created by mak on 16-01-2016.
  */
-public class UserController implements Callback {
+public class UserRepository implements Callback {
 
-    private static final String TAG = UserController.class.getSimpleName();
-    private static UserController instance;
+    private static final String TAG = UserRepository.class.getSimpleName();
+    private static UserRepository instance;
     private WebApi webService;
     private MyPreferences myPreferences;
     private RequestHandler requestHandler;
     private User user;
-    private Context applicationContext;
     private String newAccount, newPassword;
 
-    public static UserController getInstance() {
+    public static UserRepository getInstance() {
         if (instance == null) {
-            instance = new UserController();
+            instance = new UserRepository();
         }
         return instance;
     }
 
-    public UserController() {
+    public UserRepository() {
     }
 
     public void initController(Context applicationContext) {
-        this.applicationContext = applicationContext;
         Log.d(TAG, "initController()");
         requestHandler = new RequestHandler(this);
         myPreferences = MyPreferences.getInstance();

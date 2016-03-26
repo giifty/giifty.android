@@ -15,7 +15,7 @@ import java.util.List;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.user.UserRepository;
 
 
 /**
@@ -40,8 +40,8 @@ public class MyGiftcardsFrag extends Fragment {
         TextView emptyText = (TextView) root.findViewById(R.id.no_giftcards_text_id);
         int userId = -1;
         List<Giftcard> list = controller.getMyGiftcardPurchased();
-        if (UserController.getInstance().hasUser()) {
-            userId = UserController.getInstance().getUser().getUserId();
+        if (UserRepository.getInstance().hasUser()) {
+            userId = UserRepository.getInstance().getUser().getUserId();
             if (list.isEmpty()) {
                 emptyText.setText(getText(R.string.msg_no_puchased_gc));
             }
@@ -57,7 +57,7 @@ public class MyGiftcardsFrag extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(!UserController.getInstance().hasUser()){
+        if(!UserRepository.getInstance().hasUser()){
             MyDialogBuilder.createNoUserDialog(getActivity()).show();
         }
     }

@@ -13,7 +13,8 @@ import java.io.IOException;
 
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UpdatedUser;
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.user.UserRepository;
+import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.SignInHandler;
 
@@ -47,7 +48,7 @@ public class TestActivity extends AppCompatActivity {
                 u.name = "Mads Mads";
                 u.phone = "33333333";
                 try {
-                    UserController.getInstance().updateUser(TestActivity.this, null);
+                    UserRepository.getInstance().updateUser(TestActivity.this, null);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -73,7 +74,7 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    UserController.getInstance().updateUser(TestActivity.this, testUser);
+                    UserRepository.getInstance().updateUser(TestActivity.this, testUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -85,8 +86,10 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    UserController.getInstance().deleteUser();
-
+                   // UserRepository.getInstance().deleteUser();
+                Broadcasts.fireUserUpdated();
+                Broadcasts.fireNewDataEvent(false);
+                Broadcasts.fireOnSignedInEvent();
             }
         });
     }

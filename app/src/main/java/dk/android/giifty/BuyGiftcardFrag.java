@@ -80,8 +80,8 @@ public class BuyGiftcardFrag extends Fragment {
     class MyReceiver extends MyBroadcastReceiver {
 
         @Override
-        public void downloadCompleted(boolean isSucces) {
-            if (isSucces) {
+        public void downloadCompleted(boolean isSuccess) {
+            if (isSuccess) {
                 adapter.updateData(controller.getMainView(getContext()));
             }
         }

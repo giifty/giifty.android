@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Utils;
 
 public class CreateUserActivity extends AppCompatActivity implements UserInfoFragment.OnFragmentInteractionListener {
 
     private ImageView userImage;
-    private UserController userController;
+    private UserRepository userRepository;
     private TextView userName;
 
     @Override
@@ -34,27 +34,29 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
         });
         userName = (TextView) findViewById(R.id.user_name_id);
         userImage = (ImageView) findViewById(R.id.user_image_id);
-        userController = UserController.getInstance();
+        userRepository = UserRepository.getInstance();
         showFragment(new UserInfoFragment());
 
     }
 
     @Override
-    public void onFragmentInteraction(String facebookImageUrl) {
+    public void onFacebookProfileFetched(String facebookImageUrl) {
 
         if (facebookImageUrl != null) {
             Utils.setUserImage(this, userImage, facebookImageUrl);
-        } else if (userController.hasUser()) {
-            userName.setText(userController.getUser().getName());
-            Utils.setUserImage(this, userImage, userController.getUser().getFacebookProfileImageUrl());
-            showFragment(new UserAccountFragment());
         }
+    }
+
+    @Override
+    public void onShowAccountFragment() {
+        userName.setText(userRepository.getUser().getName());
+        Utils.setUserImage(this, userImage, userRepository.getUser().getFacebookProfileImageUrl());
+        showFragment(new UserAccountFragment());
     }
 
     private void showFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_id, fragment).commit();
     }
-
 
     @Override
     public void finish() {

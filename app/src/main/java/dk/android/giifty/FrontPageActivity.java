@@ -1,9 +1,12 @@
 package dk.android.giifty;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,8 +21,11 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.SignInHandler;
 import hugo.weaving.DebugLog;
 
@@ -32,10 +38,11 @@ public class FrontPageActivity extends AppCompatActivity
     private SignInHandler signInHandler;
     private View createUserHeader;
     private ImageView naviUserImage;
-    private UserController userController;
+    private UserRepository userRepository;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
+    private BroadcastReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +67,11 @@ public class FrontPageActivity extends AppCompatActivity
         naviHeaderName.setOnClickListener(this);
         naviUserImage.setOnClickListener(this);
 
-        userController = UserController.getInstance();
+        userRepository = UserRepository.getInstance();
         signInHandler = SignInHandler.getInstance();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver,
+                new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
 
@@ -70,6 +80,12 @@ public class FrontPageActivity extends AppCompatActivity
         super.onStart();
         updateNaviHeader();
         showDefaultView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
     }
 
     private void showDefaultView() {
@@ -81,9 +97,9 @@ public class FrontPageActivity extends AppCompatActivity
     @DebugLog
     private void updateNaviHeader() {
         try {
-            if (userController.hasUser()) {
-                naviHeaderName.setText(userController.getUser().getName());
-                //  Utils.setImage(this, naviUserImage, GlobalObserver.getUser().getFacebookProfileImageUrl());
+            if (userRepository.hasUser()) {
+                naviHeaderName.setText(userRepository.getUser().getName());
+                Utils.setImage(this, naviUserImage, userRepository.getUser().getFacebookProfileImageUrl());
                 signInHandler.refreshTokenAsync();
             } else {
                 naviHeaderName.setText(getString(R.string.user_name_create_user));
@@ -170,11 +186,18 @@ public class FrontPageActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.user_name_id || id == R.id.user_image_id) {
-            if(userController.hasUser()){
+            if (userRepository.hasUser()) {
                 ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
-            }else{
+            } else {
                 ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
             }
+        }
+    }
+
+    class MyReceiver extends MyBroadcastReceiver{
+        @Override
+        public void onUserUpdated() {
+            updateNaviHeader();
         }
     }
 }

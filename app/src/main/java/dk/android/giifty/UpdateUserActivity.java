@@ -21,7 +21,7 @@ import org.json.JSONException;
 
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.FacebookSignInHandler;
 import dk.android.giifty.utils.Utils;
@@ -30,7 +30,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
 
     private EditText fullName, email, password, passwordRep, phone, reg, account, cardHolderName;
     private ImageView userImage;
-    private UserController userController;
+    private UserRepository userRepository;
     private User user;
     private MyReceiver myReceiver;
     private CallbackManager callbackManager;
@@ -80,7 +80,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         });
 
         userImage = (ImageView) findViewById(R.id.user_image_id);
-        userController = UserController.getInstance();
+        userRepository = UserRepository.getInstance();
         myReceiver = new MyReceiver();
         registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
@@ -93,9 +93,9 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
     }
 
     private void setValues() {
-        if (userController.hasUser()) {
-            Utils.setUserImage(this, userImage, userController.getUser().getFacebookProfileImageUrl());
-            user = userController.getUser();
+        if (userRepository.hasUser()) {
+            Utils.setUserImage(this, userImage, userRepository.getUser().getFacebookProfileImageUrl());
+            user = userRepository.getUser();
             fullName.setText(user.getName());
             email.setText(user.getEmail());
             phone.setText(user.getPhone());
@@ -138,7 +138,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
                 user.setPassword(pass);
 
                 try {
-                    userController.updateUser(this, user);
+                    userRepository.updateUser(this, user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

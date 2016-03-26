@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import dk.android.giifty.giftcard.GiftcardRepository;
-import dk.android.giifty.user.UserController;
+import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.MyPreferences;
 import dk.android.giifty.utils.Utils;
 
@@ -21,7 +21,7 @@ public class MyApp extends Application {
         MyApp.applicationContext = getApplicationContext();
 
         MyPreferences.getInstance().setContext(this);
-        UserController.getInstance().initController(this);
+        UserRepository.getInstance().initController(this);
         GiftcardRepository.getInstance().initController(this);
         Utils.printHasH(applicationContext);
     }
