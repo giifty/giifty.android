@@ -71,6 +71,13 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
             }
         });
 
+        View closeButton = findViewById(R.id.close_id);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         userImage = (ImageView) findViewById(R.id.user_image_id);
         userController = UserController.getInstance();

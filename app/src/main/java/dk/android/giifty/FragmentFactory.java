@@ -14,7 +14,7 @@ public class FragmentFactory {
             case R.id.nav_buy_giftcards:
                 return BuyGiftcardFrag.newInstance("4", "4");
             case R.id.nav_create_giftcards:
-                return BuyGiftcardFrag.newInstance("4", "4");
+                return Fragment.instantiate(context, CreateNewGiftcardFrag.class.getName());
             case R.id.nav_bought_giftcards:
                 return Fragment.instantiate(context, PurchasedGiftcardsFrag.class.getName());
             case R.id.nav_my_giftcards:

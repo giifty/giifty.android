@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_weight="1"
-            android:text="@string/add_later" />
+            android:text="@string/later" />
 
         <Button
             android:id="@+id/add_account_id"

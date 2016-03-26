@@ -44,12 +44,27 @@
                 android:text="@string/create_user"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/textWhite" />
+
+            <FrameLayout
+                android:id="@+id/close_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:src="@drawable/ic_close_24dp" />
+            </FrameLayout>
         </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/fragment_container_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </ScrollView>

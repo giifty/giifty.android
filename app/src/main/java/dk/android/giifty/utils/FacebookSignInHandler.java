@@ -21,7 +21,6 @@ public class FacebookSignInHandler {
     private static final List<String> PERMISSION_LIST = Arrays.asList("public_profile", "email");
     private final CallbackManager callbackManager = CallbackManager.Factory.create();
 
-
     public CallbackManager signInWithFb(Fragment fragment, FacebookCallback<LoginResult> resultFacebookCallback) {
         LoginManager loginManager = LoginManager.getInstance();
         loginManager.logInWithReadPermissions(fragment, PERMISSION_LIST);
@@ -42,7 +41,7 @@ public class FacebookSignInHandler {
                 accessToken, jsonCallback);
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "name,email,id,picture");
+        parameters.putString("fields", "name, email, id, picture");
         request.setParameters(parameters);
         request.executeAsync();
     }

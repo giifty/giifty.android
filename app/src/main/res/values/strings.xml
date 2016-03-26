@@ -4,10 +4,15 @@
     <string name="msg_loading">Opdaterer...</string>
     <string name="msg_no_puchased_gc">Du har ikke nogen købte gavekort endnu.</string>
     <string name="msg_you_have_no_gc_for_sale">Du har ikke nogen gavekort til salg</string>
+    <string name="msg_password_mismatch">Dine passwords matcher ikke</string>
+    <string name="msg_all_fields_be_filled">Alle felter skal udfyldes</string>
+    <string name="msg_facebook_error">Noget gik galt</string>
+    <string name="msg_create_user">Opret en bruger så du kan sælge og købe gavekort</string>
+    <string name="msg_terms_conditions_body">Åge Hareide viste under tirsdagens træning lidt af det, som man nok kan forvente sig i den kommende tid. Forhåbentlig får vi endnu mere at vide i dag på pressemødet, men under alle omstændigheder, så vil landstræneren givetvis give nogle svar med den opstilling, som han sender i kamp mod Island torsdag aften.</string>
+    <string name="msg_failed_login">Vi kan desværre ikke logge dig på Giifty lige nu</string>
 
     // transition names
     <string name="hero_transition_giftcard">hero_giftcard</string>
-
 
     //drawer menu names
     <string name="buy_giftcard">Køb gavekort</string>
@@ -41,19 +46,14 @@
     <string name="account_nr">konto nr</string>
     <string name="phone_nr">Telefon</string>
     <string name="reg">reg nr</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="cardholder_name">Navn på kortet</string>
-    <string name="terms_conditions_body">Åge Hareide viste under tirsdagens træning lidt af det, som man nok kan forvente sig i den kommende tid. Forhåbentlig får vi endnu mere at vide i dag på pressemødet, men under alle omstændigheder, så vil landstræneren givetvis give nogle svar med den opstilling, som han sender i kamp mod Island torsdag aften.</string>
     <string name="accept">Acceptér</string>
     <string name="decline">Afvis</string>
     <string name="terms_conditions_title">Handelsbetingelser</string>
-    <string name="add_later">Senere</string>
+    <string name="later">Senere</string>
     <string name="add_account">Tilføj konto</string>
     <string name="account_info_title">Konto oplysninger</string>
     <string name="update_user">Opdater bruger</string>
-    <string name="msg_password_mismatch">Dine passwords matcher ikke</string>
-    <string name="msg_all_fields_be_filled">Alle felter skal udfyldes</string>
-    <string name="msg_facebook_error">Noget gik galt</string>
+
 </resources>

@@ -167,6 +167,10 @@ public class GiftcardRepository {
         Broadcasts.fireNewDataEvent(isSucces);
     }
 
+    public List<Company> getCompanyList() {
+        return companyList;
+    }
+
     class MyReceiver extends MyBroadcastReceiver {
 
         @Override

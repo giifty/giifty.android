@@ -38,20 +38,15 @@ public class SignInHandler implements Callback {
         MyApp.getMyApplicationContext().registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
-    @DebugLog
-    public boolean refreshTokenAsync() throws IOException {
 
-        boolean hasUser = userController.hasUser();
+    @DebugLog
+    public void refreshTokenAsync() throws IOException {
+
         if (!isTokenExpired()) {
             fireSigInEvent();
-            return hasUser;
-        } else if (hasUser) {
-
-            currentUser = userController.getUser();
-            String auth = createAuthenticationHeader(createAuthText());
-            webService.signInUser(auth).enqueue(this);
+        } else {
+            webService.signInUser(createAuthenticationHeader(createAuthText())).enqueue(this);
         }
-        return hasUser;
     }
 
     @DebugLog

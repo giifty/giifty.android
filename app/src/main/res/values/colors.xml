@@ -7,4 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="textWhite">#ffffff</color>
     <color name="white_transperant">#1Affffff</color>
+    <color name="gray_transperant_50">#80b9b9b9</color>
+    <color name="colorPrimary_transperant_50">#803F51B5</color>
 </resources>
