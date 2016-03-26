@@ -44,7 +44,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
     private OnFragmentInteractionListener mListener;
     private MyReceiver myReceiver;
     private CallbackManager callbackManager;
-    private FacebookSignInHandler faceSignInHandler;
+    private FacebookSignInHandler facebookSignInHandler;
     private String facebookImageUrl;
     private EditText fullName, email, password, passwordRep, phone;
     private UserController userController;
@@ -70,11 +70,11 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
         phone.addTextChangedListener(this);
         Button createUserButton = (Button) root.findViewById(R.id.create_user_button_id);
         Button getFacebookInfo = (Button) root.findViewById(R.id.facebook_button_id);
-        faceSignInHandler = new FacebookSignInHandler();
+        facebookSignInHandler = new FacebookSignInHandler();
         getFacebookInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callbackManager = faceSignInHandler.signInWithFb(UserInfoFragment.this, UserInfoFragment.this);
+                callbackManager = facebookSignInHandler.signInWithFb(UserInfoFragment.this, UserInfoFragment.this);
             }
         });
 
@@ -191,7 +191,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
 
     @Override
     public void onSuccess(LoginResult loginResult) {
-        faceSignInHandler.fetchUserData(loginResult.getAccessToken(), this);
+        facebookSignInHandler.fetchUserData(loginResult.getAccessToken(), this);
     }
 
     @Override
