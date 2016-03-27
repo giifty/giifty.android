@@ -12,7 +12,6 @@ import org.json.JSONException;
 import java.io.IOException;
 
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UpdatedUser;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
@@ -44,14 +43,7 @@ public class TestActivity extends AppCompatActivity {
         getMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UpdatedUser u = new UpdatedUser();
-                u.name = "Mads Mads";
-                u.phone = "33333333";
-                try {
-                    UserRepository.getInstance().updateUser(TestActivity.this, null);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Broadcasts.fireOnSignedInEvent();
             }
         });
 
@@ -85,10 +77,7 @@ public class TestActivity extends AppCompatActivity {
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                   // UserRepository.getInstance().deleteUser();
-                Broadcasts.fireUserUpdated();
-                Broadcasts.fireNewDataEvent(false);
+                   UserRepository.getInstance().deleteUser();
                 Broadcasts.fireOnSignedInEvent();
             }
         });

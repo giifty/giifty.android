@@ -38,6 +38,7 @@ public class SignInHandler implements Callback {
     public SignInHandler() {
         webService = ServiceCreator.createServiceNoAuthenticator();
         userRepository = UserRepository.getInstance();
+        currentUser = userRepository.getUser();
         LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
                 .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
@@ -45,7 +46,7 @@ public class SignInHandler implements Callback {
 
     @DebugLog
     public void refreshTokenAsync() throws IOException {
-
+        Log.d(TAG, "refreshTokenAsync()");
         if (!isTokenExpired()) {
             fireSigInEvent();
         } else {
@@ -60,7 +61,7 @@ public class SignInHandler implements Callback {
             Response response = webService.signInUser(auth).execute();
             if (response.isSuccess()) {
                 setServerToken(new ServerToken(response.headers().get("Token"),
-                        new DateTime(response.headers().get("tokenExpiry"))));
+                        new DateTime(response.headers().get("TokenExpiry"))));
                 return true;
             }
         }
@@ -68,25 +69,26 @@ public class SignInHandler implements Callback {
     }
 
 
-    @DebugLog
     @Override
     public void onResponse(Response response, Retrofit retrofit) {
+        Log.d(TAG, "onResponse() succes:" + response.isSuccess());
         if (response.isSuccess()) {
+            //TODO Skal datoen formateres anderledes?
             setServerToken(new ServerToken(response.headers().get("Token"),
                     new DateTime(response.headers().get("tokenExpiry"))));
             fireSigInEvent();
         }
     }
 
+    @Override
+    public void onFailure(Throwable t) {
+        fireSigInEvent();
+        t.printStackTrace();
+    }
+
     private void fireSigInEvent() {
         Broadcasts.fireOnSignedInEvent();
     }
-
-    @DebugLog
-    @Override
-    public void onFailure(Throwable t) {
-    }
-
 
     public static String getServerToken() {
         return serverToken != null ? serverToken.getToken() : "dummy_token";

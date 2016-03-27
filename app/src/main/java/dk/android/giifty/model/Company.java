@@ -12,7 +12,7 @@ public class Company {
     @Expose
     private int categoryId;
     @Expose
-    private String Name;
+    private String name;
     @Expose
     private String description;
     @Expose
@@ -31,7 +31,7 @@ public class Company {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getDescription() {

@@ -48,4 +48,8 @@ public class ActivityStarter {
             activity.startActivity(intent);
         }
     }
+
+    public static void startScannerActivity() {
+        Utils.makeToast("TODO start scanner aktivitet");
+    }
 }

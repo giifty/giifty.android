@@ -70,6 +70,7 @@ public class FrontPageActivity extends AppCompatActivity
         userRepository = UserRepository.getInstance();
         signInHandler = SignInHandler.getInstance();
 
+        myReceiver = new MyReceiver();
         LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver,
                 new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }

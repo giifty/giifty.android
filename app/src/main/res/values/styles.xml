@@ -28,7 +28,7 @@
     </style>
 
     <style name="EditTextStyle" parent="android:Widget.EditText">
-        <item name="android:textColor">@color/textWhite</item>
+        <item name="android:textColor">@color/text_color_white</item>
         <item name="android:textSize">18sp</item>
     </style>
 

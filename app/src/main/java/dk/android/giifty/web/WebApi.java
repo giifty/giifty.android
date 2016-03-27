@@ -4,7 +4,6 @@ import java.util.List;
 
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
-import dk.android.giifty.model.NullResponse;
 import dk.android.giifty.model.User;
 import retrofit.Call;
 import retrofit.http.Body;
@@ -26,16 +25,15 @@ public interface WebApi {
     Call<Boolean> verifyUser(@Part("id") String id, @Part("code") String code);
 
 
-    @Multipart
-    @POST("Users/User/Update/id")
-    Call<User> updateUser(@Header("Authorization") String authorization, @Part("id") int id, @Part("user") User userToUpdate);
+    @POST("Users/User/Update")
+    Call<User> updateUser(@Header("Authorization") String authHeader, @Body User userToUpdate);
 
     @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @POST("Users/User/Create")
     Call<User> createUser(@Body User userToUpdate);
 
     @POST("Authenticate/Login")
-    Call<NullResponse> signInUser(@Header("Authorization") String authorization);
+    Call<String> signInUser(@Header("Authorization") String authHeader);
 
 
     //v1.0/Giftcards/GetAllGiftcards

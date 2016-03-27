@@ -11,6 +11,7 @@ import java.util.List;
 import dk.android.giifty.R;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Company;
+import dk.android.giifty.utils.ActivityStarter;
 
 /**
  * Created by mak on 26-03-2016.
@@ -32,6 +33,12 @@ public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.companyName.setText(companyList.get(position).getName());
+        holder.companyName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityStarter.startScannerActivity();
+            }
+        });
     }
 
     @Override

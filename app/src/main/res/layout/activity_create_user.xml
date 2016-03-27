@@ -43,7 +43,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/create_user"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/textWhite" />
+                android:textColor="@color/text_color_gray" />
 
             <FrameLayout
                 android:id="@+id/close_id"

@@ -28,8 +28,6 @@ public class User {
     @Expose
     private String accountNumber;
     @Expose
-    private boolean accountConfirmed;
-    @Expose
     private String facebookProfileImageUrl;
     @Expose
     private boolean termsAccepted;
@@ -70,10 +68,6 @@ public class User {
 
     public void setFacebookProfileImageUrl(String facebookProfileImageUrl) {
         this.facebookProfileImageUrl = facebookProfileImageUrl;
-    }
-
-    public void setAccountConfirmed(boolean accountConfirmed) {
-        this.accountConfirmed = accountConfirmed;
     }
 
     public void setPhoneConfirmed(boolean phoneConfirmed) {
@@ -146,10 +140,6 @@ public class User {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
-
-    public boolean isAccountConfirmed() {
-        return accountConfirmed;
     }
 
     public String getFacebookProfileImageUrl() {

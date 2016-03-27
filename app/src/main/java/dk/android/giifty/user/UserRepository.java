@@ -62,8 +62,8 @@ public class UserRepository implements Callback {
         newAccount = userToUpdate.getAccountNumber();
 
         if (hasUser()) {
-            requestHandler.enqueueRequest(webService.updateUser(SignInHandler.getServerToken(),
-                    user.getUserId(), userToUpdate), context);
+            requestHandler.enqueueRequest(webService.updateUser(SignInHandler.getInstance().getServerToken(),
+                   userToUpdate), context);
         } else {
             requestHandler.enqueueRequest(webService.createUser(userToUpdate), context);
 

@@ -8,15 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.IOException;
-
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.components.DividerItemDecoration;
 import dk.android.giifty.components.TextViewAdapter;
-import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.SignInHandler;
@@ -27,6 +26,7 @@ import dk.android.giifty.web.SignInHandler;
  */
 public class CreateNewGiftcardFrag extends Fragment {
 
+    private static final String TAG = CreateNewGiftcardFrag.class.getSimpleName();
     private SignInHandler signInHandler;
     private ProgressDialog mProgressDialog;
     private MyReceiver myReceiver;
@@ -44,29 +44,31 @@ public class CreateNewGiftcardFrag extends Fragment {
         TextViewAdapter adapter = new TextViewAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
         signInHandler = SignInHandler.getInstance();
         myReceiver = new MyReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver,
+                new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver,
-                new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
-        try {
-            if (signInHandler.isTokenExpired()) {
-                if (UserRepository.getInstance().hasUser()) {
-                    signInHandler.refreshTokenAsync();
-                    showProgressDialog();
-                } else {
-                    showNoUserMsg();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+//        try {
+//            if (signInHandler.isTokenExpired()) {
+//                if (UserRepository.getInstance().hasUser()) {
+//                    showProgressDialog();
+//                    signInHandler.refreshTokenAsync();
+//                } else {
+//                    showNoUserMsg();
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -99,6 +101,7 @@ public class CreateNewGiftcardFrag extends Fragment {
     class MyReceiver extends MyBroadcastReceiver {
         @Override
         public void onSignIn() {
+            Log.d(TAG, "onSignIn()");
             dismissDialog();
             if (signInHandler.isTokenExpired()) {
                 Utils.makeToast(getString(R.string.msg_failed_login));
