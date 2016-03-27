@@ -3,6 +3,7 @@ package dk.android.giifty;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -82,7 +83,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         userImage = (ImageView) findViewById(R.id.user_image_id);
         userRepository = UserRepository.getInstance();
         myReceiver = new MyReceiver();
-        registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
+        LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
 
@@ -219,6 +220,6 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(myReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
     }
 }

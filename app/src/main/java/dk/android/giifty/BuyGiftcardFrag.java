@@ -4,6 +4,7 @@ package dk.android.giifty;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class BuyGiftcardFrag extends Fragment {
         recyclerView.setAdapter(adapter);
 
         myReceiver = new MyReceiver();
-        getContext().registerReceiver(myReceiver, new IntentFilter(Broadcasts.NEW_DOWNLOADS_FILTER));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.NEW_DOWNLOADS_FILTER));
         return root;
     }
 
@@ -74,7 +75,7 @@ public class BuyGiftcardFrag extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getContext().unregisterReceiver(myReceiver);
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
     }
 
     class MyReceiver extends MyBroadcastReceiver {

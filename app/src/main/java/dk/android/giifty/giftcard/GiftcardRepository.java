@@ -2,6 +2,7 @@ package dk.android.giifty.giftcard;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import dk.android.giifty.Constants;
+import dk.android.giifty.MyApp;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
@@ -36,15 +38,14 @@ public class GiftcardRepository {
     private List<Giftcard> giftcardsPurchased;
     private List<Company> companyList;
     private HashMap<Integer, List<Giftcard>> map;
-    private Context applicationContext;
 
     public static GiftcardRepository getInstance() {
         return instance == null ? (instance = new GiftcardRepository()) : instance;
     }
 
     public void initController(Context applicationContext) {
-        this.applicationContext = applicationContext;
-        applicationContext.registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
+        LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
+                .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
         webService = ServiceCreator.creatServiceWithAuthenticator();
         myPreferences = MyPreferences.getInstance();
         companyList = new ArrayList<>();
