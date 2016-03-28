@@ -13,13 +13,16 @@
         <RelativeLayout
             android:id="@+id/frame1_id"
             android:layout_width="162dp"
-            android:layout_height="201dp"
+            android:layout_height="208dp"
             android:layout_centerInParent="true">
 
             <ImageView
                 android:id="@+id/company_image_id"
                 android:layout_width="match_parent"
                 android:layout_height="116dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_no_picture"
                 android:transitionName="@string/hero_transition_giftcard" />
@@ -30,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="104dp"
                 android:background="@drawable/discount_circle_background"
                 android:gravity="center"
                 android:text="35%"
