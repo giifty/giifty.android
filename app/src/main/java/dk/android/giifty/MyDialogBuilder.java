@@ -26,7 +26,7 @@ public class MyDialogBuilder {
                 .setNegativeButton(activity.getString(R.string.later), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        activity.onBackPressed();
+                      //  activity.onBackPressed();
                     }
                 })
                 .create();

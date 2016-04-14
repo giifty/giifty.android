@@ -150,7 +150,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
     }
 
     private boolean hasAutoGenPassword() {
-        return (!facebookId.isEmpty() &&
+        return (facebookId != null && !facebookId.isEmpty() &&
                 !password.getText().toString().isEmpty() &&
                 password.getText().toString().trim().contentEquals(facebookId.trim()));
     }
@@ -239,7 +239,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
             if (userRepository.hasUser()) {
                 parent.onShowAccountFragment();
             }else {
-                Utils.makeToast("Noget gik galt med at oprette bruger");
+                Utils.makeToast(getString(R.string.msg_create_user_error));
             }
         }
     }

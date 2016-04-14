@@ -24,7 +24,6 @@ public interface WebApi {
     @POST("Users/User/Verify/id/code")
     Call<Boolean> verifyUser(@Part("id") String id, @Part("code") String code);
 
-
     @POST("Users/User/Update")
     Call<User> updateUser(@Header("Authorization") String authHeader, @Body User userToUpdate);
 
@@ -32,6 +31,8 @@ public interface WebApi {
     @POST("Users/User/Create")
     Call<User> createUser(@Body User userToUpdate);
 
+
+    //Authentication
     @POST("Authenticate/Login")
     Call<String> signInUser(@Header("Authorization") String authHeader);
 
@@ -45,4 +46,12 @@ public interface WebApi {
 
     @GET("Giftcards/GetMainView")
     Call<List<Company>> getMainView();
+
+    @Multipart
+    @POST("Order/Buy/giftcardId")
+    Call<String> getTransactionOrderId(@Part("giftcardId") int id);
+
+    @Multipart
+    @POST("Order/Buy/giftcardId")
+    Call<Integer> buyGiftcard(@Part("giftcardId") int id);
 }
