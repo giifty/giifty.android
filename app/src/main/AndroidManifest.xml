@@ -36,7 +36,10 @@
         <activity android:name=".components.BaseActivity" />
         <activity android:name=".GiftcardDetailsActivity" />
         <activity android:name=".UpdateUserActivity" />
-        <activity android:name=".CreateUserActivity"></activity>
+        <activity android:name=".CreateUserActivity" />
+        <activity android:name=".PaymentActivity"
+            android:label="@string/purchase_giftcard">
+        </activity>
     </application>
 
 </manifest>

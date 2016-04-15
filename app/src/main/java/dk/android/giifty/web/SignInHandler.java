@@ -74,7 +74,7 @@ public class SignInHandler implements Callback {
         Log.d(TAG, "onResponse() succes:" + response.isSuccess());
         if (response.isSuccess()) {
             //TODO Skal datoen formateres anderledes?
-            setServerToken(new ServerToken(response.headers().get("Token"),
+            setServerToken(new ServerToken(response.headers().get("token"),
                     new DateTime(response.headers().get("tokenExpiry"))));
             fireSigInEvent();
         }

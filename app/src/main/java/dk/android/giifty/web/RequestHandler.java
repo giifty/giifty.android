@@ -39,9 +39,9 @@ public class RequestHandler implements Callback {
         request.enqueue(this);
     }
 
-    private void finishWork(boolean isSucces, Response response, Retrofit retrofit) {
+    private void finishWork(boolean isSuccess, Response response, Retrofit retrofit) {
         dismissDialog();
-        if (isSucces) {
+        if (isSuccess) {
             callback.onResponse(response, retrofit);
         } else {
             callback.onFailure(null);

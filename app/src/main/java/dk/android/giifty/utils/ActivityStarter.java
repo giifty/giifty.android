@@ -10,6 +10,7 @@ import android.view.View;
 import dk.android.giifty.Constants;
 import dk.android.giifty.CreateUserActivity;
 import dk.android.giifty.GiftcardDetailsActivity;
+import dk.android.giifty.PaymentActivity;
 import dk.android.giifty.R;
 import dk.android.giifty.UpdateUserActivity;
 
@@ -27,17 +28,29 @@ public class ActivityStarter {
     public static void startCreateUserActivity(Activity activity) {
         startActivityWithSlideIn(activity, new Intent(activity, CreateUserActivity.class));
     }
+
     public static void startGiftCardDetails(Activity activity, View transitionView, int giftcardId) {
         Intent intent = new Intent(activity, GiftcardDetailsActivity.class);
         intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);
         startActivityWithSlideIn(activity, intent);
-      //  startActivityWithHero(activity, transitionView, intent, activity.getString(R.string.hero_transition_giftcard));
+        //  startActivityWithHero(activity, transitionView, intent, activity.getString(R.string.hero_transition_giftcard));
+    }
+
+    public static void startScannerActivity() {
+        Utils.makeToast("TODO start scanner aktivitet");
+    }
+
+    public static void startPaymentActivity(Activity activity, int giftcardId) {
+        Intent intent = new Intent(activity, PaymentActivity.class);
+        intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);
+        startActivityWithSlideIn(activity, intent);
     }
 
     public static void startActivityWithSlideIn(Activity activity, Intent intent) {
         activity.startActivity(intent);
         activity.overridePendingTransition(R.animator.slide_from_left, R.animator.fade_out);
     }
+
     public static void startActivityWithHero(Activity activity, View transitionView, Intent intent, String transitionName) {
         Log.d(TAG, "startActivityWithHero()");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -49,7 +62,5 @@ public class ActivityStarter {
         }
     }
 
-    public static void startScannerActivity() {
-        Utils.makeToast("TODO start scanner aktivitet");
-    }
+
 }

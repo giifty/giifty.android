@@ -13,6 +13,7 @@ import retrofit.http.Headers;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.http.Path;
 
 /**
  * Created by mak on 16-01-2016.
@@ -25,7 +26,7 @@ public interface WebApi {
     Call<Boolean> verifyUser(@Part("id") String id, @Part("code") String code);
 
     @POST("Users/User/Update")
-    Call<User> updateUser(@Header("Authorization") String authHeader, @Body User userToUpdate);
+    Call<User> updateUser(@Header("Token") String authHeader, @Body User userToUpdate);
 
     @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @POST("Users/User/Create")
@@ -47,11 +48,11 @@ public interface WebApi {
     @GET("Giftcards/GetMainView")
     Call<List<Company>> getMainView();
 
-    @Multipart
-    @POST("Order/Buy/giftcardId")
-    Call<String> getTransactionOrderId(@Part("giftcardId") int id);
 
-    @Multipart
+    @POST("Order/PreOrder/{giftcardId}")
+    Call<String> getTransactionOrderId(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
+
+
     @POST("Order/Buy/giftcardId")
-    Call<Integer> buyGiftcard(@Part("giftcardId") int id);
+    Call<Integer> buyGiftcard(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
 }
