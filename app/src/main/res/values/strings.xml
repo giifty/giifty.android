@@ -59,5 +59,6 @@
     <string name="msg_transaction_timeout">din transaktion varet mere end 5 min, prøv igen</string>
     <string name="msg_try_again">Noget gik galt, prøv venligst igen</string>
     <string name="msg_create_user_error">Noget gik galt med at oprette bruger</string>
+    <string name="purchase_giftcard">Køb Gavekort</string>
 
 </resources>
