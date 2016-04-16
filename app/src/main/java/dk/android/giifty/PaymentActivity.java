@@ -2,8 +2,10 @@ package dk.android.giifty;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private TextView value, salesPrice, expiryDate, ownerName, cardPayButton, mobilepayButton;
     private ImageView ownerImage;
     private String orderId;
+    private Button payButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
         ownerImage = (ImageView) findViewById(R.id.user_image_id);
         ownerName = (TextView) findViewById(R.id.user_name_id);
+        payButton = (Button) findViewById(R.id.pay_button_id);
+        payButton.setOnClickListener(this);
 
         cardPayButton = (TextView) findViewById(R.id.pay_with_card_id);
         cardPayButton.setOnClickListener(this);
@@ -61,9 +66,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void showFragment(PurchaseFragment fragment) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container_id, fragment, fragment.getClass().getSimpleName());
-            transaction.commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container_id, fragment, PurchaseFragment.class.getName());
+        transaction.commit();
     }
 
     private void setValues() {
@@ -73,6 +78,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             expiryDate.setText(Utils.calculateTime(giftcard.getExpirationDate()));
             ownerName.setText(giftcard.getSeller().getName());
             Utils.setUserImage(this, ownerImage, giftcard.getSeller().getFacebookProfileImageUrl());
+            String text = getString(R.string.pay) + giftcard.getPrice() + " " + getString(R.string.kr);
+            payButton.setText(text);
         }
     }
 
@@ -88,6 +95,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 cardPayButton.setSelected(false);
                 mobilepayButton.setSelected(true);
                 showFragment(MobilepayFrag.newInstance(giftcard.getGiftcardId(), giftcard.getPrice()));
+            } else if (id == R.id.pay_button_id) {
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(PurchaseFragment.class.getName());
+                if (fragment instanceof PurchaseFragment) {
+                    PurchaseFragment purchaseFragment = (PurchaseFragment) fragment;
+                    purchaseFragment.startTransaction();
+                }
             }
         }
     }
@@ -107,14 +120,15 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
         if (response.isSuccess()) {
             orderId = response.body();
-        }else{
+        } else {
             orderId = "testOnly";
         }
     }
 
-    private void fireOrderIdCollected(){
-     //   Broadcasts.fireOrderIdCollected
+    private void fireOrderIdCollected() {
+        //   Broadcasts.fireOrderIdCollected
     }
+
     @Override
     public void onFailure(Throwable t) {
 

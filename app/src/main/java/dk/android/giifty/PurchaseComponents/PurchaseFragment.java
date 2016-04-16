@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.RequestHandler;
@@ -22,10 +23,10 @@ import retrofit.Retrofit;
 public abstract class PurchaseFragment extends Fragment implements Callback<Boolean> {
     protected static final String GIFTCARD_ID = "param1";
     protected static final String PRICE = "param2";
+    private static final String TAG = PurchaseFragment.class.getSimpleName();
     protected OnPurchaseFragmentInteraction parentInteraction;
     protected WebApi webService;
     protected RequestHandler requestHandler;
-    private String orderId;
 
     public PurchaseFragment() {
         // Required empty public constructor
@@ -38,6 +39,9 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
         webService = ServiceCreator.creatServiceWithAuthenticator();
     }
 
+    public void startTransaction() {
+        Log.d(TAG, "startTransaction()");
+    }
 
     public void commitPurchaseOnServer(int giftcardId, String transactionId) {
         requestHandler.enqueueRequest(webService.buyGiftcard(SignInHandler.getServerToken(), giftcardId), getContext());
@@ -47,12 +51,12 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
     public void onResponse(Response<Boolean> response, Retrofit retrofit) {
         if (response.isSuccess()) {
             onPurchaseSuccess();
-           // if (response.body()) {
+            // if (response.body()) {
             //    onPurchaseSuccess();
-         //   } else {
-                // handler error
-           //     onPurchaseFailed();
-          //  }
+            //   } else {
+            // handler error
+            //     onPurchaseFailed();
+            //  }
         } else {
             // handler error
             onPurchaseFailed();
@@ -60,7 +64,7 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
     }
 
     protected void onPurchaseSuccess() {
-        Utils.makeToast("Purchase success");
+                Utils.makeToast("Purchase success");
     }
 
     protected void onPurchaseFailed() {
@@ -71,7 +75,7 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
         return parentInteraction.getOrderId();
     }
 
-    protected boolean hasOrderId(){
+    protected boolean hasOrderId() {
         return parentInteraction.getOrderId() != null;
     }
 

@@ -59,15 +59,20 @@ public class MobilepayFrag extends PurchaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void startTransaction() {
+        super.startTransaction();
         checkMobilepay();
     }
 
     private void checkMobilepay() {
         mobilePay = MobilePay.getInstance();
         if (mobilePay.isMobilePayInstalled(getContext())) {
-            if(hasOrderId()){
+            if (hasOrderId()) {
                 startMobilepay(getOrderId());
-            }else{
+            } else {
                 Utils.makeToast("Beklager, Prøv igen :)");
             }
         } else {

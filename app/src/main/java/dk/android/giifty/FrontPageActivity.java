@@ -80,13 +80,24 @@ public class FrontPageActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         updateNaviHeader();
-        showDefaultView();
+        int fragToShow = getIntent().getIntExtra(Constants.EKSTRA_FRAGMENT_ID, -1);
+        if(fragToShow == -1){
+            showDefaultView();
+        }else{
+            
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
+    }
+
+    private void showSpecificView(int id){
+        toolbar.setTitle(getString(R.string.buy_giftcard));
+        showFragment(id);
+        navigationView.setCheckedItem(id);
     }
 
     private void showDefaultView() {
