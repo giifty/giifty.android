@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
-import dk.android.giifty.drawerfragments.BuyGiftcardFrag;
+
 import dk.android.giifty.Constants;
 import dk.android.giifty.GiftcardActivity;
 import dk.android.giifty.R;
+import dk.android.giifty.drawerfragments.BuyGiftcardFrag;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Utils;
 
 /**
  * Created by mak on 25-01-2016.
@@ -48,7 +51,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         holder.body.setText(body);
         holder.discountText.setText("23%");
 
-        //    Utils.setImage(parent.getContext(), holder.imageView, company.getFacebookProfileImageUrl());
+         Utils.setImage(parent.getContext(), holder.imageView, company.getCompanyImageUrl());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

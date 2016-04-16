@@ -1,11 +1,128 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".purchasefragments.CardPaymentFrag">
 
-    <android.support.design.widget.TextInputEditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_creditcard_unselected" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:theme="@style/EditTextHintStyle1">
+
+            <EditText
+                android:id="@+id/card_nr_id"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/card_nr"
+                android:inputType="number"
+                android:textColor="@color/text_color_gray" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="4dp"
+
+            android:layout_marginTop="5dp"
+            android:src="@drawable/avatar" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:theme="@style/EditTextHintStyle1">
+
+            <EditText
+                android:id="@+id/cardholder_name_id"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/cardholder_name"
+                android:inputType="textCapWords"
+                android:textColor="@color/text_color_gray" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_date_gray_24dp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="7dp"
+            app:theme="@style/EditTextHintStyle1">
+
+            <EditText
+                android:id="@+id/expiry_date_id"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/expiry_date"
+                android:inputType="date"
+                android:textColor="@color/text_color_gray" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="4dp"
+
+            android:src="@drawable/ic_lock_outline_gray_24dp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            app:theme="@style/EditTextHintStyle1">
+
+            <EditText
+                android:id="@+id/security_nr_id"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/security_nr"
+                android:inputType="number"
+                android:textColor="@color/text_color_gray" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -26,7 +26,6 @@ public class GiftcardActivity extends BaseActivity {
         }
 
         controller = GiftcardRepository.getInstance();
-
         Company company = controller.getCompany(companyId);
 
         adapter = new GiftcardAdapter(this, company, controller.getCompanyGiftcards(company.getCompanyId()));

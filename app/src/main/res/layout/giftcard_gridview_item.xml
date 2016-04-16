@@ -22,7 +22,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:transitionName="@string/hero_transition_giftcard"
             android:src="@drawable/ic_no_picture"
             />

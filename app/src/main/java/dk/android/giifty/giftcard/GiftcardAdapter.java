@@ -14,6 +14,7 @@ import dk.android.giifty.R;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Utils;
 
 /**
  * Created by mak on 30-01-2016.
@@ -46,7 +47,7 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
         String body1 = body + "værdi " + giftcard.getValue() + ",-  din pris " + giftcard.getPrice() + ",-";
         holder.body.setText(body1);
         holder.discountText.setText(calculateDiscount(giftcard));
-     //   Utils.setImage(parent, holder.imageView, company.getFacebookProfileImageUrl());
+        Utils.setImage(parent, holder.imageView, company.getCompanyImageUrl());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +59,7 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
 
     }
 
-      private String calculateDiscount(Giftcard giftcard) {
+    private String calculateDiscount(Giftcard giftcard) {
         return String.valueOf(Math.floor(giftcard.getPrice() / giftcard.getValue())) + "%";
     }
 

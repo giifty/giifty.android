@@ -27,6 +27,14 @@
         <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 
+    <style name="EditTextHintStyle1" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/icon_gray</item>
+        <item name="android:textColor">@color/icon_gray</item>
+        <item name="android:textSize">12sp</item>
+        <item name="colorControlNormal">@color/icon_gray</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
     <style name="EditTextStyle" parent="android:Widget.EditText">
         <item name="android:textColor">@color/text_color_white</item>
         <item name="android:textSize">18sp</item>

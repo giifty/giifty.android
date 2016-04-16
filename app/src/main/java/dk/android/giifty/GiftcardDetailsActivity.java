@@ -11,9 +11,6 @@ import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.web.RequestHandler;
-import dk.android.giifty.web.WebApi;
-import dk.danskebank.mobilepay.sdk.MobilePay;
 
 public class GiftcardDetailsActivity extends BaseActivity  {
 
@@ -21,9 +18,6 @@ public class GiftcardDetailsActivity extends BaseActivity  {
     private TextView value, salesPrice, date, expiryDate, description, ownerName;
     private ImageView image, ownerImage;
     private Giftcard giftcard;
-    private MobilePay mobilePay;
-    private WebApi webService;
-    private RequestHandler requestHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

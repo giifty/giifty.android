@@ -184,7 +184,6 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
     public void onSuccess(LoginResult loginResult) {
         Profile.fetchProfileForCurrentAccessToken();
         Profile.getCurrentProfile();
-
     }
 
     @Override

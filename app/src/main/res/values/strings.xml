@@ -62,4 +62,7 @@
     <string name="purchase_giftcard">Køb Gavekort</string>
     <string name="pay">"Betal "</string>
     <string name="giftcard">gavekort</string>
+    <string name="card_nr">Kort nr</string>
+    <string name="expiry_date">Dato</string>
+    <string name="security_nr">CRV</string>
 </resources>

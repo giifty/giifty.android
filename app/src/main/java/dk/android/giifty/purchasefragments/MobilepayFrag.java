@@ -103,7 +103,7 @@ public class MobilepayFrag extends PurchaseFragment {
             mobilePay.handleResult(resultCode, data, new ResultCallback() {
                 @Override
                 public void onSuccess(SuccessResult successResult) {
-                    commitPurchaseOnServer(giftcardId, null);
+                    commitPurchaseOnServer(giftcardId, successResult.getTransactionId());
                 }
 
                 @Override
