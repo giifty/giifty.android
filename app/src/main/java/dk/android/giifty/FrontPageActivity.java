@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.drawerfragments.DrawerFragment;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Broadcasts;
@@ -30,7 +31,7 @@ import dk.android.giifty.web.SignInHandler;
 import hugo.weaving.DebugLog;
 
 public class FrontPageActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, DrawerFragment.OnDrawerFragmentInteraction {
 
     private static final String FRONTPAGE_FRAGMENT = "frontpageFrag";
     private static final String TAG = FrontPageActivity.class.getSimpleName();
@@ -81,10 +82,10 @@ public class FrontPageActivity extends AppCompatActivity
         super.onStart();
         updateNaviHeader();
         int fragToShow = getIntent().getIntExtra(Constants.EKSTRA_FRAGMENT_ID, -1);
-        if(fragToShow == -1){
+        if (fragToShow == -1) {
             showDefaultView();
-        }else{
-            
+        } else {
+            showSpecificView(fragToShow);
         }
     }
 
@@ -94,14 +95,12 @@ public class FrontPageActivity extends AppCompatActivity
         LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
     }
 
-    private void showSpecificView(int id){
-        toolbar.setTitle(getString(R.string.buy_giftcard));
+    private void showSpecificView(int id) {
         showFragment(id);
         navigationView.setCheckedItem(id);
     }
 
     private void showDefaultView() {
-        toolbar.setTitle(getString(R.string.buy_giftcard));
         showFragment(R.id.nav_buy_giftcards);
         navigationView.setCheckedItem(R.id.nav_buy_giftcards);
     }
@@ -169,14 +168,13 @@ public class FrontPageActivity extends AppCompatActivity
         } else if (id == R.id.nav_nav_settings) {
 
         }
-        setToolbarTitle(item.getTitle().toString());
         showFragment(id);
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void setToolbarTitle(String title) {
+    @Override
+    public void setToolbarTitle(String title) {
         toolbar.setTitle(title);
     }
 
@@ -206,7 +204,7 @@ public class FrontPageActivity extends AppCompatActivity
         }
     }
 
-    class MyReceiver extends MyBroadcastReceiver{
+    class MyReceiver extends MyBroadcastReceiver {
         @Override
         public void onUserUpdated() {
             updateNaviHeader();

@@ -1,4 +1,4 @@
-package dk.android.giifty;
+package dk.android.giifty.drawerfragments;
 
 
 import android.app.ProgressDialog;
@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import dk.android.giifty.MyDialogBuilder;
+import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.components.DividerItemDecoration;
 import dk.android.giifty.components.TextViewAdapter;
@@ -24,7 +26,7 @@ import dk.android.giifty.web.SignInHandler;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateNewGiftcardFrag extends Fragment {
+public class CreateNewGiftcardFrag extends DrawerFragment {
 
     private static final String TAG = CreateNewGiftcardFrag.class.getSimpleName();
     private SignInHandler signInHandler;
@@ -53,10 +55,11 @@ public class CreateNewGiftcardFrag extends Fragment {
         return root;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
-
+        setToolbarTitle(getString(R.string.create_giftcard));
 //        try {
 //            if (signInHandler.isTokenExpired()) {
 //                if (UserRepository.getInstance().hasUser()) {

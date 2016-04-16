@@ -1,4 +1,4 @@
-package dk.android.giifty;
+package dk.android.giifty.drawerfragments;
 
 
 import android.os.Bundle;
@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import dk.android.giifty.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingsFrag extends Fragment {
+public class SettingsFrag extends DrawerFragment {
 
 
     public SettingsFrag() {
@@ -26,4 +28,9 @@ public class SettingsFrag extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setToolbarTitle(getString(R.string.settings));
+    }
 }

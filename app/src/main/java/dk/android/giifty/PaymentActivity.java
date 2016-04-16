@@ -9,9 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import dk.android.giifty.PurchaseComponents.CardPaymentFrag;
-import dk.android.giifty.PurchaseComponents.MobilepayFrag;
-import dk.android.giifty.PurchaseComponents.PurchaseFragment;
+import dk.android.giifty.purchasefragments.CardPaymentFrag;
+import dk.android.giifty.purchasefragments.MobilepayFrag;
+import dk.android.giifty.purchasefragments.PurchaseFragment;
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;

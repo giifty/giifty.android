@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
-import dk.android.giifty.BuyGiftcardFrag;
+import dk.android.giifty.drawerfragments.BuyGiftcardFrag;
 import dk.android.giifty.Constants;
 import dk.android.giifty.GiftcardActivity;
 import dk.android.giifty.R;

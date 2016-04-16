@@ -1,4 +1,4 @@
-package dk.android.giifty.PurchaseComponents;
+package dk.android.giifty.purchasefragments;
 
 
 import android.content.Context;

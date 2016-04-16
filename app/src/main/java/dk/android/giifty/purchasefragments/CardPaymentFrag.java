@@ -1,4 +1,4 @@
-package dk.android.giifty.PurchaseComponents;
+package dk.android.giifty.purchasefragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import dk.android.giifty.R;
-import dk.android.giifty.web.RequestHandler;
-import dk.android.giifty.web.WebApi;
 
 /**
  * A simple {@link Fragment} subclass.
