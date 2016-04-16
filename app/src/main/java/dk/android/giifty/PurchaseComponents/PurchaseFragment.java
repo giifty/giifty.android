@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.RequestHandler;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.SignInHandler;
@@ -37,9 +38,6 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
         webService = ServiceCreator.creatServiceWithAuthenticator();
     }
 
-    public void getOrderId(int giftcardId) {
-        requestHandler.enqueueRequest(webService.getTransactionOrderId(SignInHandler.getServerToken(), giftcardId), null);
-    }
 
     public void commitPurchaseOnServer(int giftcardId, String transactionId) {
         requestHandler.enqueueRequest(webService.buyGiftcard(SignInHandler.getServerToken(), giftcardId), getContext());
@@ -62,9 +60,11 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
     }
 
     protected void onPurchaseSuccess() {
+        Utils.makeToast("Purchase success");
     }
 
     protected void onPurchaseFailed() {
+        Utils.makeToast("Purchase failed");
     }
 
     protected String getOrderId() {
