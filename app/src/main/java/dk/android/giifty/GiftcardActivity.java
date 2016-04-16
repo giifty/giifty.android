@@ -19,6 +19,8 @@ public class GiftcardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giftcard);
         int companyId = 0;
+
+
         if (getIntent().hasExtra(Constants.EKSTRA_COMPANY_ID)) {
             companyId = getIntent().getIntExtra(Constants.EKSTRA_COMPANY_ID, -1);
         }
@@ -33,6 +35,10 @@ public class GiftcardActivity extends BaseActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        String titleText = company.getName() + " " + getString(R.string.giftcard);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(titleText);
+        }
     }
 
 }

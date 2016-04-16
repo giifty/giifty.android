@@ -10,6 +10,11 @@
     <string name="msg_create_user">Opret en bruger så du kan sælge og købe gavekort</string>
     <string name="msg_terms_conditions_body">Åge Hareide viste under tirsdagens træning lidt af det, som man nok kan forvente sig i den kommende tid. Forhåbentlig får vi endnu mere at vide i dag på pressemødet, men under alle omstændigheder, så vil landstræneren givetvis give nogle svar med den opstilling, som han sender i kamp mod Island torsdag aften.</string>
     <string name="msg_failed_login">Vi kan desværre ikke logge dig på Giifty lige nu</string>
+    <string name="msg_mobilepay_needs_update">Mobilepay skal opdateres inden købet</string>
+    <string name="msg_mobilepay_max_amount_reached">Du har nået din maximum købesum i denne måned</string>
+    <string name="msg_transaction_timeout">din transaktion varet mere end 5 min, prøv igen</string>
+    <string name="msg_try_again">Noget gik galt, prøv venligst igen</string>
+    <string name="msg_create_user_error">Noget gik galt med at oprette bruger</string>
 
     // transition names
     <string name="hero_transition_giftcard">hero_giftcard</string>
@@ -54,12 +59,7 @@
     <string name="add_account">Tilføj konto</string>
     <string name="account_info_title">Konto oplysninger</string>
     <string name="update_user">Opdater bruger</string>
-    <string name="msg_mobilepay_needs_update">Mobilepay skal opdateres inden købet</string>
-    <string name="msg_mobilepay_max_amount_reached">Du har nået din maximum købesum i denne måned</string>
-    <string name="msg_transaction_timeout">din transaktion varet mere end 5 min, prøv igen</string>
-    <string name="msg_try_again">Noget gik galt, prøv venligst igen</string>
-    <string name="msg_create_user_error">Noget gik galt med at oprette bruger</string>
     <string name="purchase_giftcard">Køb Gavekort</string>
     <string name="pay">"Betal "</string>
-
+    <string name="giftcard">gavekort</string>
 </resources>
