@@ -2,7 +2,6 @@ package dk.android.giifty.PurchaseComponents;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,32 +18,22 @@ import dk.danskebank.mobilepay.sdk.model.FailureResult;
 import dk.danskebank.mobilepay.sdk.model.Payment;
 import dk.danskebank.mobilepay.sdk.model.SuccessResult;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MobilepayFrag.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MobilepayFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MobilepayFrag extends PurchaseFragment {
 
     private static final String TAG = MobilepayFrag.class.getSimpleName();
     private int giftcardId, price;
     private static final int MOBILEPAY_PAYMENT_REQUEST_CODE = 9889;
     private MobilePay mobilePay;
-    private String orderId;
 
     public MobilepayFrag() {
         // Required empty public constructor
     }
 
-    public static PurchaseFragment newInstance(int giftcardId, int price, String orderId) {
+    public static PurchaseFragment newInstance(int giftcardId, int price) {
         PurchaseFragment fragment = new MobilepayFrag();
         Bundle args = new Bundle();
         args.putInt(GIFTCARD_ID, giftcardId);
         args.putInt(PRICE, price);
-        args.putString(ORDER_ID, orderId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,7 +44,6 @@ public class MobilepayFrag extends PurchaseFragment {
         if (getArguments() != null) {
             giftcardId = getArguments().getInt(GIFTCARD_ID);
             price = getArguments().getInt(PRICE);
-            orderId = getArguments().getString(ORDER_ID);
         }
 
     }
@@ -77,7 +65,11 @@ public class MobilepayFrag extends PurchaseFragment {
     private void checkMobilepay() {
         mobilePay = MobilePay.getInstance();
         if (mobilePay.isMobilePayInstalled(getContext())) {
-            startMobilepay(orderId);
+            if(hasOrderId()){
+                startMobilepay(getOrderId());
+            }else{
+                Utils.makeToast("Beklager, Prøv igen :)");
+            }
         } else {
             // MobilePay is not installed. Use the SDK to create an Intent to take the user to Google Play and download MobilePay.
             Intent intent = mobilePay.createDownloadMobilePayIntent(getContext());

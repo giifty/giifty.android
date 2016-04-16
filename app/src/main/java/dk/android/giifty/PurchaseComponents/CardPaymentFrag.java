@@ -13,7 +13,7 @@ import dk.android.giifty.web.WebApi;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CardPaymentFrag.OnFragmentInteractionListener} interface
+ * {@link OnPurchaseFragmentInteraction} interface
  * to handle interaction events.
  * Use the {@link CardPaymentFrag#newInstance} factory method to
  * create an instance of this fragment.
@@ -22,20 +22,17 @@ public class CardPaymentFrag extends PurchaseFragment {
 
 
     private int giftcardId, price;
-    private WebApi webService;
-    private RequestHandler requestHandler;
     private String orderId;
 
     public CardPaymentFrag() {
         // Required empty public constructor
     }
 
-    public static PurchaseFragment newInstance(int giftcardId, int price, String orderId) {
+    public static PurchaseFragment newInstance(int giftcardId, int price) {
         PurchaseFragment fragment = new CardPaymentFrag();
         Bundle args = new Bundle();
         args.putInt(GIFTCARD_ID, giftcardId);
         args.putInt(PRICE, price);
-        args.putString(ORDER_ID, orderId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +43,6 @@ public class CardPaymentFrag extends PurchaseFragment {
         if (getArguments() != null) {
             giftcardId = getArguments().getInt(GIFTCARD_ID);
             price = getArguments().getInt(PRICE);
-            orderId = getArguments().getString(ORDER_ID);
         }
     }
 

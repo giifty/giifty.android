@@ -48,11 +48,9 @@ public interface WebApi {
     @GET("Giftcards/GetMainView")
     Call<List<Company>> getMainView();
 
-
     @POST("Order/PreOrder/{giftcardId}")
     Call<String> getTransactionOrderId(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
 
-
-    @POST("Order/Buy/giftcardId")
+    @POST("Order/Buy/{giftcardId}")
     Call<Integer> buyGiftcard(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
 }

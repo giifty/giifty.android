@@ -22,7 +22,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class PaymentActivity extends BaseActivity implements View.OnClickListener, PurchaseFragment.OnFragmentInteractionListener, Callback<String> {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener, PurchaseFragment.OnPurchaseFragmentInteraction, Callback<String> {
 
     private static final String TAG = PaymentActivity.class.getSimpleName();
     private Giftcard giftcard;
@@ -83,11 +83,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             if (id == R.id.pay_with_card_id) {
                 cardPayButton.setSelected(true);
                 mobilepayButton.setSelected(false);
-                showFragment(CardPaymentFrag.newInstance(giftcard.getGiftcardId(), giftcard.getPrice(), orderId));
+                showFragment(CardPaymentFrag.newInstance(giftcard.getGiftcardId(), giftcard.getPrice()));
             } else if (id == R.id.pay_with_mp_id) {
                 cardPayButton.setSelected(false);
                 mobilepayButton.setSelected(true);
-                showFragment(MobilepayFrag.newInstance(giftcard.getGiftcardId(), giftcard.getPrice(), orderId));
+                showFragment(MobilepayFrag.newInstance(giftcard.getGiftcardId(), giftcard.getPrice()));
             }
         }
     }
@@ -95,6 +95,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public String getOrderId() {
+        return orderId;
     }
 
     @Override

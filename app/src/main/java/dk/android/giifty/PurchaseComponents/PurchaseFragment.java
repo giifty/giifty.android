@@ -21,11 +21,10 @@ import retrofit.Retrofit;
 public abstract class PurchaseFragment extends Fragment implements Callback<Boolean> {
     protected static final String GIFTCARD_ID = "param1";
     protected static final String PRICE = "param2";
-    protected static final String ORDER_ID = "orderId";
-    protected OnFragmentInteractionListener mListener;
-
-    private WebApi webService;
-    private RequestHandler requestHandler;
+    protected OnPurchaseFragmentInteraction parentInteraction;
+    protected WebApi webService;
+    protected RequestHandler requestHandler;
+    private String orderId;
 
     public PurchaseFragment() {
         // Required empty public constructor
@@ -38,7 +37,7 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
         webService = ServiceCreator.creatServiceWithAuthenticator();
     }
 
-    public void getOrderId(int giftcardId){
+    public void getOrderId(int giftcardId) {
         requestHandler.enqueueRequest(webService.getTransactionOrderId(SignInHandler.getServerToken(), giftcardId), null);
     }
 
@@ -49,53 +48,58 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
     @Override
     public void onResponse(Response<Boolean> response, Retrofit retrofit) {
         if (response.isSuccess()) {
-            if (response.body()) {
-                onPurchaseSucces();
-            } else {
+            onPurchaseSuccess();
+           // if (response.body()) {
+            //    onPurchaseSuccess();
+         //   } else {
                 // handler error
-                onPurchaseFailed();
-            }
+           //     onPurchaseFailed();
+          //  }
         } else {
             // handler error
             onPurchaseFailed();
         }
     }
 
-    protected void onPurchaseSucces() {
+    protected void onPurchaseSuccess() {
     }
 
     protected void onPurchaseFailed() {
+    }
+
+    protected String getOrderId() {
+        return parentInteraction.getOrderId();
+    }
+
+    protected boolean hasOrderId(){
+        return parentInteraction.getOrderId() != null;
     }
 
     @Override
     public void onFailure(Throwable t) {
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnPurchaseFragmentInteraction) {
+            parentInteraction = (OnPurchaseFragmentInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnPurchaseFragmentInteraction");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        parentInteraction = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+    public interface OnPurchaseFragmentInteraction {
+
         void onFragmentInteraction(Uri uri);
+
+        String getOrderId();
     }
 }
