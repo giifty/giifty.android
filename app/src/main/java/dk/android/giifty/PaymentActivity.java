@@ -7,10 +7,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import dk.android.giifty.Purchase.PurchaseFragment;
-import dk.android.giifty.Purchase.PurchaseFragmentHandler;
-import dk.android.giifty.Purchase.purchasefragments.CardPaymentFrag;
-import dk.android.giifty.Purchase.purchasefragments.MobilepayFrag;
+import dk.android.giifty.purchase.PurchaseFragment;
+import dk.android.giifty.purchase.PurchaseFragmentHandler;
+import dk.android.giifty.purchase.purchasefragments.CardPaymentFrag;
+import dk.android.giifty.purchase.purchasefragments.MobilepayFrag;
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;

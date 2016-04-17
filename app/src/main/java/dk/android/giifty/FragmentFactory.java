@@ -3,11 +3,11 @@ package dk.android.giifty;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import dk.android.giifty.drawerfragments.BuyGiftcardFrag;
-import dk.android.giifty.drawerfragments.CreateNewGiftcardFrag;
-import dk.android.giifty.drawerfragments.MyGiftcardsFrag;
-import dk.android.giifty.drawerfragments.PurchasedGiftcardsFrag;
-import dk.android.giifty.drawerfragments.SettingsFrag;
+import dk.android.giifty.drawer.drawerfragments.BuyGiftcardFrag;
+import dk.android.giifty.drawer.drawerfragments.CreateNewGiftcardFrag;
+import dk.android.giifty.drawer.drawerfragments.MyGiftcardsFrag;
+import dk.android.giifty.drawer.drawerfragments.PurchasedGiftcardsFrag;
+import dk.android.giifty.drawer.drawerfragments.SettingsFrag;
 
 /**
  * Created by mak on 30-01-2016.

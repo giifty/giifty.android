@@ -1,4 +1,4 @@
-package dk.android.giifty.drawerfragments;
+package dk.android.giifty.drawer;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

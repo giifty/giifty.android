@@ -1,4 +1,4 @@
-package dk.android.giifty.drawerfragments;
+package dk.android.giifty.drawer.drawerfragments;
 
 
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import dk.android.giifty.R;
+import dk.android.giifty.drawer.DrawerFragment;
 
 
 /**

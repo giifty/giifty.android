@@ -1,4 +1,4 @@
-package dk.android.giifty.Purchase.purchasefragments;
+package dk.android.giifty.purchase.purchasefragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import java.math.BigDecimal;
 
-import dk.android.giifty.Purchase.PurchaseFragment;
+import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.R;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.MobilePay;

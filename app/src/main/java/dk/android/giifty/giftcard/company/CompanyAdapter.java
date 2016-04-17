@@ -14,7 +14,7 @@ import java.util.List;
 import dk.android.giifty.Constants;
 import dk.android.giifty.GiftcardActivity;
 import dk.android.giifty.R;
-import dk.android.giifty.drawerfragments.BuyGiftcardFrag;
+import dk.android.giifty.drawer.drawerfragments.BuyGiftcardFrag;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;

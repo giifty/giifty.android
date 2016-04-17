@@ -1,4 +1,4 @@
-package dk.android.giifty.drawerfragments;
+package dk.android.giifty.drawer.drawerfragments;
 
 
 import android.content.IntentFilter;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.giftcard.company.CompanyAdapter;
 import dk.android.giifty.utils.Broadcasts;

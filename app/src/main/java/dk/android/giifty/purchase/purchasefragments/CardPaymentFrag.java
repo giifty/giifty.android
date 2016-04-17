@@ -1,4 +1,4 @@
-package dk.android.giifty.Purchase.purchasefragments;
+package dk.android.giifty.purchase.purchasefragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import dk.android.giifty.Purchase.PurchaseFragment;
+import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.R;
 
 /**

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
-import dk.android.giifty.drawerfragments.DrawerFragment;
+import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Broadcasts;

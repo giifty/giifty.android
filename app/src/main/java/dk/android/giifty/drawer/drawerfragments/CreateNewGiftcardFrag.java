@@ -1,4 +1,4 @@
-package dk.android.giifty.drawerfragments;
+package dk.android.giifty.drawer.drawerfragments;
 
 
 import android.app.ProgressDialog;
@@ -18,6 +18,7 @@ import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.components.DividerItemDecoration;
 import dk.android.giifty.components.TextViewAdapter;
+import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.SignInHandler;

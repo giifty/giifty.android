@@ -1,4 +1,4 @@
-package dk.android.giifty.Purchase;
+package dk.android.giifty.purchase;
 
 
 import android.content.Context;
