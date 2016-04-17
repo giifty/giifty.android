@@ -41,7 +41,7 @@ public class Giftcard {
     @Expose
     private User seller;
     @Expose
-    private double savingInProcent;
+    private double savingsInPercentage;
 
     public int getValue() {
         return value;
@@ -103,9 +103,11 @@ public class Giftcard {
         return seller;
     }
 
-    public double getSavingInProcent() {
-        return savingInProcent;
+    public double getSavingsInPercentage() {
+        return savingsInPercentage;
     }
 
-
+    public boolean isOnSale() {
+        return buyer == null;
+    }
 }

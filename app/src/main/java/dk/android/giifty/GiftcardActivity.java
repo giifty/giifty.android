@@ -28,7 +28,7 @@ public class GiftcardActivity extends BaseActivity {
         controller = GiftcardRepository.getInstance();
         Company company = controller.getCompany(companyId);
 
-        adapter = new GiftcardAdapter(this, company, controller.getCompanyGiftcards(company.getCompanyId()));
+        adapter = new GiftcardAdapter(this, company, controller.getCompanyGiftcardsOnSale(company.getCompanyId()));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));

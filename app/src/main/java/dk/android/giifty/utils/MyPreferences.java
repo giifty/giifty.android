@@ -77,11 +77,9 @@ public class MyPreferences {
         getPrefs().edit().putString(key, result).commit();
     }
 
-
     public void persistString(String key, String value) {
         getPrefs().edit().putString(key, value).commit();
     }
-
 
     public String getString(String key) {
         return getPrefs().getString(key, "");

@@ -73,8 +73,8 @@ public class GiftcardRepository {
         return null;
     }
 
-    public List<Giftcard> getCompanyGiftcards(int companyId) {
-        Log.d(TAG, "getCompanyGiftcards()  companyId:" + companyId );
+    public List<Giftcard> getCompanyGiftcardsOnSale(int companyId) {
+        Log.d(TAG, "getCompanyGiftcardsOnSale()  companyId:" + companyId );
         return Collections.unmodifiableList(map.containsKey(companyId) ? map.get(companyId) : new ArrayList<Giftcard>());
     }
 
@@ -150,17 +150,18 @@ public class GiftcardRepository {
                 t.printStackTrace();
             }
         });
-
     }
 
 
     private void sortGiftcardsByCompany(List<Giftcard> listToSort) {
 
         for (Giftcard g : listToSort) {
-            if (!map.containsKey(g.getCompanyId())) {
-                map.put(g.getCompanyId(), new ArrayList<Giftcard>());
+            if(g.isOnSale()){
+                if (!map.containsKey(g.getCompanyId())) {
+                    map.put(g.getCompanyId(), new ArrayList<Giftcard>());
+                }
+                map.get(g.getCompanyId()).add(g);
             }
-            map.get(g.getCompanyId()).add(g);
         }
     }
 
