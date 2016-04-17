@@ -1,4 +1,4 @@
-package dk.android.giifty.purchasefragments;
+package dk.android.giifty.Purchase;
 
 
 import android.content.Context;
@@ -21,8 +21,8 @@ import retrofit.Retrofit;
  * A simple {@link Fragment} subclass.
  */
 public abstract class PurchaseFragment extends Fragment implements Callback<Boolean> {
-    protected static final String GIFTCARD_ID = "param1";
-    protected static final String PRICE = "param2";
+    public static final String GIFTCARD_ID = "param1";
+    public static final String PRICE = "param2";
     private static final String TAG = PurchaseFragment.class.getSimpleName();
     protected OnPurchaseFragmentInteraction parentInteraction;
     protected WebApi webService;

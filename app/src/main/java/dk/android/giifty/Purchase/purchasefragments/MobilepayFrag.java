@@ -1,4 +1,4 @@
-package dk.android.giifty.purchasefragments;
+package dk.android.giifty.Purchase.purchasefragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.math.BigDecimal;
 
+import dk.android.giifty.Purchase.PurchaseFragment;
 import dk.android.giifty.R;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.MobilePay;
@@ -29,15 +29,6 @@ public class MobilepayFrag extends PurchaseFragment {
         // Required empty public constructor
     }
 
-    public static PurchaseFragment newInstance(int giftcardId, int price) {
-        PurchaseFragment fragment = new MobilepayFrag();
-        Bundle args = new Bundle();
-        args.putInt(GIFTCARD_ID, giftcardId);
-        args.putInt(PRICE, price);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +42,7 @@ public class MobilepayFrag extends PurchaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText("");
-        return textView;
+        return inflater.inflate(R.layout.fragment_mobilepay, container, false);
     }
 
     @Override

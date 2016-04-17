@@ -2,16 +2,15 @@ package dk.android.giifty;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import dk.android.giifty.purchasefragments.CardPaymentFrag;
-import dk.android.giifty.purchasefragments.MobilepayFrag;
-import dk.android.giifty.purchasefragments.PurchaseFragment;
+import dk.android.giifty.Purchase.PurchaseFragment;
+import dk.android.giifty.Purchase.PurchaseFragmentHandler;
+import dk.android.giifty.Purchase.purchasefragments.CardPaymentFrag;
+import dk.android.giifty.Purchase.purchasefragments.MobilepayFrag;
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
@@ -33,6 +32,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private ImageView ownerImage;
     private String orderId;
     private Button payButton;
+    private PurchaseFragmentHandler fragmentHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +59,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
         WebApi webService = ServiceCreator.creatServiceWithAuthenticator();
         requestHandler.enqueueRequest(webService.getTransactionOrderId(SignInHandler.getServerToken(), giftcard.getGiftcardId()), null);
+        fragmentHandler = new PurchaseFragmentHandler(getSupportFragmentManager(), this);
 
-        //must be after giftcard is set
-        cardPayButton.callOnClick();
         setValues();
     }
 
-    private void showFragment(PurchaseFragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container_id, fragment, PurchaseFragment.class.getName());
-        transaction.commit();
-    }
 
     private void setValues() {
         if (giftcard != null) {
@@ -90,19 +84,22 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             if (id == R.id.pay_with_card_id) {
                 cardPayButton.setSelected(true);
                 mobilepayButton.setSelected(false);
-                showFragment(CardPaymentFrag.newInstance(giftcard.getGiftcardId(), giftcard.getPrice()));
+                showFragment(CardPaymentFrag.class.getName());
             } else if (id == R.id.pay_with_mp_id) {
                 cardPayButton.setSelected(false);
                 mobilepayButton.setSelected(true);
-                showFragment(MobilepayFrag.newInstance(giftcard.getGiftcardId(), giftcard.getPrice()));
+                showFragment(MobilepayFrag.class.getName());
             } else if (id == R.id.pay_button_id) {
-                Fragment fragment = getSupportFragmentManager().findFragmentByTag(PurchaseFragment.class.getName());
-                if (fragment instanceof PurchaseFragment) {
-                    PurchaseFragment purchaseFragment = (PurchaseFragment) fragment;
-                    purchaseFragment.startTransaction();
-                }
+                PurchaseFragment fragment = fragmentHandler.getCurrentFragment();
+                if (fragment != null)
+                    fragment.startTransaction();
             }
         }
+    }
+
+    private void showFragment(String tag) {
+        if (orderId != null)
+            fragmentHandler.showFragment(tag, giftcard.getGiftcardId(), giftcard.getPrice());
     }
 
     @Override
@@ -123,10 +120,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         } else {
             orderId = "testOnly";
         }
-    }
-
-    private void fireOrderIdCollected() {
-        //   Broadcasts.fireOrderIdCollected
+        mobilepayButton.callOnClick();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package dk.android.giifty.purchasefragments;
+package dk.android.giifty.Purchase.purchasefragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import dk.android.giifty.Purchase.PurchaseFragment;
 import dk.android.giifty.R;
 
 /**
@@ -29,14 +30,14 @@ public class CardPaymentFrag extends PurchaseFragment implements TextWatcher {
         // Required empty public constructor
     }
 
-    public static PurchaseFragment newInstance(int giftcardId, int price) {
-        PurchaseFragment fragment = new CardPaymentFrag();
-        Bundle args = new Bundle();
-        args.putInt(GIFTCARD_ID, giftcardId);
-        args.putInt(PRICE, price);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static PurchaseFragment newInstance(int giftcardId, int price) {
+//        PurchaseFragment fragment = new CardPaymentFrag();
+//        Bundle args = new Bundle();
+//        args.putInt(GIFTCARD_ID, giftcardId);
+//        args.putInt(PRICE, price);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
