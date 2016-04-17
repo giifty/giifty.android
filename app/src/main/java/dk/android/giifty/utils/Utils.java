@@ -50,11 +50,11 @@ public class Utils {
     private static final String TAG = Utils.class.getSimpleName();
 
     public static void setImage(Context context, ImageView imageView, String imageUrl) {
-        Picasso.with(context).load(imageUrl).into(imageView);
+        Picasso.with(context).load(imageUrl).error(R.drawable.ic_no_picture).into(imageView);
     }
 
     public static void setUserImage(Context context, ImageView imageView, String imageUrl) {
-        Picasso.with(context).load(imageUrl).placeholder(R.drawable.avatar).into(imageView);
+        Picasso.with(context).load(imageUrl).error(R.drawable.avatar).placeholder(R.drawable.avatar).into(imageView);
     }
 
     public static void printHasH(Context context) {
@@ -92,6 +92,10 @@ public class Utils {
 
     }
 
+    public static String formatTime(DateTime time) {
+        return dateTimeFormatter.print(time);
+    }
+
     public static User createFakeUser() {
         return new User(-1, "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
     }
@@ -105,7 +109,7 @@ public class Utils {
     }
 
     public static void initFacebookSdk() {
-        if(!FacebookSdk.isInitialized()){
+        if (!FacebookSdk.isInitialized()) {
             FacebookSdk.sdkInitialize(MyApp.getMyApplicationContext());
             FacebookSdk.setIsDebugEnabled(true);
         }

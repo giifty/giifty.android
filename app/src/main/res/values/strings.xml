@@ -63,6 +63,12 @@
     <string name="pay">"Betal "</string>
     <string name="giftcard">gavekort</string>
     <string name="card_nr">Kort nr</string>
-    <string name="expiry_date">Dato</string>
+    <string name="date">Dato</string>
     <string name="security_nr">CRV</string>
+    <string name="how_to_text">Scan stregkoden ved kassen næste gang du shopper</string>
+    <string name="value">Værdi</string>
+    <string name="your_price">Din pris</string>
+    <string name="expiry_date">"Udløbsdato: "</string>
+    <string name="you_have_bought">Du har købt et </string>
+    <string name="with_value"> gavekort til</string>
 </resources>

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.RequestHandler;
 import dk.android.giifty.web.ServiceCreator;
@@ -20,7 +21,7 @@ import retrofit.Retrofit;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class PurchaseFragment extends Fragment implements Callback<Boolean> {
+public abstract class PurchaseFragment extends Fragment implements Callback<Integer> {
     public static final String GIFTCARD_ID = "param1";
     public static final String PRICE = "param2";
     private static final String TAG = PurchaseFragment.class.getSimpleName();
@@ -48,9 +49,11 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
     }
 
     @Override
-    public void onResponse(Response<Boolean> response, Retrofit retrofit) {
+    public void onResponse(Response<Integer> response, Retrofit retrofit) {
+
         if (response.isSuccess()) {
-            onPurchaseSuccess();
+            //TODO what value is returned, i want the giftcard id
+            onPurchaseSuccess(response.body());
             // if (response.body()) {
             //    onPurchaseSuccess();
             //   } else {
@@ -63,8 +66,9 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Bool
         }
     }
 
-    protected void onPurchaseSuccess() {
-                Utils.makeToast("Purchase success");
+    protected void onPurchaseSuccess(int gifcardId) {
+        ActivityStarter
+                .startPurchaseSuccessAct(getActivity(), gifcardId);
     }
 
     protected void onPurchaseFailed() {

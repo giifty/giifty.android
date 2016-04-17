@@ -50,11 +50,11 @@ public class GiftcardDetailsActivity extends BaseActivity  {
         if (giftcard != null) {
             salesPrice.setText(String.valueOf(giftcard.getPrice()));
             value.setText(String.valueOf(giftcard.getValue()));
-            date.setText(Utils.calculateTime(giftcard.getEntryDate()));
+            date.setText(Utils.formatTime(giftcard.getEntryDate()));
             expiryDate.setText(Utils.calculateTime(giftcard.getExpirationDate()));
             description.setText(giftcard.getDescription());
-            if (!giftcard.getImage().isEmpty()) {
-                Utils.setImage(this, image, giftcard.getImage().get(0).getUrl());
+            if (!giftcard.getImages().isEmpty()) {
+                Utils.setImage(this, image, giftcard.getImages().get(0).getUrl());
             }
             ownerName.setText(giftcard.getSeller().getName());
             Utils.setUserImage(this, ownerImage, giftcard.getSeller().getFacebookProfileImageUrl());

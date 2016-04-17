@@ -110,7 +110,7 @@ public class FrontPageActivity extends AppCompatActivity
         try {
             if (userRepository.hasUser()) {
                 naviHeaderName.setText(userRepository.getUser().getName());
-                Utils.setImage(this, naviUserImage, userRepository.getUser().getFacebookProfileImageUrl());
+                Utils.setUserImage(this, naviUserImage, userRepository.getUser().getFacebookProfileImageUrl());
                 signInHandler.refreshTokenAsync();
             } else {
                 naviHeaderName.setText(getString(R.string.user_name_create_user));

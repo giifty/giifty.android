@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
+    android:padding="@dimen/app_default_margin"
     tools:context="dk.android.giifty.PaymentActivity">
 
     <LinearLayout
@@ -31,7 +31,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Værdi "
+                    android:text="@string/value"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <TextView
@@ -60,7 +60,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Din pris "
+                    android:text="@string/your_price"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
                     android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Udløbsdato "
+                    android:text="@string/expiry_date"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView

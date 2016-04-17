@@ -37,9 +37,11 @@
         <activity android:name=".GiftcardDetailsActivity" />
         <activity android:name=".UpdateUserActivity" />
         <activity android:name=".CreateUserActivity" />
-        <activity android:name=".PaymentActivity"
-            android:label="@string/purchase_giftcard">
-        </activity>
+        <activity
+            android:name=".PaymentActivity"
+            android:label="@string/purchase_giftcard"></activity>
+        <activity android:name=".PurchaseSuccessActivity"
+            android:label="Dit købte gavekort"></activity>
     </application>
 
 </manifest>

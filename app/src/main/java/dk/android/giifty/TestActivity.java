@@ -77,8 +77,15 @@ public class TestActivity extends AppCompatActivity {
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   UserRepository.getInstance().deleteUser();
+                UserRepository.getInstance().deleteUser();
                 Broadcasts.fireOnSignedInEvent();
+            }
+        });
+
+        Button startAct = (Button) findViewById(R.id.start_activity_id);
+        startAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
     }

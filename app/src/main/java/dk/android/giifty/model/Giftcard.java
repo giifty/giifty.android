@@ -63,7 +63,7 @@ public class Giftcard {
         return description;
     }
 
-    public List<Image> getImage() {
+    public List<Image> getImages() {
         return image;
     }
 

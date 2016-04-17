@@ -9,8 +9,10 @@ import android.view.View;
 
 import dk.android.giifty.Constants;
 import dk.android.giifty.CreateUserActivity;
+import dk.android.giifty.FrontPageActivity;
 import dk.android.giifty.GiftcardDetailsActivity;
 import dk.android.giifty.PaymentActivity;
+import dk.android.giifty.PurchaseSuccessActivity;
 import dk.android.giifty.R;
 import dk.android.giifty.UpdateUserActivity;
 
@@ -44,6 +46,17 @@ public class ActivityStarter {
         Intent intent = new Intent(activity, PaymentActivity.class);
         intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);
         startActivityWithSlideIn(activity, intent);
+    }
+
+    public static void startPurchaseSuccessAct(Activity activity, int giftcardId) {
+        Intent intent = new Intent(activity, PurchaseSuccessActivity.class);
+        intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);
+        startActivityWithSlideIn(activity, intent);
+    }
+
+    public static void startFrontPageActivityAsBackPressed(Activity activity) {
+        activity.startActivity(new Intent(activity, FrontPageActivity.class));
+        activity.overridePendingTransition(R.animator.fade_in, R.animator.slide_out_right);
     }
 
     public static void startActivityWithSlideIn(Activity activity, Intent intent) {

@@ -49,9 +49,9 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         holder.title.setText(company.getName());
         String body = "Se " + company.getNumberOfGiftcards() + " " + company.getName() + " gavekort der er til salg.";
         holder.body.setText(body);
-        holder.discountText.setText("23%");
-
-         Utils.setImage(parent.getContext(), holder.imageView, company.getCompanyImageUrl());
+        String saving = company.getSavingInProcent() + "%";
+        holder.discountText.setText(saving);
+        Utils.setImage(parent.getContext(), holder.imageView, company.getCompanyImageUrl());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,11 +65,12 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
     }
 
 
-    public void setFrame(View frame1,View frame2, int number) {
+    public void setFrame(View frame1, View frame2, int number) {
+
         if (number > 1) {
             frame2.setBackground(frameDrawable2);
             frame1.setBackground(null);
-        }else {
+        } else {
             frame2.setBackground(transperant);
             frame1.setBackground(frameDrawable1);
         }
