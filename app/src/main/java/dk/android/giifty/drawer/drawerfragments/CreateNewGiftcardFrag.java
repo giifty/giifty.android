@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import dk.android.giifty.MyDialogBuilder;
+import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.components.DividerItemDecoration;

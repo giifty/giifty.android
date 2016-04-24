@@ -1,11 +1,12 @@
-package dk.android.giifty;
+package dk.android.giifty.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.R;
+import dk.android.giifty.components.Test;
 
 /**
  * Created by mak on 24-03-2016.
@@ -30,6 +31,15 @@ public class MyDialogBuilder {
                     }
                 })
                 .create();
+    }
+
+    public static  void showSigninDialog(final Activity activity) {
+         new AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.user_name_create_user))
+                .setMessage(activity.getString(R.string.msg_create_user))
+                .setCancelable(false)
+                .setView(new Test(activity))
+                .show();
     }
 
     public static AlertDialog createTermsAndConditionsDialog(final Context context, DialogInterface.OnClickListener clickListener) {

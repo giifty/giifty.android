@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import java.math.BigDecimal;
 
-import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.R;
+import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.MobilePay;
 import dk.danskebank.mobilepay.sdk.ResultCallback;

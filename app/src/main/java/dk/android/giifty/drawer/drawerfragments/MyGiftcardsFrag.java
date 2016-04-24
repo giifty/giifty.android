@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import dk.android.giifty.MyDialogBuilder;
+import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.R;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
@@ -46,6 +46,7 @@ public class MyGiftcardsFrag extends DrawerFragment {
         if (UserRepository.getInstance().hasUser()) {
             userId = UserRepository.getInstance().getUser().getUserId();
             if (list.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
                 emptyText.setText(getText(R.string.msg_no_puchased_gc));
             }
         }

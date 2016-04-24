@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:cardUseCompatPadding="true"
+    app:cardElevation="4dp"
     card_view:cardBackgroundColor="@color/white"
     card_view:cardCornerRadius="dimen/cardview_default_radius">
 
@@ -69,7 +70,7 @@
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
-                    android:id="@+id/body_value_id"
+                    android:id="@+id/test2_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
@@ -100,7 +101,7 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/body_sales_price_id"
+                    android:id="@+id/test1_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"

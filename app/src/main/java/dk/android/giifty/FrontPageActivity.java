@@ -26,6 +26,7 @@ import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.SignInHandler;
 import hugo.weaving.DebugLog;
@@ -199,7 +200,9 @@ public class FrontPageActivity extends AppCompatActivity
             if (userRepository.hasUser()) {
                 ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
             } else {
-                ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
+
+                MyDialogBuilder.showSigninDialog(this);
+             //   ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
             }
         }
     }

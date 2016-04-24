@@ -21,6 +21,7 @@ import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
 
 /**

@@ -51,7 +51,7 @@ public class GiiftyPreferences {
     }
 
 
-    public void persistPurchasedGiftcard(HashMap<Integer, Giftcard> map) {
+    public void persistPurchasedGiftcards(HashMap<Integer, Giftcard> map) {
         String result = gson.toJson(map, new TypeToken<HashMap<Integer, Giftcard>>() {
         }.getType());
         getPrefs().edit().putString(KEY_MY_GC_PURCHASED, result).commit();
@@ -63,7 +63,7 @@ public class GiiftyPreferences {
         getPrefs().edit().putString(KEY_MY_GC_ON_SALE, result).commit();
     }
 
-    public HashMap<Integer, Giftcard> getPurchasedGiftcard() {
+    public HashMap<Integer, Giftcard> getPurchasedGiftcards() {
         return getObject(KEY_MY_GC_PURCHASED, new TypeToken<HashMap<Integer, Giftcard>>() {
         });
     }

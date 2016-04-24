@@ -54,7 +54,7 @@ public class GiftcardRepository {
             giftcardsToSale = new HashMap<>();
         }
 
-        giftcardsPurchased = giiftyPreferences.getPurchasedGiftcard();
+        giftcardsPurchased = giiftyPreferences.getPurchasedGiftcards();
         if(giftcardsPurchased == null){
             //create from serverList
             giftcardsPurchased = new HashMap<>();
@@ -113,12 +113,12 @@ public class GiftcardRepository {
 
     public void addPurchased(Giftcard giftcard) {
         giftcardsPurchased.put(giftcard.getGiftcardId(), giftcard);
-        giiftyPreferences.persistPurchasedGiftcard(giftcardsPurchased);
+        giiftyPreferences.persistPurchasedGiftcards(giftcardsPurchased);
     }
 
     public void addGiftCardOnSale(Giftcard giftcard) {
         giftcardsToSale.put(giftcard.getGiftcardId(), giftcard);
-        giiftyPreferences.persistPurchasedGiftcard(giftcardsToSale);
+        giiftyPreferences.persistGiftcardsToSale(giftcardsToSale);
     }
 
     private void downloadMainView() {

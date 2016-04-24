@@ -13,7 +13,6 @@ import java.util.List;
 import dk.android.giifty.R;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.utils.ActivityStarter;
-import dk.android.giifty.utils.Utils;
 
 /**
  * Created by mak on 30-01-2016.
@@ -41,9 +40,9 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
         final Giftcard giftcard = giftcardList.get(position);
 
         holder.title.setText(giftcard.getCompany());
-        holder.bodyValue.setText(giftcard.getValue());
-        holder.bodySales.setText(giftcard.getPrice());
-        Utils.setImage(parent, holder.imageView, giftcard.getImages().get(0).getUrl());
+//        holder.bodyValue.setText(giftcard.getValue());
+//        holder.bodySales.setText(giftcard.getPrice());
+//        Utils.setImage(parent, holder.imageView, giftcard.getImages().get(0).getUrl());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +54,7 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
 
     private void startActivity(Giftcard giftcard, ImageView view) {
         if (giftcard.getSellerId() == userId) {
-            //start Edit Giftcard
+            //TODO start Edit Giftcard
         } else if (giftcard.getBuyerId() == userId) {
             ActivityStarter.startGiftCardDetails(parent, view, giftcard.getGiftcardId());
         }
@@ -75,8 +74,8 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.company_image_id);
             title = (TextView) itemView.findViewById(R.id.title_id);
-            bodySales = (TextView) itemView.findViewById(R.id.body_sales_price_id);
-            bodyValue = (TextView) itemView.findViewById(R.id.body_value_id);
+            bodySales = (TextView) itemView.findViewById(R.id.test2_id);
+            bodyValue = (TextView) itemView.findViewById(R.id.test1_id);
         }
     }
 }

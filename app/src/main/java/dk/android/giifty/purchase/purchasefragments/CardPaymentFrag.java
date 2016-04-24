@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.R;
+import dk.android.giifty.purchase.PurchaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
