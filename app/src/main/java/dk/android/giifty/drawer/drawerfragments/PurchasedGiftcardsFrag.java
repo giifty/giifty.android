@@ -44,15 +44,15 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
 
 
         int userId = -1;
-        List<Giftcard> list = controller.getMyGiftcardPurchased();
+        List<Giftcard> immutableList = controller.getMyGiftcardPurchased();
 
         if (UserRepository.getInstance().hasUser()) {
             userId = UserRepository.getInstance().getUser().getUserId();
-            if (list.isEmpty()) {
+            if (immutableList.isEmpty()) {
                 emptyText.setText(getText(R.string.msg_no_puchased_gc));
             }
         }
-        adapter = new GiftcardAdapter1(getActivity(), list, userId);
+        adapter = new GiftcardAdapter1(getActivity(), immutableList, userId);
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);

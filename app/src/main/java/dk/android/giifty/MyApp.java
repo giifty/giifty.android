@@ -5,7 +5,7 @@ import android.content.Context;
 
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.user.UserRepository;
-import dk.android.giifty.utils.MyPreferences;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.Country;
 import dk.danskebank.mobilepay.sdk.MobilePay;
@@ -22,9 +22,9 @@ public class MyApp extends Application {
         super.onCreate();
         MyApp.applicationContext = getApplicationContext();
 
-        MyPreferences.getInstance().setContext(this);
-        UserRepository.getInstance().initController(this);
-        GiftcardRepository.getInstance().initController(this);
+        GiiftyPreferences.getInstance().setContext(this);
+        UserRepository.getInstance().initController();
+        GiftcardRepository.getInstance().initController();
         Utils.printHasH(applicationContext);
 
         MobilePay.getInstance().init("APPDK0000000000", Country.DENMARK);

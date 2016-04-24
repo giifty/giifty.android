@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import dk.android.giifty.giftcard.GiftcardRepository;
+import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.RequestHandler;
@@ -21,7 +23,7 @@ import retrofit.Retrofit;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class PurchaseFragment extends Fragment implements Callback<Integer> {
+public abstract class PurchaseFragment extends Fragment implements Callback<Giftcard> {
     public static final String GIFTCARD_ID = "param1";
     public static final String PRICE = "param2";
     private static final String TAG = PurchaseFragment.class.getSimpleName();
@@ -49,26 +51,23 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Inte
     }
 
     @Override
-    public void onResponse(Response<Integer> response, Retrofit retrofit) {
+    public void onResponse(Response<Giftcard> response, Retrofit retrofit) {
 
         if (response.isSuccess()) {
-            //TODO what value is returned, i want the giftcard id
-            onPurchaseSuccess(response.body());
-            // if (response.body()) {
-            //    onPurchaseSuccess();
-            //   } else {
-            // handler error
-            //     onPurchaseFailed();
-            //  }
+            GiftcardRepository gcRepo = GiftcardRepository.getInstance();
+            Giftcard giftcard = response.body();
+            gcRepo.removeGiftcardFromCompanyList(giftcard);
+            gcRepo.addPurchased(giftcard);
+            onPurchaseSuccess(giftcard.getGiftcardId());
         } else {
             // handler error
             onPurchaseFailed();
         }
     }
 
-    protected void onPurchaseSuccess(int gifcardId) {
+    protected void onPurchaseSuccess(int giftcardId) {
         ActivityStarter
-                .startPurchaseSuccessAct(getActivity(), gifcardId);
+                .startPurchaseSuccessAct(getActivity(), giftcardId);
     }
 
     protected void onPurchaseFailed() {

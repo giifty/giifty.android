@@ -60,7 +60,7 @@ public class BuyGiftcardFrag extends DrawerFragment {
 
         controller = GiftcardRepository.getInstance();
 
-        adapter = new CompanyAdapter(this, controller.getMainView(getContext()));
+        adapter = new CompanyAdapter(this, controller.getMainView());
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
@@ -89,7 +89,7 @@ public class BuyGiftcardFrag extends DrawerFragment {
         @Override
         public void downloadCompleted(boolean isSuccess) {
             if (isSuccess) {
-                adapter.updateData(controller.getMainView(getContext()));
+                adapter.updateData(controller.getMainView());
             }
         }
     }

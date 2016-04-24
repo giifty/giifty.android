@@ -1,24 +1,20 @@
 package dk.android.giifty.giftcard;
 
-import android.content.Context;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import dk.android.giifty.Constants;
 import dk.android.giifty.MyApp;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.utils.Broadcasts;
-import dk.android.giifty.utils.MyPreferences;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
 import retrofit.Callback;
@@ -33,9 +29,9 @@ public class GiftcardRepository {
     private static final String TAG = GiftcardRepository.class.getSimpleName();
     private static GiftcardRepository instance;
     private WebApi webService;
-    private MyPreferences myPreferences;
-    private List<Giftcard> giftcardsOnSale;
-    private List<Giftcard> giftcardsPurchased;
+    private GiiftyPreferences giiftyPreferences;
+    private HashMap<Integer, Giftcard> giftcardsToSale;
+    private HashMap<Integer, Giftcard> giftcardsPurchased;
     private List<Company> companyList;
     private HashMap<Integer, List<Giftcard>> map;
 
@@ -43,26 +39,30 @@ public class GiftcardRepository {
         return instance == null ? (instance = new GiftcardRepository()) : instance;
     }
 
-    public void initController(Context applicationContext) {
+    public void initController() {
         LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
                 .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
         webService = ServiceCreator.creatServiceWithAuthenticator();
-        myPreferences = MyPreferences.getInstance();
+        giiftyPreferences = GiiftyPreferences.getInstance();
         companyList = new ArrayList<>();
         map = new HashMap<>();
         downloadMainView();
         downloadGiftcards();
-        giftcardsOnSale = myPreferences.hasKey(Constants.KEY_MY_GC_ON_SALE) ?
-                (List<Giftcard>) myPreferences.getObject(Constants.KEY_MY_GC_ON_SALE, new TypeToken<List<Giftcard>>() {
-                }) : new ArrayList<Giftcard>();
+        giftcardsToSale = giiftyPreferences.getGiftcardsToSale();
+        if(giftcardsToSale == null){
+            //create from serverList
+            giftcardsToSale = new HashMap<>();
+        }
 
-        giftcardsPurchased = myPreferences.hasKey(Constants.KEY_MY_GC_PURCHASED) ?
-                (List<Giftcard>) myPreferences.getObject(Constants.KEY_MY_GC_PURCHASED, new TypeToken<List<Giftcard>>() {
-                }) : new ArrayList<Giftcard>();
+        giftcardsPurchased = giiftyPreferences.getPurchasedGiftcard();
+        if(giftcardsPurchased == null){
+            //create from serverList
+            giftcardsPurchased = new HashMap<>();
+        }
     }
 
-    public Giftcard getGiftcard(int id) {
 
+    public Giftcard getGiftcard(int id) {
         for (List<Giftcard> listToSearch : map.values()) {
             for (Giftcard g : listToSearch) {
                 if (g.getGiftcardId() == id) {
@@ -73,14 +73,19 @@ public class GiftcardRepository {
         return null;
     }
 
+    public boolean removeGiftcardFromCompanyList(Giftcard giftcard) {
+        Log.d(TAG, "removeGiftcardFromCompanyList()  companyId:" + giftcard.getGiftcardId());
+        return map.get(giftcard.getCompanyId()).remove(giftcard);
+    }
+
     public List<Giftcard> getCompanyGiftcardsOnSale(int companyId) {
-        Log.d(TAG, "getCompanyGiftcardsOnSale()  companyId:" + companyId );
+        Log.d(TAG, "getCompanyGiftcardsOnSale()  companyId:" + companyId);
         return Collections.unmodifiableList(map.containsKey(companyId) ? map.get(companyId) : new ArrayList<Giftcard>());
     }
 
 
     public Company getCompany(int id) {
-        Log.d(TAG, "getCompany()  companyId:" + id );
+        Log.d(TAG, "getCompany()  companyId:" + id);
         for (Company c : companyList) {
             if (c.getCompanyId() == id)
                 return c;
@@ -89,27 +94,31 @@ public class GiftcardRepository {
     }
 
 
-    public List<Company> getMainView(Context context) {
+    public List<Company> getMainView() {
         return Collections.unmodifiableList(companyList);
     }
 
 
     public List<Giftcard> getMyGiftcardForSale() {
-        return Collections.unmodifiableList(giftcardsOnSale);
+        return Collections.unmodifiableList(new ArrayList<>(giftcardsToSale.values()));
     }
 
     public List<Giftcard> getMyGiftcardPurchased() {
-        return Collections.unmodifiableList(giftcardsPurchased);
+        return Collections.unmodifiableList(new ArrayList<>(giftcardsPurchased.values()));
+    }
+
+    public Giftcard getPurchasedGiftcard(int id) {
+        return giftcardsPurchased.get(id);
     }
 
     public void addPurchased(Giftcard giftcard) {
-        giftcardsPurchased.add(giftcard);
-        myPreferences.persistObject(Constants.KEY_MY_GC_PURCHASED, giftcardsPurchased);
+        giftcardsPurchased.put(giftcard.getGiftcardId(), giftcard);
+        giiftyPreferences.persistPurchasedGiftcard(giftcardsPurchased);
     }
 
     public void addGiftCardOnSale(Giftcard giftcard) {
-        giftcardsOnSale.add(giftcard);
-        myPreferences.persistObject(Constants.KEY_MY_GC_ON_SALE, giftcardsOnSale);
+        giftcardsToSale.put(giftcard.getGiftcardId(), giftcard);
+        giiftyPreferences.persistPurchasedGiftcard(giftcardsToSale);
     }
 
     private void downloadMainView() {
@@ -117,11 +126,11 @@ public class GiftcardRepository {
         webService.getMainView().enqueue(new Callback<List<Company>>() {
             @Override
             public void onResponse(Response<List<Company>> response, Retrofit retrofit) {
-                boolean isSucces = response.isSuccess();
-                if (isSucces) {
+                boolean isSuccess = response.isSuccess();
+                if (isSuccess) {
                     companyList = response.body();
                 }
-                fireDownloadEvent(isSucces);
+                fireDownloadEvent(isSuccess);
             }
 
             @Override
@@ -156,17 +165,20 @@ public class GiftcardRepository {
     private void sortGiftcardsByCompany(List<Giftcard> listToSort) {
 
         for (Giftcard g : listToSort) {
-            if(g.isOnSale()){
+            if (g.isOnSale()) {
                 if (!map.containsKey(g.getCompanyId())) {
                     map.put(g.getCompanyId(), new ArrayList<Giftcard>());
                 }
                 map.get(g.getCompanyId()).add(g);
+            }else {
+
+
             }
         }
     }
 
-    private void fireDownloadEvent(boolean isSucces) {
-        Broadcasts.fireNewDataEvent(isSucces);
+    private void fireDownloadEvent(boolean isSuccess) {
+        Broadcasts.fireNewDataEvent(isSuccess);
     }
 
     public List<Company> getCompanyList() {

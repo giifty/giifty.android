@@ -3,6 +3,7 @@ package dk.android.giifty.web;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -23,6 +24,7 @@ public class RequestHandler implements Callback {
     private static final int RETRY_MAX = 3;
     private ProgressDialog mProgressDialog;
     private SignInHandler signInHandler;
+    private static final String TAG = RequestHandler.class.getSimpleName();
 
     public RequestHandler(Callback callback) {
         signInHandler = new SignInHandler();
@@ -31,6 +33,7 @@ public class RequestHandler implements Callback {
 
 
     public void enqueueRequest(Call request, Context context) {
+        Log.d(TAG, "enqueueRequest()");
         if (context != null) {
             showProgressDialog(context);
         }
@@ -40,6 +43,7 @@ public class RequestHandler implements Callback {
     }
 
     private void finishWork(boolean isSuccess, Response response, Retrofit retrofit) {
+        Log.d(TAG, "finishWork()");
         dismissDialog();
         if (isSuccess) {
             callback.onResponse(response, retrofit);
@@ -80,7 +84,7 @@ public class RequestHandler implements Callback {
         if (response.isSuccess()) {
             finishWork(true, response, retrofit);
         } else {
-            if(response.code() != 401){
+            if (response.code() != 401) {
                 if (retryCounter < RETRY_MAX) {
                     retryCounter++;
                     retryRequest();
@@ -98,6 +102,7 @@ public class RequestHandler implements Callback {
     }
 
     private void retryRequest() {
+        Log.d(TAG, "retryRequest()");
         new AsyncTask<Void, Void, String>() {
 
             @Override
@@ -106,6 +111,7 @@ public class RequestHandler implements Callback {
                 try {
                     if (signInHandler.refreshTokenSynchronous()) {
                         Call c = getClonedRequest();
+                        c.enqueue(callback);
                     } else {
                         finishWork(false, null, null);
                     }

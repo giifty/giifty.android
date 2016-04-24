@@ -52,5 +52,5 @@ public interface WebApi {
     Call<String> getTransactionOrderId(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
 
     @POST("Order/Buy/{giftcardId}")
-    Call<Integer> buyGiftcard(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
+    Call<Giftcard> buyGiftcard(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
 }

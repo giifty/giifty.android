@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 
-public class DrawerFragment extends Fragment {
+public abstract class DrawerFragment extends Fragment {
 
     private OnDrawerFragmentInteraction mListener;
 

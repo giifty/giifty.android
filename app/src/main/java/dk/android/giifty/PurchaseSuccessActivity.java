@@ -30,7 +30,6 @@ public class PurchaseSuccessActivity extends AppCompatActivity {
 
     private TextView infoText, valueText, expiryDate, reportProblem;
     private Giftcard giftcard;
-    private String companyName = "Navn";
     private final static String TAG = PurchaseSuccessActivity.class.getSimpleName();
 
     @Override
@@ -51,12 +50,8 @@ public class PurchaseSuccessActivity extends AppCompatActivity {
             }
         });
 
-        giftcard = GiftcardRepository.getInstance().
-                getGiftcard(getIntent().getIntExtra(Constants.EKSTRA_GIFTCARD_ID, -1));
-
-        if(giftcard != null){
-            GiftcardRepository.getInstance().addPurchased(giftcard);
-        }
+        int id = getIntent().getIntExtra(Constants.EKSTRA_GIFTCARD_ID, -1);
+        giftcard = GiftcardRepository.getInstance().getPurchasedGiftcard(id);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_id);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),
@@ -98,6 +93,7 @@ public class PurchaseSuccessActivity extends AppCompatActivity {
     }
 
     private Spanned getInfoText() {
+        String companyName = "Navn";
         String body = getString(R.string.you_have_bought) + " " + companyName + " " + getString(R.string.with_value);
         return getHtmlText(body);
     }

@@ -8,7 +8,7 @@ import org.json.JSONException;
 import dk.android.giifty.model.NullResponse;
 import dk.android.giifty.model.User;
 import dk.android.giifty.utils.Broadcasts;
-import dk.android.giifty.utils.MyPreferences;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.RequestHandler;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.SignInHandler;
@@ -25,7 +25,7 @@ public class UserRepository implements Callback {
     private static final String TAG = UserRepository.class.getSimpleName();
     private static UserRepository instance;
     private WebApi webService;
-    private MyPreferences myPreferences;
+    private GiiftyPreferences giiftyPreferences;
     private RequestHandler requestHandler;
     private User user;
     private String newAccount, newPassword;
@@ -40,12 +40,12 @@ public class UserRepository implements Callback {
     public UserRepository() {
     }
 
-    public void initController(Context applicationContext) {
+    public void initController() {
         Log.d(TAG, "initController()");
         requestHandler = new RequestHandler(this);
-        myPreferences = MyPreferences.getInstance();
+        giiftyPreferences = GiiftyPreferences.getInstance();
         webService = ServiceCreator.creatServiceWithAuthenticator();
-        user = myPreferences.getUser();
+        user = giiftyPreferences.getUser();
     }
 
     public boolean hasUser() {
@@ -72,7 +72,7 @@ public class UserRepository implements Callback {
 
     public void deleteUser() {
         user = null;
-        myPreferences.clearUser();
+        giiftyPreferences.clearUser();
         Broadcasts.fireUserUpdated();
     }
 
@@ -107,7 +107,7 @@ public class UserRepository implements Callback {
     }
 
     private void persistUser(User user) {
-        myPreferences.persistUser(user);
+        giiftyPreferences.persistUser(user);
         setUser(user);
     }
 

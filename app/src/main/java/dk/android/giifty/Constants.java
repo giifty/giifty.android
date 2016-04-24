@@ -15,7 +15,4 @@ public class Constants {
     public static final String HERO_GRID_ITEM = "heroGridItem";
 
 
-    // preference keys
-    public static final String KEY_MY_GC_ON_SALE = "giftcardsOnSale";
-    public static final String KEY_MY_GC_PURCHASED = "giftcardsPurchased";
 }

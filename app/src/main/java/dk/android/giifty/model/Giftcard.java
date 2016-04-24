@@ -35,8 +35,6 @@ public class Giftcard {
     @Expose
     private int buyerId;
     @Expose
-    private User buyer;
-    @Expose
     private int sellerId;
     @Expose
     private User seller;
@@ -91,9 +89,6 @@ public class Giftcard {
         return buyerId;
     }
 
-    public User getBuyer() {
-        return buyer;
-    }
 
     public int getSellerId() {
         return sellerId;
@@ -108,6 +103,11 @@ public class Giftcard {
     }
 
     public boolean isOnSale() {
-        return buyer == null;
+        return getBuyerId() == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Giftcard && giftcardId == ((Giftcard) o).getGiftcardId();
     }
 }
