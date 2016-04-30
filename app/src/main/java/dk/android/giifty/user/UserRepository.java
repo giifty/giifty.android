@@ -11,7 +11,7 @@ import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.RequestHandler;
 import dk.android.giifty.web.ServiceCreator;
-import dk.android.giifty.web.SignInHandler;
+import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.web.WebApi;
 import retrofit.Callback;
 import retrofit.Response;
@@ -66,8 +66,11 @@ public class UserRepository implements Callback {
                    userToUpdate), context);
         } else {
             requestHandler.enqueueRequest(webService.createUser(userToUpdate), context);
-
         }
+    }
+
+    public void fetchUserFromServer(){
+        requestHandler.enqueueRequest(webService.getUser(SignInHandler.getServerToken()), null);
     }
 
     public void deleteUser() {
@@ -75,7 +78,6 @@ public class UserRepository implements Callback {
         giiftyPreferences.clearUser();
         Broadcasts.fireUserUpdated();
     }
-
 
     @Override
     public void onResponse(Response response, Retrofit retrofit) {

@@ -13,15 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.components.DividerItemDecoration;
 import dk.android.giifty.components.TextViewAdapter;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.web.SignInHandler;
+import dk.android.giifty.signin.SignInHandler;
 
 
 /**
@@ -52,7 +52,7 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
         signInHandler = SignInHandler.getInstance();
         myReceiver = new MyReceiver();
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver,
-                new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
+                new IntentFilter(Broadcasts.SIGN_IN_FILTER));
         return root;
     }
 
@@ -103,14 +103,16 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
     }
 
     class MyReceiver extends MyBroadcastReceiver {
+
         @Override
-        public void onSignIn() {
+        public void onSignIn(boolean isSuccess) {
             Log.d(TAG, "onSignIn()");
             dismissDialog();
             if (signInHandler.isTokenExpired()) {
                 Utils.makeToast(getString(R.string.msg_failed_login));
             }
         }
+
     }
 
 }

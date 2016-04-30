@@ -8,6 +8,7 @@ import android.util.Log;
 import java.io.IOException;
 
 import dk.android.giifty.R;
+import dk.android.giifty.signin.SignInHandler;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;

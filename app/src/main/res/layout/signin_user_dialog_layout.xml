@@ -1,69 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@drawable/bg_opret"
     android:gravity="center_horizontal"
-    android:layout_height="match_parent">
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        app:theme="@style/EditTextHintStyle">
-
-        <EditText
-            android:id="@+id/email_id"
-            style="@style/EditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/reg"
-            android:inputType="textEmailAddress" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        app:theme="@style/EditTextHintStyle">
-
-        <EditText
-            android:id="@+id/password_id"
-            style="@style/EditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/reg"
-            android:inputType="textPassword" />
-
-    </android.support.design.widget.TextInputLayout>
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="220dp"
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/signin_button_id"
-            android:layout_alignParentTop="true"
-            />
-
         <TextView
+            android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Opret ny"
-            android:layout_marginTop="5dp"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
-            android:id="@+id/create_user_id"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/signin_button_id"
-             />
-
+            android:layout_margin="10dp"
+            android:text="@string/signin_as_text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/input_container_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_view"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/email_view"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            app:theme="@style/EditTextHintStyle">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/email_id"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+
+            app:theme="@style/EditTextHintStyle">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/password_id"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_container_id"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/signin_button_id"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/sign_in" />
+
+        <TextView
+            android:id="@+id/create_user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/signin_button_id"
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:text="@string/create_user"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_id"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            android:layout_alignTop="@+id/signin_button_id"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+</RelativeLayout>

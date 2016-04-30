@@ -14,7 +14,7 @@ import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.RequestHandler;
 import dk.android.giifty.web.ServiceCreator;
-import dk.android.giifty.web.SignInHandler;
+import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.web.WebApi;
 import retrofit.Callback;
 import retrofit.Response;

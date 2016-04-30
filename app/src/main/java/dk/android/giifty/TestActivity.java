@@ -15,7 +15,7 @@ import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.web.SignInHandler;
+import dk.android.giifty.signin.SignInHandler;
 
 /**
  * Created by mak on 16-01-2016.
@@ -43,7 +43,7 @@ public class TestActivity extends AppCompatActivity {
         getMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Broadcasts.fireOnSignedInEvent();
+                Broadcasts.fireOnSignedInEvent(true);
             }
         });
 
@@ -78,7 +78,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UserRepository.getInstance().deleteUser();
-                Broadcasts.fireOnSignedInEvent();
+                Broadcasts.fireOnSignedInEvent(true);
             }
         });
 

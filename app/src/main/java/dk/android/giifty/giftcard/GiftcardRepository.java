@@ -41,7 +41,7 @@ public class GiftcardRepository {
 
     public void initController() {
         LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
-                .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.ON_SIGNED_IN_FILTER));
+                .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.SIGN_IN_FILTER));
         webService = ServiceCreator.creatServiceWithAuthenticator();
         giiftyPreferences = GiiftyPreferences.getInstance();
         companyList = new ArrayList<>();
@@ -188,8 +188,7 @@ public class GiftcardRepository {
     class MyReceiver extends MyBroadcastReceiver {
 
         @Override
-        public void onSignIn() {
-            super.onSignIn();
+        public void onSignIn(boolean isSuccess) {
 
         }
     }

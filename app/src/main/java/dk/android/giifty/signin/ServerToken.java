@@ -1,4 +1,4 @@
-package dk.android.giifty.web;
+package dk.android.giifty.signin;
 
 import org.joda.time.DateTime;
 

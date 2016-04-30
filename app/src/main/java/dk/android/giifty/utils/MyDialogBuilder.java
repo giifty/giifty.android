@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.View;
 
 import dk.android.giifty.R;
-import dk.android.giifty.components.Test;
 
 /**
  * Created by mak on 24-03-2016.
@@ -15,7 +15,7 @@ public class MyDialogBuilder {
 
     public static AlertDialog createNoUserDialog(final Activity activity) {
         return new AlertDialog.Builder(activity)
-                .setTitle(activity.getString(R.string.user_name_create_user))
+                .setTitle(activity.getString(R.string.sign_in_text))
                 .setMessage(activity.getString(R.string.msg_create_user))
                 .setCancelable(false)
                 .setPositiveButton(activity.getString(R.string.create_user), new DialogInterface.OnClickListener() {
@@ -27,19 +27,18 @@ public class MyDialogBuilder {
                 .setNegativeButton(activity.getString(R.string.later), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                      //  activity.onBackPressed();
+                        //  activity.onBackPressed();
                     }
                 })
                 .create();
     }
 
-    public static  void showSigninDialog(final Activity activity) {
-         new AlertDialog.Builder(activity)
-                .setTitle(activity.getString(R.string.user_name_create_user))
-                .setMessage(activity.getString(R.string.msg_create_user))
-                .setCancelable(false)
-                .setView(new Test(activity))
-                .show();
+    public static AlertDialog createSignInDialog(final Activity activity, View v) {
+     //new SignInDialogLayout(activity).show(activity);
+        return new AlertDialog.Builder(activity)
+                .setCancelable(true)
+                .setView(v)
+                .create();
     }
 
     public static AlertDialog createTermsAndConditionsDialog(final Context context, DialogInterface.OnClickListener clickListener) {

@@ -11,11 +11,13 @@ import dk.android.giifty.MyApp;
  */
 public class Broadcasts {
     public static final String NEW_DOWNLOADS_FILTER = "newDls";
-    public static final String ON_SIGNED_IN_FILTER = "signedInfilter";
+    public static final String SIGN_IN_FILTER = "signedInfilter";
     public static final String USER_UPDATED_FILTER = "userUpdated";
 
-    public static void fireOnSignedInEvent(){
-        LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext()).sendBroadcast(new Intent(ON_SIGNED_IN_FILTER));
+    public static void fireOnSignedInEvent(boolean isSuccess){
+        LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
+                .sendBroadcast(new Intent(SIGN_IN_FILTER)
+                        .putExtra(Constants.BOOLEAN_EXSTRA, isSuccess));
     }
 
     public static void fireNewDataEvent(boolean isSuccess){

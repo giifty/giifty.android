@@ -19,8 +19,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         Log.d(TAG, "action:" + action);
-        if (action.contentEquals(Broadcasts.ON_SIGNED_IN_FILTER)) {
-            onSignIn();
+        if (action.contentEquals(Broadcasts.SIGN_IN_FILTER)) {
+            onSignIn(intent.getBooleanExtra(Constants.BOOLEAN_EXSTRA, false));
         } else if (action.contentEquals(Broadcasts.NEW_DOWNLOADS_FILTER)) {
             downloadCompleted(intent.getBooleanExtra(Constants.BOOLEAN_EXSTRA, false));
         } else if (action.contentEquals(Broadcasts.USER_UPDATED_FILTER)) {
@@ -31,7 +31,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void downloadCompleted(boolean isSuccess) {
     }
 
-    public void onSignIn() {
+    public void onSignIn(boolean isSuccess) {
     }
 
     public void onUserUpdated() {

@@ -7,6 +7,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.net.Proxy;
 
+import dk.android.giifty.signin.SignInHandler;
 import hugo.weaving.DebugLog;
 
 /**

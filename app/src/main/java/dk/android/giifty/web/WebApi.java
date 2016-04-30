@@ -28,6 +28,9 @@ public interface WebApi {
     @POST("Users/User/Update")
     Call<User> updateUser(@Header("Token") String authHeader, @Body User userToUpdate);
 
+    @GET("Users/User/GetUser")
+    Call<User> getUser(@Header("Token") String authHeader);
+
     @Headers("Authorization: Basic QVBQOnNvOFpvcnJv")
     @POST("Users/User/Create")
     Call<User> createUser(@Body User userToUpdate);
@@ -53,4 +56,5 @@ public interface WebApi {
 
     @POST("Order/Buy/{giftcardId}")
     Call<Giftcard> buyGiftcard(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
+
 }

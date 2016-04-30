@@ -26,9 +26,9 @@ import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Broadcasts;
-import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.web.SignInHandler;
+import dk.android.giifty.signin.SignInDialogHandler;
+import dk.android.giifty.signin.SignInHandler;
 import hugo.weaving.DebugLog;
 
 public class FrontPageActivity extends AppCompatActivity
@@ -114,7 +114,7 @@ public class FrontPageActivity extends AppCompatActivity
                 Utils.setUserImage(this, naviUserImage, userRepository.getUser().getFacebookProfileImageUrl());
                 signInHandler.refreshTokenAsync();
             } else {
-                naviHeaderName.setText(getString(R.string.user_name_create_user));
+                naviHeaderName.setText(getString(R.string.sign_in_text));
             }
 
         } catch (IOException e) {
@@ -189,20 +189,15 @@ public class FrontPageActivity extends AppCompatActivity
                 .commit();
     }
 
-    private void popFromBackstack() {
-        getSupportFragmentManager().popBackStack();
-    }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.user_name_id || id == R.id.user_image_id) {
             if (userRepository.hasUser()) {
-                ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
+              ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
             } else {
-
-                MyDialogBuilder.showSigninDialog(this);
-             //   ActivityStarter.startCreateUserActivity(FrontPageActivity.this);
+               new SignInDialogHandler().startDialog(FrontPageActivity.this);
             }
         }
     }

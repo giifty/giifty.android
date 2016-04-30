@@ -1,6 +1,7 @@
 package dk.android.giifty.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -29,6 +30,10 @@ public class ActivityStarter {
 
     public static void startCreateUserActivity(Activity activity) {
         startActivityWithSlideIn(activity, new Intent(activity, CreateUserActivity.class));
+    }
+
+    public static void startCreateUserActivityNoAni(Context context) {
+        context.startActivity(new Intent(context, CreateUserActivity.class));
     }
 
     public static void startGiftCardDetails(Activity activity, View transitionView, int giftcardId) {

@@ -1,4 +1,4 @@
-package dk.android.giifty.web;
+package dk.android.giifty.signin;
 
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
@@ -15,7 +15,8 @@ import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
-import hugo.weaving.DebugLog;
+import dk.android.giifty.web.ServiceCreator;
+import dk.android.giifty.web.WebApi;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -31,6 +32,7 @@ public class SignInHandler implements Callback {
     private User currentUser;
     private static ServerToken serverToken;
 
+
     public static SignInHandler getInstance() {
         return instance == null ? (instance = new SignInHandler()) : instance;
     }
@@ -44,18 +46,23 @@ public class SignInHandler implements Callback {
     }
 
 
-    @DebugLog
     public void refreshTokenAsync() throws IOException {
         Log.d(TAG, "refreshTokenAsync()");
         if (!isTokenExpired()) {
-            fireSigInEvent();
+            fireSigInEvent(true);
         } else {
             webService.signInUser(createAuthenticationHeader(createAuthText())).enqueue(this);
         }
     }
 
-    @DebugLog
+    public void refreshWithParams(String email, String password) {
+        Log.d(TAG, "refreshWithParams()");
+        webService.signInUser(createAuthenticationHeader(createAuthText(email, password))).enqueue(this);
+    }
+
+
     public boolean refreshTokenSynchronous() throws IOException {
+        Log.d(TAG, "refreshTokenSynchronous()");
         if (currentUser != null) {
             String auth = createAuthenticationHeader(createAuthText());
             Response response = webService.signInUser(auth).execute();
@@ -73,21 +80,23 @@ public class SignInHandler implements Callback {
     public void onResponse(Response response, Retrofit retrofit) {
         Log.d(TAG, "onResponse() succes:" + response.isSuccess());
         if (response.isSuccess()) {
-            //TODO Skal datoen formateres anderledes?
             setServerToken(new ServerToken(response.headers().get("token"),
                     new DateTime(response.headers().get("tokenExpiry"))));
-            fireSigInEvent();
+
+            fireSigInEvent(true);
+        } else {
+            fireSigInEvent(false);
         }
     }
 
     @Override
     public void onFailure(Throwable t) {
-        fireSigInEvent();
+        fireSigInEvent(false);
         t.printStackTrace();
     }
 
-    private void fireSigInEvent() {
-        Broadcasts.fireOnSignedInEvent();
+    private void fireSigInEvent(boolean isSuccess) {
+        Broadcasts.fireOnSignedInEvent(isSuccess);
     }
 
     public static String getServerToken() {
@@ -102,7 +111,6 @@ public class SignInHandler implements Callback {
         return serverToken == null || serverToken.getExpirationTime().isBeforeNow();
     }
 
-    @DebugLog
     public String createAuthenticationHeader(String text) {
         byte[] plain = new byte[0];
         try {
@@ -113,9 +121,12 @@ public class SignInHandler implements Callback {
         return String.format("Basic %s", Base64.encodeToString(plain, Base64.DEFAULT)).trim();
     }
 
-    @DebugLog
     public String createAuthText() {
         return (currentUser.getEmail() + ":" + currentUser.getPassword()).trim();
+    }
+
+    public String createAuthText(String email, String password) {
+        return (email + ":" + password.trim());
     }
 
     class MyReceiver extends MyBroadcastReceiver {
