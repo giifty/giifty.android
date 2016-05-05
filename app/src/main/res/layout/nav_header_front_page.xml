@@ -18,11 +18,12 @@
         android:layout_height="90dp"
         android:src="@drawable/avatar"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
         android:scaleType="fitCenter"
         app:border_color="@color/icon_gray"
         app:border_width="2dp"
-        app:shadow="false"/>
+        app:shadow="false"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/user_name_id"

@@ -64,7 +64,7 @@ public class FrontPageActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         createUserHeader = navigationView.getHeaderView(0);
-        View signOutButton = navigationView.findViewById(R.id.sign_out_id);
+        View signOutButton = createUserHeader.findViewById(R.id.sign_out_id);
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
