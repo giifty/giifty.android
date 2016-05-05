@@ -2,22 +2,25 @@ package dk.android.giifty;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import dk.android.giifty.components.BaseActivity;
+import dk.android.giifty.giftcard.GiftcardRepository;
+import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.purchase.PurchaseFragmentHandler;
 import dk.android.giifty.purchase.purchasefragments.CardPaymentFrag;
 import dk.android.giifty.purchase.purchasefragments.MobilepayFrag;
-import dk.android.giifty.components.BaseActivity;
-import dk.android.giifty.giftcard.GiftcardRepository;
-import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.Utils;
 import dk.android.giifty.web.RequestHandler;
 import dk.android.giifty.web.ServiceCreator;
-import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.web.WebApi;
 import retrofit.Callback;
 import retrofit.Response;
@@ -33,6 +36,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private String orderId;
     private Button payButton;
     private PurchaseFragmentHandler fragmentHandler;
+    private ProgressBar progressBar;
+    private TextView cantPurchaseText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         value = (TextView) findViewById(R.id.value_id);
         salesPrice = (TextView) findViewById(R.id.sales_price_id);
         expiryDate = (TextView) findViewById(R.id.expiry_date_id);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_id);
+        cantPurchaseText = (TextView) findViewById(R.id.gc_already_purchased_msg);
         ownerImage = (ImageView) findViewById(R.id.user_image_id);
         ownerName = (TextView) findViewById(R.id.user_name_id);
         payButton = (Button) findViewById(R.id.pay_button_id);
@@ -97,6 +103,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+
     private void showFragment(String tag) {
         if (orderId != null)
             fragmentHandler.showFragment(tag, giftcard.getGiftcardId(), giftcard.getPrice());
@@ -112,19 +119,37 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         return orderId;
     }
 
+    private void setReadyToPurchase() {
+        Log.d(TAG, "setReadyToPurchase()");
+        payButton.setVisibility(View.VISIBLE);
+        hideProgressBar();
+        mobilepayButton.callOnClick();
+    }
+
+    private void setCantPurchase() {
+        Log.d(TAG, "setCantPurchase()");
+        hideProgressBar();
+        cantPurchaseText.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onResponse(Response<String> response, Retrofit retrofit) {
-
+        Log.d(TAG, "onResponse()");
         if (response.isSuccess()) {
             orderId = response.body();
+            setReadyToPurchase();
         } else {
-            orderId = "testOnly";
+            setCantPurchase();
         }
-        mobilepayButton.callOnClick();
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onFailure(Throwable t) {
-
+        hideProgressBar();
+        Toast.makeText(this, getString(R.string.generel_error_msg), Toast.LENGTH_LONG).show();
     }
 }

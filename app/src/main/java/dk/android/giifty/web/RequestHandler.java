@@ -82,6 +82,7 @@ public class RequestHandler implements Callback {
 
     @Override
     public void onResponse(Response response, Retrofit retrofit) {
+        Log.d(TAG, "onResponse() success:" + response.isSuccess());
         if (response.isSuccess()) {
             finishWork(true, response, retrofit);
         } else {
@@ -92,6 +93,8 @@ public class RequestHandler implements Callback {
                 } else {
                     finishWork(false, response, retrofit);
                 }
+            }else{
+                finishWork(false, response, retrofit);
             }
         }
     }
