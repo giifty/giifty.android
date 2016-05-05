@@ -23,12 +23,12 @@ import java.io.IOException;
 
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.drawer.DrawerFragment;
+import dk.android.giifty.signin.SignInDialogHandler;
+import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.signin.SignInDialogHandler;
-import dk.android.giifty.signin.SignInHandler;
 import hugo.weaving.DebugLog;
 
 public class FrontPageActivity extends AppCompatActivity
@@ -64,6 +64,13 @@ public class FrontPageActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         createUserHeader = navigationView.getHeaderView(0);
+        View signOutButton = navigationView.findViewById(R.id.sign_out_id);
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
         naviHeaderName = (TextView) createUserHeader.findViewById(R.id.user_name_id);
         naviUserImage = (ImageView) createUserHeader.findViewById(R.id.user_image_id);
         naviHeaderName.setOnClickListener(this);
@@ -77,6 +84,11 @@ public class FrontPageActivity extends AppCompatActivity
                 new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
+    private void signOut() {
+        //TODO implement correctly so that local giftcards get deleted aswell
+        signInHandler.setServerToken(null);
+        userRepository.deleteUser();
+    }
 
     @Override
     protected void onStart() {
@@ -195,9 +207,9 @@ public class FrontPageActivity extends AppCompatActivity
         int id = v.getId();
         if (id == R.id.user_name_id || id == R.id.user_image_id) {
             if (userRepository.hasUser()) {
-              ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
+                ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
             } else {
-               new SignInDialogHandler().startDialog(FrontPageActivity.this);
+                new SignInDialogHandler().startDialog(FrontPageActivity.this);
             }
         }
     }

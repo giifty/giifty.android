@@ -103,7 +103,7 @@ public class SignInHandler implements Callback {
         return serverToken != null ? serverToken.getToken() : "dummy_token";
     }
 
-    private static void setServerToken(ServerToken serverToken) {
+    public static void setServerToken(ServerToken serverToken) {
         SignInHandler.serverToken = serverToken;
     }
 
