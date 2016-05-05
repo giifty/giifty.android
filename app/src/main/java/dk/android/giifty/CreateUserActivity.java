@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import dk.android.giifty.components.UserAccountFragment;
+import dk.android.giifty.components.UserInfoFragment;
 import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Utils;
 
@@ -41,7 +43,6 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
 
     @Override
     public void onFacebookProfileFetched(String facebookImageUrl) {
-
         if (facebookImageUrl != null) {
             Utils.setUserImage(this, userImage, facebookImageUrl);
         }
@@ -63,4 +64,5 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
         super.finish();
         overridePendingTransition(R.animator.fade_in, R.animator.slide_out_right);
     }
+
 }

@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.R;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.user.UserRepository;
 
 
@@ -65,9 +65,9 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setToolbarTitle(getString(R.string.buy_giftcard));
+        setToolbarTitle(getString(R.string.purchased_giftcard));
         if (!UserRepository.getInstance().hasUser()) {
-            MyDialogBuilder.createNoUserDialog(getActivity()).show();
+            new SignInDialogHandler().startDialog(getContext());
         }
     }
 

@@ -18,7 +18,6 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Log.d(TAG, "action:" + action);
         if (action.contentEquals(Broadcasts.SIGN_IN_FILTER)) {
             onSignIn(intent.getBooleanExtra(Constants.BOOLEAN_EXSTRA, false));
         } else if (action.contentEquals(Broadcasts.NEW_DOWNLOADS_FILTER)) {

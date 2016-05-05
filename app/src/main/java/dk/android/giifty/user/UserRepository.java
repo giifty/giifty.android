@@ -44,7 +44,7 @@ public class UserRepository implements Callback {
         Log.d(TAG, "initController()");
         requestHandler = new RequestHandler(this);
         giiftyPreferences = GiiftyPreferences.getInstance();
-        webService = ServiceCreator.creatServiceWithAuthenticator();
+        webService = ServiceCreator.createServiceWithAuthenticator();
         user = giiftyPreferences.getUser();
     }
 
@@ -101,7 +101,6 @@ public class UserRepository implements Callback {
         }
         Broadcasts.fireUserUpdated();
     }
-
 
     @Override
     public void onFailure(Throwable t) {

@@ -1,4 +1,4 @@
-package dk.android.giifty;
+package dk.android.giifty.components;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +26,7 @@ import com.facebook.login.LoginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserRepository;
@@ -50,6 +51,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
     private UserRepository userRepository;
     private User user;
     private String facebookId;
+    private static final String TAG = UserInfoFragment.class.getSimpleName();
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -217,8 +219,6 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
             fullName.setText(profile.getString("name"));
             email.setText(profile.getString("email"));
             facebookId = profile.getString("id");
-            password.setText(facebookId);
-            passwordRep.setText(facebookId);
 
         } catch (JSONException e) {
             Utils.makeToast(getString(R.string.msg_facebook_error));
@@ -236,6 +236,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
 
         @Override
         public void onUserUpdated() {
+            Log.d(TAG, "onUserUpdated()");
             if (userRepository.hasUser()) {
                 parent.onShowAccountFragment();
             }else {

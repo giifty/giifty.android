@@ -9,6 +9,8 @@ import android.widget.TextView;
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.signin.SignInDialogHandler;
+import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
 
@@ -37,13 +39,21 @@ public class GiftcardDetailsActivity extends BaseActivity  {
         buyGc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityStarter.startPaymentActivity(GiftcardDetailsActivity.this, giftcard.getGiftcardId());
+                purchase();
             }
         });
 
         giftcard = GiftcardRepository.getInstance().
                 getGiftcard(getIntent().getIntExtra(Constants.EKSTRA_GIFTCARD_ID, -1));
         setValues();
+    }
+
+    private void purchase(){
+        if (UserRepository.getInstance().hasUser()) {
+            ActivityStarter.startPaymentActivity(GiftcardDetailsActivity.this, giftcard.getGiftcardId());
+        }else {
+            new SignInDialogHandler().startDialog(this, giftcard.getGiftcardId());
+        }
     }
 
     private void setValues() {
@@ -60,10 +70,4 @@ public class GiftcardDetailsActivity extends BaseActivity  {
             Utils.setUserImage(this, ownerImage, giftcard.getSeller().getFacebookProfileImageUrl());
         }
     }
-
-
-
-
-
-
 }

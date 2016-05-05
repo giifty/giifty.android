@@ -42,7 +42,7 @@ public class GiftcardRepository {
     public void initController() {
         LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
                 .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.SIGN_IN_FILTER));
-        webService = ServiceCreator.creatServiceWithAuthenticator();
+        webService = ServiceCreator.createServiceWithAuthenticator();
         giiftyPreferences = GiiftyPreferences.getInstance();
         companyList = new ArrayList<>();
         map = new HashMap<>();

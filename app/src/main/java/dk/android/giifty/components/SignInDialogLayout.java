@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import dk.android.giifty.R;
-import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.signin.SignInHandler;
 
 /**
@@ -53,16 +52,11 @@ public class SignInDialogLayout extends RelativeLayout {
             }
         });
         create_new = (TextView) findViewById(R.id.create_user_id);
-        create_new.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityStarter.startCreateUserActivityNoAni(getContext());
-            }
-        });
+
     }
 
 
-    public void switchVisibility(){
+    public void switchVisibility() {
         progressbar.setVisibility(progressbar.getVisibility() == VISIBLE ? INVISIBLE : VISIBLE);
         signIn.setVisibility(signIn.getVisibility() == VISIBLE ? INVISIBLE : VISIBLE);
     }
@@ -81,7 +75,11 @@ public class SignInDialogLayout extends RelativeLayout {
     }
 
 
-    private void animateButton(){
+    private void animateButton() {
 
+    }
+
+    public void setOnCreateUserListener(View.OnClickListener onClickListener) {
+        create_new.setOnClickListener(onClickListener);
     }
 }

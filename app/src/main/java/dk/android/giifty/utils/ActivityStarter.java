@@ -32,6 +32,9 @@ public class ActivityStarter {
         startActivityWithSlideIn(activity, new Intent(activity, CreateUserActivity.class));
     }
 
+    public static void startCreateUserActivityNoAni(Context context, int giftcardId) {
+        context.startActivity(new Intent(context, CreateUserActivity.class).putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId));
+    }
     public static void startCreateUserActivityNoAni(Context context) {
         context.startActivity(new Intent(context, CreateUserActivity.class));
     }

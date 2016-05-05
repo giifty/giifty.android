@@ -62,8 +62,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 getGiftcard(getIntent().getIntExtra(Constants.EKSTRA_GIFTCARD_ID, -1));
 
         RequestHandler requestHandler = new RequestHandler(this);
-
-        WebApi webService = ServiceCreator.creatServiceWithAuthenticator();
+        WebApi webService = ServiceCreator.createServiceWithAuthenticator();
         requestHandler.enqueueRequest(webService.getTransactionOrderId(SignInHandler.getServerToken(), giftcard.getGiftcardId()), null);
         fragmentHandler = new PurchaseFragmentHandler(getSupportFragmentManager(), this);
 

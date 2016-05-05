@@ -2,10 +2,7 @@ package dk.android.giifty.web;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-
-import java.io.IOException;
 
 import dk.android.giifty.R;
 import dk.android.giifty.signin.SignInHandler;
@@ -93,7 +90,7 @@ public class RequestHandler implements Callback {
                 } else {
                     finishWork(false, response, retrofit);
                 }
-            }else{
+            } else {
                 finishWork(false, response, retrofit);
             }
         }
@@ -107,24 +104,6 @@ public class RequestHandler implements Callback {
 
     private void retryRequest() {
         Log.d(TAG, "retryRequest()");
-        new AsyncTask<Void, Void, String>() {
-
-            @Override
-            protected String doInBackground(Void... params) {
-
-                try {
-                    if (signInHandler.refreshTokenSynchronous()) {
-                        Call c = getClonedRequest();
-                        c.enqueue(callback);
-                    } else {
-                        finishWork(false, null, null);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-        }.execute();
+        getClonedRequest().enqueue(this);
     }
 }

@@ -1,4 +1,4 @@
-package dk.android.giifty;
+package dk.android.giifty.components;
 
 
 import android.app.Dialog;
@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 
 import org.json.JSONException;
 
+import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserRepository;
@@ -29,7 +31,7 @@ import dk.android.giifty.utils.Utils;
  */
 public class UserAccountFragment extends Fragment implements TextWatcher, DialogInterface.OnClickListener {
 
-
+    private static final String TAG = UserAccountFragment.class.getSimpleName();
     private EditText account, reg, cardholderName;
     private Button laterButton, saveAccountButton;
     private User user;
@@ -65,13 +67,14 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
         });
         usercontroller = UserRepository.getInstance();
         myReceiver = new MyReceiver();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
+
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+         LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
     private void showTermsAndConditions() {
@@ -122,8 +125,8 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
     }
 
@@ -131,6 +134,7 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
 
         @Override
         public void onUserUpdated() {
+            Log.d(TAG, "onUserUpdated()");
             //TODO should this just close, or do we need some feedback in case of failed reqeust
             getActivity().finish();
         }

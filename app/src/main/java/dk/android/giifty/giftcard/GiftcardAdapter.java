@@ -47,7 +47,7 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
         String body1 = body + "værdi " + giftcard.getValue() + ",-  din pris " + giftcard.getPrice() + ",-";
         holder.body.setText(body1);
         holder.discountText.setText(calculateDiscount(giftcard));
-        Utils.setImage(parent, holder.imageView, company.getCompanyImageUrl());
+        Utils.setImage(parent, holder.imageView, getImageUrl(giftcard));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +55,12 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
                 ActivityStarter.startGiftCardDetails(parent, holder.imageView, giftcard.getGiftcardId());
             }
         });
-
-
     }
 
+    private String getImageUrl(Giftcard giftcard){
+       return giftcard.getImages() == null || giftcard.getImages().isEmpty() ?
+               company.getCompanyImageUrl() : giftcard.getImages().get(0).getUrl();
+    }
     private String calculateDiscount(Giftcard giftcard) {
         return String.valueOf(Math.floor(giftcard.getPrice() / giftcard.getValue())) + "%";
     }

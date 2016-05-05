@@ -33,9 +33,8 @@ public class MyDialogBuilder {
                 .create();
     }
 
-    public static AlertDialog createSignInDialog(final Activity activity, View v) {
-     //new SignInDialogLayout(activity).show(activity);
-        return new AlertDialog.Builder(activity)
+    public static AlertDialog createSignInDialog(Context context, View v) {
+        return new AlertDialog.Builder(context)
                 .setCancelable(true)
                 .setView(v)
                 .create();

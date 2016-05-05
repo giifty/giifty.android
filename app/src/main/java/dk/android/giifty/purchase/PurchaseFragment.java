@@ -39,7 +39,7 @@ public abstract class PurchaseFragment extends Fragment implements Callback<Gift
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestHandler = new RequestHandler(this);
-        webService = ServiceCreator.creatServiceWithAuthenticator();
+        webService = ServiceCreator.createServiceWithAuthenticator();
     }
 
     public void startTransaction() {

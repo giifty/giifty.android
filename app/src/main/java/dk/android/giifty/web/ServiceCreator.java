@@ -18,7 +18,7 @@ public class ServiceCreator {
     private ServiceCreator() {
     }
 
-    public static WebApi creatServiceWithAuthenticator() {
+    public static WebApi createServiceWithAuthenticator() {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class, new TypeAdapterYodaTime())
