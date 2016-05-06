@@ -99,12 +99,13 @@ public class UserRepository implements Callback {
                 //TODO what?
             }
         }
-        Broadcasts.fireUserUpdated();
+     //   Broadcasts.fireUserUpdated();
     }
 
     @Override
     public void onFailure(Throwable t) {
-        Broadcasts.fireUserUpdated();
+
+      //  Broadcasts.fireUserUpdated();
     }
 
     private void persistUser(User user) {

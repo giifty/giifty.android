@@ -86,6 +86,7 @@ public class TestActivity extends AppCompatActivity {
         startAct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Broadcasts.fireUserUpdated();
             }
         });
     }
