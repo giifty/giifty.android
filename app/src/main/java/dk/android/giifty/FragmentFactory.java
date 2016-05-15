@@ -18,7 +18,7 @@ public class FragmentFactory {
 
         switch (id) {
             case R.id.nav_buy_giftcards:
-                return BuyGiftcardFrag.newInstance("4", "4");
+                return new BuyGiftcardFrag();
             case R.id.nav_create_giftcards:
                 return Fragment.instantiate(context, CreateNewGiftcardFrag.class.getName());
             case R.id.nav_bought_giftcards:
@@ -28,7 +28,7 @@ public class FragmentFactory {
             case R.id.nav_nav_settings:
                 return Fragment.instantiate(context, SettingsFrag.class.getName());
             default:
-                return BuyGiftcardFrag.newInstance("4", "4");
+                return new BuyGiftcardFrag();
         }
     }
 }

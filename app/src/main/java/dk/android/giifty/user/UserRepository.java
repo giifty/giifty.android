@@ -7,11 +7,12 @@ import org.json.JSONException;
 
 import dk.android.giifty.model.NullResponse;
 import dk.android.giifty.model.User;
+import dk.android.giifty.services.CreateUserService;
+import dk.android.giifty.services.UpdateUserService;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.RequestHandler;
 import dk.android.giifty.web.ServiceCreator;
-import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.web.WebApi;
 import retrofit.Callback;
 import retrofit.Response;
@@ -63,15 +64,15 @@ public class UserRepository implements Callback {
         newAccount = userToUpdate.getAccountNumber();
 
         if (hasUser()) {
-            requestHandler.enqueueRequest(webService.updateUser(SignInHandler.getServerToken(),
-                   userToUpdate), context);
+
+            UpdateUserService.startService(context, userToUpdate);
         } else {
-            requestHandler.enqueueRequest(webService.createUser(userToUpdate), context);
+            CreateUserService.startService(context, userToUpdate);
         }
     }
 
     public void fetchUserFromServer(){
-        requestHandler.enqueueRequest(webService.getUser(SignInHandler.getServerToken()), null);
+       // requestHandler.enqueueRequest(webService.getUser(SignInHandler.getServerToken()), null);
     }
 
     public void deleteUser() {

@@ -1,8 +1,9 @@
 package dk.android.giifty.giftcard;
 
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,16 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import dk.android.giifty.GiiftyApplication;
-import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.busevents.CompaniesFetchedEvent;
+import dk.android.giifty.busevents.GiftcardsFetchedEvent;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.services.GiftcardService;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.GiiftyPreferences;
-import dk.android.giifty.web.ServiceCreator;
-import dk.android.giifty.web.WebApi;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by mak on 16-01-2016.
@@ -28,7 +26,6 @@ public class GiftcardRepository {
 
     private static final String TAG = GiftcardRepository.class.getSimpleName();
     private static GiftcardRepository instance;
-    private WebApi webService;
     private GiiftyPreferences giiftyPreferences;
     private HashMap<Integer, Giftcard> giftcardsToSale;
     private HashMap<Integer, Giftcard> giftcardsPurchased;
@@ -40,27 +37,25 @@ public class GiftcardRepository {
     }
 
     public void initController() {
-        LocalBroadcastManager.getInstance(GiiftyApplication.getMyApplicationContext())
-                .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.SIGN_IN_FILTER));
-        webService = ServiceCreator.createServiceWithAuthenticator();
         giiftyPreferences = GiiftyPreferences.getInstance();
         companyList = new ArrayList<>();
         map = new HashMap<>();
-        downloadMainView();
-        downloadGiftcards();
+
+        // GiftcardService.startFecthMain(GiiftyApplication.getMyApplicationContext());
+        GiftcardService.startFetchGiftcards(GiiftyApplication.getMyApplicationContext());
+
         giftcardsToSale = giiftyPreferences.getGiftcardsToSale();
-        if(giftcardsToSale == null){
+        if (giftcardsToSale == null) {
             //create from serverList
             giftcardsToSale = new HashMap<>();
         }
 
         giftcardsPurchased = giiftyPreferences.getPurchasedGiftcards();
-        if(giftcardsPurchased == null){
+        if (giftcardsPurchased == null) {
             //create from serverList
             giftcardsPurchased = new HashMap<>();
         }
     }
-
 
     public Giftcard getGiftcard(int id) {
         for (List<Giftcard> listToSearch : map.values()) {
@@ -121,46 +116,27 @@ public class GiftcardRepository {
         giiftyPreferences.persistGiftcardsToSale(giftcardsToSale);
     }
 
-    private void downloadMainView() {
-        Log.d(TAG, "downloadMainView()");
-        webService.getMainView().enqueue(new Callback<List<Company>>() {
-            @Override
-            public void onResponse(Response<List<Company>> response, Retrofit retrofit) {
-                boolean isSuccess = response.isSuccess();
-                if (isSuccess) {
-                    companyList = response.body();
-                }
-                fireDownloadEvent(isSuccess);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
+    @Subscribe
+    public void onCompaniesFetched(CompaniesFetchedEvent fetchedEvent) {
+        if (fetchedEvent.isSuccessful) {
+            companyList = fetchedEvent.companyList;
+        }
     }
 
-    private void downloadGiftcards() {
-
-        Log.d(TAG, "downloadGiftcards()");
-        webService.getAllGiftCards().enqueue(new Callback<List<Giftcard>>() {
-            @Override
-            public void onResponse(Response<List<Giftcard>> response, Retrofit retrofit) {
-                boolean isSucces = response.isSuccess();
-                if (isSucces) {
-                    sortGiftcardsByCompany(response.body());
-                }
-                fireDownloadEvent(isSucces);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                t.printStackTrace();
-            }
-        });
+    @Produce
+    public CompaniesFetchedEvent produceLastCompaniesEvent() {
+        return companyList != null ? new CompaniesFetchedEvent(companyList, true) : null;
     }
 
+    @Subscribe
+    public void onGifcardsFetched(GiftcardsFetchedEvent fetchedEvent) {
+        if (fetchedEvent.isSuccessful) {
+            sortGiftcardsByCompany(fetchedEvent.companyList);
+            fireDownloadEvent(true);
+        } else {
+            fireDownloadEvent(false);
+        }
+    }
 
     private void sortGiftcardsByCompany(List<Giftcard> listToSort) {
 
@@ -170,9 +146,8 @@ public class GiftcardRepository {
                     map.put(g.getCompanyId(), new ArrayList<Giftcard>());
                 }
                 map.get(g.getCompanyId()).add(g);
-            }else {
-
-
+            } else {
+                //TODO ?
             }
         }
     }
@@ -183,14 +158,6 @@ public class GiftcardRepository {
 
     public List<Company> getCompanyList() {
         return companyList;
-    }
-
-    class MyReceiver extends MyBroadcastReceiver {
-
-        @Override
-        public void onSignIn(boolean isSuccess) {
-
-        }
     }
 
 }

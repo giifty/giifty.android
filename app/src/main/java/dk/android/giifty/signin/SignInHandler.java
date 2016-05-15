@@ -17,9 +17,10 @@ import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * Created by mak on 20-02-2016.
@@ -65,8 +66,8 @@ public class SignInHandler implements Callback {
         Log.d(TAG, "refreshTokenSynchronous()");
         if (currentUser != null) {
             String auth = createAuthenticationHeader(createAuthText());
-            Response response = webService.signInUser(auth).execute();
-            if (response.isSuccess()) {
+            Response<String> response = webService.signInUser(auth).execute();
+            if (response.isSuccessful()) {
                 setServerToken(new ServerToken(response.headers().get("Token"),
                         new DateTime(response.headers().get("TokenExpiry"))));
                 return true;
@@ -77,9 +78,9 @@ public class SignInHandler implements Callback {
 
 
     @Override
-    public void onResponse(Response response, Retrofit retrofit) {
-        Log.d(TAG, "onResponse() succes:" + response.isSuccess());
-        if (response.isSuccess()) {
+    public void onResponse(Call call, Response response) {
+        Log.d(TAG, "onResponse() succes:" + response.isSuccessful());
+        if (response.isSuccessful()) {
             setServerToken(new ServerToken(response.headers().get("token"),
                     new DateTime(response.headers().get("tokenExpiry"))));
 
@@ -90,10 +91,11 @@ public class SignInHandler implements Callback {
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call call, Throwable t) {
         fireSigInEvent(false);
         t.printStackTrace();
     }
+
 
     private void fireSigInEvent(boolean isSuccess) {
         Broadcasts.fireOnSignedInEvent(isSuccess);
@@ -128,6 +130,7 @@ public class SignInHandler implements Callback {
     public String createAuthText(String email, String password) {
         return (email + ":" + password.trim());
     }
+
 
     class MyReceiver extends MyBroadcastReceiver {
         @Override

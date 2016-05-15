@@ -23,40 +23,29 @@ import retrofit2.Response;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class UpdateUserService extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_FOO = "dk.android.giifty.action.FOO";
-    private static final String ACTION_BAZ = "dk.android.giifty.action.BAZ";
+public class FetchUserService extends IntentService {
 
-    // TODO: Rename parameters
-    private static final String EXTRA_USER = "dk.android.giifty.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "dk.android.giifty.extra.PARAM2";
     private final WebApi api;
 
-    public UpdateUserService() {
+    public FetchUserService() {
         super("UpdateUserService");
         api = ServiceCreator.createServiceWithAuthenticator();
     }
 
-    public static void startService(Context context, User user) {
+    public static void startService(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, UpdateUserService.class);
-        intent.putExtra(EXTRA_USER, user);
+        intent.setClass(context, FetchUserService.class);
         context.startService(intent);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        User user = intent.getParcelableExtra(EXTRA_USER);
-        String newAccount = user.getAccountNumber(), newPassword = user.getPassword();
         try {
-            Response<User> response = api.updateUser(SignInHandler.getServerToken(), user).execute();
+
+            Response<User> response = api.getUser(SignInHandler.getServerToken()).execute();
 
             if (response.isSuccessful()) {
                 User userUpdated = response.body();
-                userUpdated.setAccountNumber(newAccount);
-                userUpdated.setPassword(newPassword);
                 persistUser(userUpdated);
             }
         } catch (IOException e) {

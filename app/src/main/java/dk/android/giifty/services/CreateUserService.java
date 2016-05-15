@@ -9,7 +9,6 @@ import java.io.IOException;
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.model.User;
-import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
@@ -23,25 +22,19 @@ import retrofit2.Response;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class UpdateUserService extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_FOO = "dk.android.giifty.action.FOO";
-    private static final String ACTION_BAZ = "dk.android.giifty.action.BAZ";
+public class CreateUserService extends IntentService {
 
-    // TODO: Rename parameters
     private static final String EXTRA_USER = "dk.android.giifty.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "dk.android.giifty.extra.PARAM2";
     private final WebApi api;
 
-    public UpdateUserService() {
+    public CreateUserService() {
         super("UpdateUserService");
         api = ServiceCreator.createServiceWithAuthenticator();
     }
 
     public static void startService(Context context, User user) {
         Intent intent = new Intent();
-        intent.setClass(context, UpdateUserService.class);
+        intent.setClass(context, CreateUserService.class);
         intent.putExtra(EXTRA_USER, user);
         context.startService(intent);
     }
@@ -51,7 +44,7 @@ public class UpdateUserService extends IntentService {
         User user = intent.getParcelableExtra(EXTRA_USER);
         String newAccount = user.getAccountNumber(), newPassword = user.getPassword();
         try {
-            Response<User> response = api.updateUser(SignInHandler.getServerToken(), user).execute();
+            Response<User> response = api.createUser(user).execute();
 
             if (response.isSuccessful()) {
                 User userUpdated = response.body();

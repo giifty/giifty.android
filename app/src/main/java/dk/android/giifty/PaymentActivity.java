@@ -10,6 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
+import dk.android.giifty.busevents.OrderIdFetchedEvent;
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
@@ -17,16 +20,10 @@ import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.purchase.PurchaseFragmentHandler;
 import dk.android.giifty.purchase.purchasefragments.CardPaymentFrag;
 import dk.android.giifty.purchase.purchasefragments.MobilepayFrag;
-import dk.android.giifty.signin.SignInHandler;
+import dk.android.giifty.services.PurchaseService;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.web.RequestHandler;
-import dk.android.giifty.web.ServiceCreator;
-import dk.android.giifty.web.WebApi;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
-public class PaymentActivity extends BaseActivity implements View.OnClickListener, PurchaseFragment.OnPurchaseFragmentInteraction, Callback<String> {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener, PurchaseFragment.OnPurchaseFragmentInteraction {
 
     private static final String TAG = PaymentActivity.class.getSimpleName();
     private Giftcard giftcard;
@@ -61,14 +58,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         giftcard = GiftcardRepository.getInstance().
                 getGiftcard(getIntent().getIntExtra(Constants.EKSTRA_GIFTCARD_ID, -1));
 
-        RequestHandler requestHandler = new RequestHandler(this);
-        WebApi webService = ServiceCreator.createServiceWithAuthenticator();
-        requestHandler.enqueueRequest(webService.getTransactionOrderId(SignInHandler.getServerToken(), giftcard.getGiftcardId()), null);
+        PurchaseService.reserveGiftcard(this, giftcard.getGiftcardId());
         fragmentHandler = new PurchaseFragmentHandler(getSupportFragmentManager(), this);
-
         setValues();
     }
-
 
     private void setValues() {
         if (giftcard != null) {
@@ -102,20 +95,34 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GiiftyApplication.getBus().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GiiftyApplication.getBus().unregister(this);
+    }
 
     private void showFragment(String tag) {
         if (orderId != null)
             fragmentHandler.showFragment(tag, giftcard.getGiftcardId(), giftcard.getPrice());
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public String getOrderId() {
-        return orderId;
+    @Subscribe
+    public void onOrderIdFetched(OrderIdFetchedEvent event){
+        Log.d(TAG, "onResponse()");
+        if (event.isSuccessful) {
+            orderId = event.orderId;
+            setReadyToPurchase();
+        } else  {
+            setCantPurchase();
+            hideProgressBar();
+            Toast.makeText(this, getString(R.string.generel_error_msg), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setReadyToPurchase() {
@@ -132,24 +139,21 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void onResponse(Response<String> response, Retrofit retrofit) {
-        Log.d(TAG, "onResponse()");
-        if (response.isSuccess()) {
-            orderId = response.body();
-            setReadyToPurchase();
-        } else if(response.code() == 409){
+    public void onFragmentInteraction(Uri uri) {
 
-            setCantPurchase();
-        }
     }
+
+    @Override
+    public String getOrderId() {
+        return orderId;
+    }
+
+
 
     private void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-    @Override
-    public void onFailure(Throwable t) {
-        hideProgressBar();
-        Toast.makeText(this, getString(R.string.generel_error_msg), Toast.LENGTH_LONG).show();
-    }
+
+
 }
