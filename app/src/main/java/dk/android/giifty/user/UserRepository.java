@@ -58,6 +58,7 @@ public class UserRepository implements Callback {
 
 
     public void updateUser(Context context, User userToUpdate) throws JSONException {
+        Log.d(TAG, "updateUser()");
         newPassword = userToUpdate.getPassword();
         newAccount = userToUpdate.getAccountNumber();
 
@@ -74,6 +75,7 @@ public class UserRepository implements Callback {
     }
 
     public void deleteUser() {
+        Log.d(TAG, "deleteUser()");
         user = null;
         giiftyPreferences.clearUser();
         Broadcasts.fireUserUpdated();
@@ -98,14 +100,14 @@ public class UserRepository implements Callback {
             if (isVerified) {
                 //TODO what?
             }
+            Broadcasts.fireUserUpdated();
         }
-     //   Broadcasts.fireUserUpdated();
     }
 
     @Override
     public void onFailure(Throwable t) {
-
-      //  Broadcasts.fireUserUpdated();
+        Log.d(TAG, "onFailure()");
+        Broadcasts.fireUserUpdated();
     }
 
     private void persistUser(User user) {

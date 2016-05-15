@@ -137,7 +137,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         if (response.isSuccess()) {
             orderId = response.body();
             setReadyToPurchase();
-        } else {
+        } else if(response.code() == 409){
+
             setCantPurchase();
         }
     }

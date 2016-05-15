@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import dk.android.giifty.MyApp;
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
 import dk.android.giifty.model.User;
 
@@ -105,12 +105,12 @@ public class Utils {
     }
 
     public static void makeToast(String msg) {
-        Toast.makeText(MyApp.getMyApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(GiiftyApplication.getMyApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public static void initFacebookSdk() {
         if (!FacebookSdk.isInitialized()) {
-            FacebookSdk.sdkInitialize(MyApp.getMyApplicationContext());
+            FacebookSdk.sdkInitialize(GiiftyApplication.getMyApplicationContext());
             FacebookSdk.setIsDebugEnabled(true);
         }
     }

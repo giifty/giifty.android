@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import dk.android.giifty.MyApp;
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
@@ -40,7 +40,7 @@ public class GiftcardRepository {
     }
 
     public void initController() {
-        LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
+        LocalBroadcastManager.getInstance(GiiftyApplication.getMyApplicationContext())
                 .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.SIGN_IN_FILTER));
         webService = ServiceCreator.createServiceWithAuthenticator();
         giiftyPreferences = GiiftyPreferences.getInstance();

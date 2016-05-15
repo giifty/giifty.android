@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ public class SignInDialogHandler extends MyBroadcastReceiver implements DialogIn
 
     @Override
     public void onClick(View v) {
+        dialog.cancel();
         if (giftcardId > 0) {
             ActivityStarter.startCreateUserActivityNoAni(context, giftcardId);
         } else {

@@ -38,7 +38,6 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
         userImage = (ImageView) findViewById(R.id.user_image_id);
         userRepository = UserRepository.getInstance();
         showFragment(new UserInfoFragment());
-
     }
 
     @Override

@@ -208,11 +208,13 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
 
     @Override
     public void onCompleted(JSONObject object, GraphResponse response) {
-        Log.d("Graph request:", object.toString());
+        Log.d("Graph request:", object.toString() + " Error code:" + response.getError().getErrorCode());
         setValues(object);
+
     }
 
     private void setValues(JSONObject profile) {
+
         try {
             facebookImageUrl = Profile.getCurrentProfile().getProfilePictureUri(80, 90).toString();
             parent.onFacebookProfileFetched(facebookImageUrl);

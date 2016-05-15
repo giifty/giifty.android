@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import dk.android.giifty.MyApp;
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
 import dk.android.giifty.user.UserRepository;
@@ -41,7 +41,7 @@ public class SignInHandler implements Callback {
         webService = ServiceCreator.createServiceNoAuthenticator();
         userRepository = UserRepository.getInstance();
         currentUser = userRepository.getUser();
-        LocalBroadcastManager.getInstance(MyApp.getMyApplicationContext())
+        LocalBroadcastManager.getInstance(GiiftyApplication.getMyApplicationContext())
                 .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 

@@ -29,25 +29,31 @@ public class RequestHandler implements Callback {
         this.callback = callback;
     }
 
-
     public void enqueueRequest(Call request, Context context) {
         Log.d(TAG, "enqueueRequest()");
         if (context != null) {
             showProgressDialog(context);
         }
-        cloneRequest(request);
-
         request.enqueue(this);
     }
 
-    private void finishWork(boolean isSuccess, Response response, Retrofit retrofit) {
+    private void finishWork(Response response, Retrofit retrofit) {
         Log.d(TAG, "finishWork()");
         dismissDialog();
-        if (isSuccess) {
-            callback.onResponse(response, retrofit);
-        } else {
-            callback.onFailure(null);
-        }
+        callback.onResponse(response, retrofit);
+
+    }
+
+    @Override
+    public void onResponse(Response response, Retrofit retrofit) {
+        Log.d(TAG, "onResponse() success:" + response.isSuccess());
+        finishWork(response, retrofit);
+    }
+
+    @Override
+    public void onFailure(Throwable t) {
+        t.printStackTrace();
+        finishWork(null, null);
     }
 
     private void showProgressDialog(Context context) {
@@ -67,43 +73,5 @@ public class RequestHandler implements Callback {
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
-    }
-
-    private Call getClonedRequest() {
-        return savedRequest;
-    }
-
-    private void cloneRequest(Call request) {
-        savedRequest = request.clone();
-    }
-
-    @Override
-    public void onResponse(Response response, Retrofit retrofit) {
-        Log.d(TAG, "onResponse() success:" + response.isSuccess());
-        if (response.isSuccess()) {
-            finishWork(true, response, retrofit);
-        } else {
-            if (response.code() != 401) {
-                if (retryCounter < RETRY_MAX) {
-                    retryCounter++;
-                    retryRequest();
-                } else {
-                    finishWork(false, response, retrofit);
-                }
-            } else {
-                finishWork(false, response, retrofit);
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        t.printStackTrace();
-        finishWork(false, null, null);
-    }
-
-    private void retryRequest() {
-        Log.d(TAG, "retryRequest()");
-        getClonedRequest().enqueue(this);
     }
 }
