@@ -26,7 +26,6 @@ public class GiiftyApplication extends Application {
         GiiftyApplication.applicationContext = getApplicationContext();
 
         GiiftyPreferences.getInstance().setContext(this);
-        UserRepository.getInstance().initController();
         GiftcardRepository.getInstance().initController();
         Utils.printHasH(applicationContext);
 

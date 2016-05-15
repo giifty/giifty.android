@@ -7,8 +7,7 @@ import org.json.JSONException;
 
 import dk.android.giifty.model.NullResponse;
 import dk.android.giifty.model.User;
-import dk.android.giifty.services.CreateUserService;
-import dk.android.giifty.services.UpdateUserService;
+import dk.android.giifty.services.UserService;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.RequestHandler;
@@ -43,7 +42,6 @@ public class UserRepository implements Callback {
 
     public void initController() {
         Log.d(TAG, "initController()");
-        requestHandler = new RequestHandler(this);
         giiftyPreferences = GiiftyPreferences.getInstance();
         webService = ServiceCreator.createServiceWithAuthenticator();
         user = giiftyPreferences.getUser();
@@ -67,7 +65,7 @@ public class UserRepository implements Callback {
 
             UpdateUserService.startService(context, userToUpdate);
         } else {
-            CreateUserService.startService(context, userToUpdate);
+            UserService.startService(context, userToUpdate);
         }
     }
 

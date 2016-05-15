@@ -1,9 +1,9 @@
 package dk.android.giifty.signin;
 
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import android.util.Log;
+
+import com.squareup.otto.Subscribe;
 
 import org.joda.time.DateTime;
 
@@ -11,10 +11,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import dk.android.giifty.GiiftyApplication;
-import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
 import retrofit2.Call;
@@ -27,7 +26,6 @@ import retrofit2.Response;
  */
 public class SignInHandler implements Callback {
     private static final String TAG = SignInHandler.class.getSimpleName();
-    private final UserRepository userRepository;
     private WebApi webService;
     public static SignInHandler instance;
     private User currentUser;
@@ -40,10 +38,8 @@ public class SignInHandler implements Callback {
 
     public SignInHandler() {
         webService = ServiceCreator.createServiceNoAuthenticator();
-        userRepository = UserRepository.getInstance();
-        currentUser = userRepository.getUser();
-        LocalBroadcastManager.getInstance(GiiftyApplication.getMyApplicationContext())
-                .registerReceiver(new MyReceiver(), new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
+        currentUser = GiiftyPreferences.getInstance().getUser();
+        GiiftyApplication.getBus().register(this);
     }
 
 
@@ -131,12 +127,9 @@ public class SignInHandler implements Callback {
         return (email + ":" + password.trim());
     }
 
-
-    class MyReceiver extends MyBroadcastReceiver {
-        @Override
-        public void onUserUpdated() {
-            Log.d(TAG, "onUserUpdated()");
-            currentUser = userRepository.getUser();
-        }
+    @Subscribe
+    public void onUserUpdated(User user) {
+        currentUser = user;
     }
+
 }

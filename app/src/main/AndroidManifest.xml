@@ -45,13 +45,7 @@
             android:label="Dit købte gavekort" />
 
         <service
-            android:name=".services.UpdateUserService"
-            android:exported="false" />
-        <service
-            android:name=".services.CreateUserService"
-            android:exported="false" />
-        <service
-            android:name=".services.FetchUserService"
+            android:name=".services.UserService"
             android:exported="false" />
         <service
             android:name=".services.SignInService"
