@@ -5,14 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.components.SignInDialogLayout;
-import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.MyDialogBuilder;
@@ -66,6 +64,7 @@ public class SignInDialogHandler extends MyBroadcastReceiver implements DialogIn
     @Override
     public void onClick(View v) {
         dialog.cancel();
+
         if (giftcardId > 0) {
             ActivityStarter.startCreateUserActivityNoAni(context, giftcardId);
         } else {

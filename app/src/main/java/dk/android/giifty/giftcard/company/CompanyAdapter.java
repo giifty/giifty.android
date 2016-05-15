@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.android.giifty.Constants;
@@ -29,9 +30,9 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
     private final Drawable frameDrawable1, frameDrawable2, transperant;
     private List<Company> companyList;
 
-    public CompanyAdapter(BuyGiftcardFrag fragment, List<Company> companyList) {
+    public CompanyAdapter(BuyGiftcardFrag fragment) {
         this.parent = fragment;
-        this.companyList = companyList;
+        this.companyList = new ArrayList<>();
         frameDrawable1 = parent.getActivity().getDrawable(R.drawable.bg_sale);
         frameDrawable2 = parent.getActivity().getDrawable(R.drawable.bg_more_sales);
         transperant = parent.getActivity().getDrawable(R.drawable.transperant_background);

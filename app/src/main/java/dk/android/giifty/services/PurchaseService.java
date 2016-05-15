@@ -28,7 +28,7 @@ public class PurchaseService extends IntentService {
         Intent intent = new Intent();
         intent.putExtra(EXTRA_GIFTCARD_ID, giftcardId);
         intent.setAction(ACTION_PURCHASE_GC);
-        intent.setClass(context, FetchUserService.class);
+        intent.setClass(context, PurchaseService.class);
         context.startService(intent);
     }
 
@@ -36,7 +36,7 @@ public class PurchaseService extends IntentService {
         Intent intent = new Intent();
         intent.putExtra(EXTRA_GIFTCARD_ID, giftcardId);
         intent.setAction(ACTION_RESERVE_GC);
-        intent.setClass(context, FetchUserService.class);
+        intent.setClass(context, PurchaseService.class);
         context.startService(intent);
     }
     public PurchaseService() {

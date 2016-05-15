@@ -79,6 +79,7 @@ public class UserService extends IntentService {
 
     private void updateUser(User user) throws IOException {
         String newAccount = user.getAccountNumber(), newPassword = user.getPassword();
+        //TODO should we check for naything else that that a user is persisted before updating
         Response<User> response = prefs.getUser() != null ? api.updateUser(SignInHandler.getServerToken(), user).execute() : api.createUser(user).execute();
 
         if (response.isSuccessful()) {

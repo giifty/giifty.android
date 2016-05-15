@@ -6,10 +6,8 @@ import android.util.Log;
 
 import dk.android.giifty.R;
 import dk.android.giifty.signin.SignInHandler;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
+
 
 /**
  * Created by mak on 16-02-2016.

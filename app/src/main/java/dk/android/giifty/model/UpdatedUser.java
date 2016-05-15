@@ -1,13 +1,11 @@
-package dk.android.giifty.user;
+package dk.android.giifty.model;
 
-
-import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import dk.android.giifty.model.User;
 import dk.android.giifty.utils.Utils;
+import okhttp3.RequestBody;
 
 /**
  * Created by mak on 21-02-2016.

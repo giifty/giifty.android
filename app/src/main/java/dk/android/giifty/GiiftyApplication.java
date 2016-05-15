@@ -6,7 +6,6 @@ import android.content.Context;
 import com.squareup.otto.Bus;
 
 import dk.android.giifty.giftcard.GiftcardRepository;
-import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.Country;

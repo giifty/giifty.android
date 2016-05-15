@@ -18,7 +18,6 @@ import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
-import dk.android.giifty.user.UserRepository;
 
 
 /**

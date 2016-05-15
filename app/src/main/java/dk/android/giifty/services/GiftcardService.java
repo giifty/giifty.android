@@ -57,7 +57,6 @@ public class GiftcardService extends IntentService {
                 final String action = intent.getAction();
                 if (ACTION_FECTH_MAIN.equals(action)) {
                     fetchMainView();
-
                 } else if (ACTION_FETCH_GIFTCARDS.equals(action)) {
                     fetchGiftcardsForSale();
                 }

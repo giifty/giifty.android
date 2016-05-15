@@ -12,10 +12,9 @@ import org.json.JSONException;
 import java.io.IOException;
 
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UserRepository;
+import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.signin.SignInHandler;
 
 /**
  * Created by mak on 16-01-2016.
@@ -77,8 +76,7 @@ public class TestActivity extends AppCompatActivity {
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserRepository.getInstance().deleteUser();
-                Broadcasts.fireOnSignedInEvent(true);
+
             }
         });
 
@@ -86,7 +84,7 @@ public class TestActivity extends AppCompatActivity {
         startAct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Broadcasts.fireUserUpdated();
+
             }
         });
     }

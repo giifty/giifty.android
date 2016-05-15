@@ -16,13 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONException;
-
 import dk.android.giifty.R;
 import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UserRepository;
+import dk.android.giifty.services.UserService;
 import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
 
@@ -35,7 +34,6 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     private EditText account, reg, cardholderName;
     private Button laterButton, saveAccountButton;
     private User user;
-    private UserRepository usercontroller;
     private MyReceiver myReceiver;
 
     public UserAccountFragment() {
@@ -65,7 +63,6 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
                 saveAccountInfo();
             }
         });
-        usercontroller = UserRepository.getInstance();
         myReceiver = new MyReceiver();
 
         return root;
@@ -84,15 +81,11 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     @Override
     public void onClick(DialogInterface dialog, int which) {
         user.setTermsAccepted((which == Dialog.BUTTON_POSITIVE));
-        try {
-            usercontroller.updateUser(getContext(), user);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            UserService.updateUser(getContext(), user);
     }
 
     private void saveAccountInfo() {
-        user = usercontroller.getUser();
+        user = GiiftyPreferences.getInstance().getUser();
         String cardHolder = cardholderName.getText().toString(),
                 regNr = reg.getText().toString(),
                 accountNr = account.getText().toString();

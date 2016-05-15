@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
@@ -28,6 +26,8 @@ import java.security.NoSuchAlgorithmException;
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
 import dk.android.giifty.model.User;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 
 /**

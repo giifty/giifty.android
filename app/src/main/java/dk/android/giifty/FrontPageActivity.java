@@ -1,12 +1,9 @@
 package dk.android.giifty;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,17 +16,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import java.io.IOException;
 
-import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.busevents.SignedInEvent;
+import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.drawer.DrawerFragment;
+import dk.android.giifty.model.User;
 import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
-import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
-import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.Utils;
-import hugo.weaving.DebugLog;
 
 public class FrontPageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, DrawerFragment.OnDrawerFragmentInteraction {
@@ -40,11 +39,10 @@ public class FrontPageActivity extends AppCompatActivity
     private SignInHandler signInHandler;
     private View createUserHeader;
     private ImageView naviUserImage;
-    private UserRepository userRepository;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private BroadcastReceiver myReceiver;
+    private GiiftyPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,24 +74,26 @@ public class FrontPageActivity extends AppCompatActivity
         naviHeaderName.setOnClickListener(this);
         naviUserImage.setOnClickListener(this);
 
-        userRepository = UserRepository.getInstance();
         signInHandler = SignInHandler.getInstance();
-
-        myReceiver = new MyReceiver();
-        LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver,
-                new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
     }
 
     private void signOut() {
         //TODO implement correctly so that local giftcards get deleted aswell
         signInHandler.setServerToken(null);
-        userRepository.deleteUser();
+        deleteUser();
+    }
+
+    public void deleteUser() {
+        Log.d(TAG, "deleteUser()");
+        GiiftyPreferences.getInstance().clearUser();
+        GiiftyApplication.getBus().post(new UserUpdateEvent(null, true));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         updateNaviHeader();
+        GiiftyApplication.getBus().register(this);
         int fragToShow = getIntent().getIntExtra(Constants.EKSTRA_FRAGMENT_ID, -1);
         if (fragToShow == -1) {
             showDefaultView();
@@ -103,9 +103,9 @@ public class FrontPageActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
+    protected void onStop() {
+        super.onStop();
+        GiiftyApplication.getBus().unregister(this);
     }
 
     private void showSpecificView(int id) {
@@ -118,15 +118,15 @@ public class FrontPageActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_buy_giftcards);
     }
 
-    @DebugLog
     private void updateNaviHeader() {
         try {
-            if (userRepository.hasUser()) {
-                naviHeaderName.setText(userRepository.getUser().getName());
-                Utils.setUserImage(this, naviUserImage, userRepository.getUser().getFacebookProfileImageUrl());
-                signInHandler.refreshTokenAsync();
+            if (!signInHandler.isTokenExpired()) {
+                User user = prefs.getUser();
+                naviHeaderName.setText(user.getName());
+                Utils.setUserImage(this, naviUserImage, user.getFacebookProfileImageUrl());
             } else {
                 naviHeaderName.setText(getString(R.string.sign_in_text));
+                signInHandler.refreshTokenAsync();
             }
 
         } catch (IOException e) {
@@ -201,12 +201,11 @@ public class FrontPageActivity extends AppCompatActivity
                 .commit();
     }
 
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.user_name_id || id == R.id.user_image_id) {
-            if (userRepository.hasUser()) {
+            if (prefs.hasUser()) {
                 ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
             } else {
                 new SignInDialogHandler().startDialog(FrontPageActivity.this);
@@ -214,9 +213,16 @@ public class FrontPageActivity extends AppCompatActivity
         }
     }
 
-    class MyReceiver extends MyBroadcastReceiver {
-        @Override
-        public void onUserUpdated() {
+    @Subscribe
+    public void onUserUpdated(UserUpdateEvent event) {
+        if (event.isSuccessful) {
+            updateNaviHeader();
+        }
+    }
+
+    @Subscribe
+    public void onSignedIn(SignedInEvent event) {
+        if (event.isSuccessful) {
             updateNaviHeader();
         }
     }

@@ -2,12 +2,13 @@ package dk.android.giifty.web;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * Created by mak on 16-01-2016.
@@ -24,12 +25,11 @@ public class ServiceCreator {
                 .registerTypeAdapter(DateTime.class, new TypeAdapterYodaTime())
                 .create();
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setAuthenticator(new MyAuthenticator());
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().authenticator(new MyAuthenticator()).build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(okHttpClient)
+               .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

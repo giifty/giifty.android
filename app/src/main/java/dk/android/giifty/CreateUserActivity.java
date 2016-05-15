@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import dk.android.giifty.components.UserAccountFragment;
 import dk.android.giifty.components.UserInfoFragment;
-import dk.android.giifty.user.UserRepository;
+import dk.android.giifty.model.User;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.Utils;
 
 public class CreateUserActivity extends AppCompatActivity implements UserInfoFragment.OnFragmentInteractionListener {
 
     private ImageView userImage;
-    private UserRepository userRepository;
     private TextView userName;
 
     @Override
@@ -36,7 +36,6 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
         });
         userName = (TextView) findViewById(R.id.user_name_id);
         userImage = (ImageView) findViewById(R.id.user_image_id);
-        userRepository = UserRepository.getInstance();
         showFragment(new UserInfoFragment());
     }
 
@@ -49,8 +48,9 @@ public class CreateUserActivity extends AppCompatActivity implements UserInfoFra
 
     @Override
     public void onShowAccountFragment() {
-        userName.setText(userRepository.getUser().getName());
-        Utils.setUserImage(this, userImage, userRepository.getUser().getFacebookProfileImageUrl());
+        User user = GiiftyPreferences.getInstance().getUser();
+        userName.setText(user.getName());
+        Utils.setUserImage(this, userImage, user.getFacebookProfileImageUrl());
         showFragment(new UserAccountFragment());
     }
 

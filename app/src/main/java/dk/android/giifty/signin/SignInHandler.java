@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import dk.android.giifty.GiiftyApplication;
+import dk.android.giifty.busevents.SignedInEvent;
+import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.model.User;
-import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
@@ -46,9 +47,11 @@ public class SignInHandler implements Callback {
     public void refreshTokenAsync() throws IOException {
         Log.d(TAG, "refreshTokenAsync()");
         if (!isTokenExpired()) {
-            fireSigInEvent(true);
+            fireSigInEvent(true, 200);
         } else {
-            webService.signInUser(createAuthenticationHeader(createAuthText())).enqueue(this);
+            if(currentUser != null){
+                webService.signInUser(createAuthenticationHeader(createAuthText())).enqueue(this);
+            }
         }
     }
 
@@ -75,26 +78,24 @@ public class SignInHandler implements Callback {
 
     @Override
     public void onResponse(Call call, Response response) {
-        Log.d(TAG, "onResponse() succes:" + response.isSuccessful());
-        if (response.isSuccessful()) {
+        boolean isSuccessFul = response.isSuccessful();
+        Log.d(TAG, "onResponse() succes:" + isSuccessFul);
+        if (isSuccessFul) {
             setServerToken(new ServerToken(response.headers().get("token"),
                     new DateTime(response.headers().get("tokenExpiry"))));
-
-            fireSigInEvent(true);
-        } else {
-            fireSigInEvent(false);
         }
+
+        fireSigInEvent(isSuccessFul, response.code());
     }
 
     @Override
     public void onFailure(Call call, Throwable t) {
-        fireSigInEvent(false);
+        fireSigInEvent(false, -1);
         t.printStackTrace();
     }
 
-
-    private void fireSigInEvent(boolean isSuccess) {
-        Broadcasts.fireOnSignedInEvent(isSuccess);
+    private void fireSigInEvent(boolean isSuccess, int responseCode) {
+        GiiftyApplication.getBus().post(new SignedInEvent(isSuccess, responseCode));
     }
 
     public static String getServerToken() {
@@ -128,8 +129,9 @@ public class SignInHandler implements Callback {
     }
 
     @Subscribe
-    public void onUserUpdated(User user) {
-        currentUser = user;
+    public void onUserUpdated(UserUpdateEvent event) {
+        if(event.isSuccessful){
+            currentUser = event.user;
+        }
     }
-
 }

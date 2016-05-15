@@ -2,10 +2,9 @@ package dk.android.giifty.components;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,15 +21,16 @@ import com.facebook.GraphRequest.GraphJSONObjectCallback;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
-import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.model.User;
-import dk.android.giifty.user.UserRepository;
-import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.services.UserService;
 import dk.android.giifty.utils.FacebookSignInHandler;
 import dk.android.giifty.utils.Utils;
 
@@ -43,14 +43,11 @@ import dk.android.giifty.utils.Utils;
 public class UserInfoFragment extends Fragment implements TextWatcher, FacebookCallback<LoginResult>, GraphJSONObjectCallback {
 
     private OnFragmentInteractionListener parent;
-    private MyReceiver myReceiver;
     private CallbackManager callbackManager;
     private FacebookSignInHandler facebookSignInHandler;
     private String facebookImageUrl;
     private EditText fullName, email, password, passwordRep, phone;
-    private UserRepository userRepository;
     private User user;
-    private String facebookId;
     private static final String TAG = UserInfoFragment.class.getSimpleName();
 
     public UserInfoFragment() {
@@ -86,17 +83,18 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
                 createUSer();
             }
         });
-
-        userRepository = UserRepository.getInstance();
-        myReceiver = new MyReceiver();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
         return root;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
+    public void onResume() {
+        super.onResume();
+        GiiftyApplication.getBus().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        GiiftyApplication.getBus().unregister(this);
     }
 
     @Override
@@ -106,9 +104,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
     }
 
     private void createUSer() {
-
         String name, phoneNr, emailAdd, pass, passRep;
-
         name = fullName.getText().toString();
         emailAdd = email.getText().toString();
         phoneNr = phone.getText().toString();
@@ -130,11 +126,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
                 user.setPassword(pass);
                 user.setFacebookProfileImageUrl(facebookImageUrl);
 
-                try {
-                    userRepository.updateUser(getContext(), user);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                UserService.updateUser(getContext(), user);
             } else {
                 Utils.makeToast(getString(R.string.msg_password_mismatch));
             }
@@ -213,7 +205,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
             parent.onFacebookProfileFetched(facebookImageUrl);
             fullName.setText(profile.getString("name"));
             email.setText(profile.getString("email"));
-            facebookId = profile.getString("id");
+          //  facebookId = profile.getString("id");
 
         } catch (JSONException e) {
             Utils.makeToast(getString(R.string.msg_facebook_error));
@@ -223,20 +215,17 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
 
     public interface OnFragmentInteractionListener {
         void onFacebookProfileFetched(String facebookImageUrl);
+
         void onShowAccountFragment();
     }
 
-
-    class MyReceiver extends MyBroadcastReceiver {
-
-        @Override
-        public void onUserUpdated() {
-            Log.d(TAG, "onUserUpdated()");
-            if (userRepository.hasUser()) {
-                parent.onShowAccountFragment();
-            }else {
-                Utils.makeToast(getString(R.string.msg_create_user_error));
-            }
+    @Subscribe
+    public void onUserUpdated(UserUpdateEvent event) {
+        if (event.isSuccessful) {
+            parent.onShowAccountFragment();
+        } else {
+            Snackbar.make(email, R.string.msg_create_user_error, Snackbar.LENGTH_LONG).show();
         }
     }
+
 }

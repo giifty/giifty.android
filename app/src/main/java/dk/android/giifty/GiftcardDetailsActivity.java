@@ -10,7 +10,6 @@ import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.signin.SignInDialogHandler;
-import dk.android.giifty.user.UserRepository;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
 

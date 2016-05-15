@@ -41,7 +41,7 @@ public class BuyGiftcardFrag extends DrawerFragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_buy_giftcard, container, false);
 
-        adapter = new CompanyAdapter(this, controller.getMainView());
+        adapter = new CompanyAdapter(this);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
@@ -77,7 +77,7 @@ public class BuyGiftcardFrag extends DrawerFragment {
 
     @Subscribe
     public void onCompaniesFetched(CompaniesFetchedEvent fetchedEvent) {
-        if(fetchedEvent == null){
+        if(fetchedEvent != null){
             if (fetchedEvent.isSuccessful) {
                 adapter.updateData(fetchedEvent.companyList);
             } else {
