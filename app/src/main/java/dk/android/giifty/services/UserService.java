@@ -3,6 +3,8 @@ package dk.android.giifty.services;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.io.IOException;
 
@@ -27,7 +29,6 @@ public class UserService extends IntentService {
 
     private static final String EXTRA_USER = "dk.android.giifty.extra.PARAM1";
     private static final String ACTION_UPDATE_USER = "updtaeUser";
-    private static final String ACTION_FETCH_USER = "fetchUser";
     private final WebApi api;
     private GiiftyPreferences prefs;
 
@@ -45,34 +46,13 @@ public class UserService extends IntentService {
         context.startService(intent);
     }
 
-    public static void fetchUser(Context context) {
-        Intent intent = new Intent();
-        intent.setClass(context, UserService.class);
-        intent.setAction(ACTION_FETCH_USER);
-        context.startService(intent);
-    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
-            if (intent.getAction().contentEquals(ACTION_UPDATE_USER)) {
                 User user = intent.getParcelableExtra(EXTRA_USER);
                 updateUser(user);
-            } else if (intent.getAction().contentEquals(ACTION_FETCH_USER)) {
-                fetchUser();
-            }
         } catch (IOException e) {
             e.printStackTrace();
-            GiiftyApplication.getBus().post(new UserUpdateEvent(null, false));
-        }
-    }
-
-    private void fetchUser() throws IOException {
-        Response<User> response = api.getUser(SignInHandler.getServerToken()).execute();
-        if (response.isSuccessful()) {
-            User userUpdated = response.body();
-            persistUser(userUpdated);
-        }else{
             GiiftyApplication.getBus().post(new UserUpdateEvent(null, false));
         }
     }
@@ -87,13 +67,18 @@ public class UserService extends IntentService {
             userUpdated.setAccountNumber(newAccount);
             userUpdated.setPassword(newPassword);
             persistUser(userUpdated);
-        }else{
+        } else {
             GiiftyApplication.getBus().post(new UserUpdateEvent(null, false));
         }
     }
 
-    private void persistUser(User user) {
+    private void persistUser(final User user) {
         prefs.persistUser(user);
-        GiiftyApplication.getBus().post(new UserUpdateEvent(user, true));
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                GiiftyApplication.getBus().post(new UserUpdateEvent(user, true));
+            }
+        });
     }
 }

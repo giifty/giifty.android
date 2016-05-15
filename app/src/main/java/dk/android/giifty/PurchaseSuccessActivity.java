@@ -24,6 +24,7 @@ import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.model.Image;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Constants;
 import dk.android.giifty.utils.Utils;
 
 public class PurchaseSuccessActivity extends AppCompatActivity {

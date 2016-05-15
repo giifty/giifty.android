@@ -17,7 +17,6 @@ import dk.android.giifty.busevents.CompaniesFetchedEvent;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.giftcard.company.CompanyAdapter;
-import dk.android.giifty.services.GiftcardService;
 
 
 public class BuyGiftcardFrag extends DrawerFragment {
@@ -55,7 +54,7 @@ public class BuyGiftcardFrag extends DrawerFragment {
     public void onStart() {
         super.onStart();
         GiiftyApplication.getBus().register(this);
-        GiftcardService.startFecthMain(getContext());
+     //   GiftcardService.startFecthMain(getContext());
     }
 
     @Override

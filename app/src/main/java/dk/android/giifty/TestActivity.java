@@ -7,13 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-
 import dk.android.giifty.model.User;
 import dk.android.giifty.signin.SignInHandler;
-import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.Utils;
 
 /**
@@ -42,7 +37,6 @@ public class TestActivity extends AppCompatActivity {
         getMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Broadcasts.fireOnSignedInEvent(true);
             }
         });
 
@@ -51,11 +45,8 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "refreshTokenAsync()");
-                try {
                     SignInHandler.getInstance().refreshTokenAsync();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
             }
         });
 
@@ -64,11 +55,6 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    UserRepository.getInstance().updateUser(TestActivity.this, testUser);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
         });
 

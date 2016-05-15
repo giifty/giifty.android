@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.android.giifty.R;
@@ -27,10 +28,10 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
     private Company company;
     private final String body;
 
-    public GiftcardAdapter(Activity giftcardActivity, Company company, List<Giftcard> companyGiftcards) {
+    public GiftcardAdapter(Activity giftcardActivity, Company company) {
         this.parent = giftcardActivity;
         this.company = company;
-        giftcardList = companyGiftcards;
+        giftcardList = new ArrayList<>();
         body = "Køb gavekort til " + company.getName() + ":\n";
     }
 
@@ -42,7 +43,6 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
     @Override
     public void onBindViewHolder(final GiftcardAdapter.ViewHolder holder, int position) {
         final Giftcard giftcard = giftcardList.get(position);
-
         holder.title.setText(company.getName());
         String body1 = body + "værdi " + giftcard.getValue() + ",-  din pris " + giftcard.getPrice() + ",-";
         holder.body.setText(body1);
@@ -68,6 +68,11 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
     @Override
     public int getItemCount() {
         return giftcardList.size();
+    }
+
+    public void setData(List<Giftcard> companyGiftcardsOnSale) {
+        giftcardList = companyGiftcardsOnSale;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

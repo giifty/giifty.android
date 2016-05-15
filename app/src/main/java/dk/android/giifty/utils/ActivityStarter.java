@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
 
-import dk.android.giifty.Constants;
 import dk.android.giifty.CreateUserActivity;
 import dk.android.giifty.FrontPageActivity;
 import dk.android.giifty.GiftcardDetailsActivity;

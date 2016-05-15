@@ -15,6 +15,8 @@
     <string name="msg_transaction_timeout">din transaktion varet mere end 5 min, prøv igen</string>
     <string name="msg_try_again">Noget gik galt, prøv venligst igen</string>
     <string name="msg_create_user_error">Noget gik galt med at oprette bruger</string>
+    <string name="generel_error_msg">Hov, noget gik galt, beklager.</string>
+    <string name="signin_error_msg">Du kunne ikke logges ind, er dine oplysninger rigtige?</string>
 
     // transition names
     <string name="hero_transition_giftcard">hero_giftcard</string>
@@ -73,6 +75,4 @@
     <string name="with_value"> gavekort til</string>
     <string name="sign_in">Log ind</string>
     <string name="signin_as_text">Log ind som:</string>
-    <string name="generel_error_msg">Hov, noget gik galt, beklager.</string>
-    <string name="signin_error_msg">Du kunne ikke logges ind, er dine oplysninger rigtige?</string>
-</resources>
+   </resources>

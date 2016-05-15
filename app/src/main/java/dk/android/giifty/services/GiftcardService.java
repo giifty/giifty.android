@@ -3,6 +3,8 @@ package dk.android.giifty.services;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.io.IOException;
 import java.util.List;
@@ -84,8 +86,13 @@ public class GiftcardService extends IntentService {
         }
     }
 
-    private void post(Object response) {
-        GiiftyApplication.getBus().post(response);
+    private void post(final Object event) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                GiiftyApplication.getBus().post(event);
+            }
+        });
     }
 
 }

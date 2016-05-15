@@ -3,24 +3,23 @@ package dk.android.giifty.components;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.squareup.otto.Subscribe;
+
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
-import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.model.User;
 import dk.android.giifty.services.UserService;
-import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
@@ -34,7 +33,6 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     private EditText account, reg, cardholderName;
     private Button laterButton, saveAccountButton;
     private User user;
-    private MyReceiver myReceiver;
 
     public UserAccountFragment() {
         // Required empty public constructor
@@ -63,15 +61,19 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
                 saveAccountInfo();
             }
         });
-        myReceiver = new MyReceiver();
-
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-         LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(Broadcasts.USER_UPDATED_FILTER));
+        GiiftyApplication.getBus().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GiiftyApplication.getBus().unregister(this);
     }
 
     private void showTermsAndConditions() {
@@ -81,7 +83,7 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
     @Override
     public void onClick(DialogInterface dialog, int which) {
         user.setTermsAccepted((which == Dialog.BUTTON_POSITIVE));
-            UserService.updateUser(getContext(), user);
+        UserService.updateUser(getContext(), user);
     }
 
     private void saveAccountInfo() {
@@ -117,18 +119,9 @@ public class UserAccountFragment extends Fragment implements TextWatcher, Dialog
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
-    }
-
-    class MyReceiver extends MyBroadcastReceiver {
-
-        @Override
-        public void onUserUpdated() {
-            Log.d(TAG, "onUserUpdated()");
-            //TODO should this just close, or do we need some feedback in case of failed reqeust
+    @Subscribe
+    public void onUserUpdated(UserUpdateEvent event) {
+        if (event.isSuccessful) {
             getActivity().finish();
         }
     }

@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
-import java.io.IOException;
-
 import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.drawer.DrawerFragment;
@@ -27,6 +25,7 @@ import dk.android.giifty.model.User;
 import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Constants;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.Utils;
 
@@ -48,7 +47,7 @@ public class FrontPageActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_page);
-
+        prefs = GiiftyPreferences.getInstance();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -119,18 +118,13 @@ public class FrontPageActivity extends AppCompatActivity
     }
 
     private void updateNaviHeader() {
-        try {
-            if (!signInHandler.isTokenExpired()) {
-                User user = prefs.getUser();
-                naviHeaderName.setText(user.getName());
-                Utils.setUserImage(this, naviUserImage, user.getFacebookProfileImageUrl());
-            } else {
-                naviHeaderName.setText(getString(R.string.sign_in_text));
-                signInHandler.refreshTokenAsync();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!signInHandler.isTokenExpired()) {
+            User user = prefs.getUser();
+            naviHeaderName.setText(user.getName());
+            Utils.setUserImage(this, naviUserImage, user.getFacebookProfileImageUrl());
+        } else {
+            naviHeaderName.setText(getString(R.string.sign_in_text));
+            signInHandler.refreshTokenAsync();
         }
     }
 

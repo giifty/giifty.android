@@ -39,7 +39,7 @@ public interface WebApi {
 
     //Authentication
     @POST("Authenticate/Login")
-    Call<String> signInUser(@Header("Authorization") String authHeader);
+    Call<String> authenticateUser(@Header("Authorization") String authHeader);
 
 
     //v1.0/Giftcards/GetAllGiftcards

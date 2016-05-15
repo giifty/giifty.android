@@ -36,7 +36,6 @@ public class MobilepayFrag extends PurchaseFragment {
             giftcardId = getArguments().getInt(GIFTCARD_ID);
             price = getArguments().getInt(PRICE);
         }
-
     }
 
     @Override

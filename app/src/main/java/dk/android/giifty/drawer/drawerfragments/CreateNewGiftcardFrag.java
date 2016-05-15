@@ -2,10 +2,8 @@ package dk.android.giifty.drawer.drawerfragments;
 
 
 import android.app.ProgressDialog;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,15 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
-import dk.android.giifty.broadcastreceivers.MyBroadcastReceiver;
+import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.components.DividerItemDecoration;
 import dk.android.giifty.components.TextViewAdapter;
 import dk.android.giifty.drawer.DrawerFragment;
-import dk.android.giifty.utils.Broadcasts;
+import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
-import dk.android.giifty.signin.SignInHandler;
 
 
 /**
@@ -32,7 +32,6 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
     private static final String TAG = CreateNewGiftcardFrag.class.getSimpleName();
     private SignInHandler signInHandler;
     private ProgressDialog mProgressDialog;
-    private MyReceiver myReceiver;
 
     public CreateNewGiftcardFrag() {
         // Required empty public constructor
@@ -50,9 +49,6 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
         signInHandler = SignInHandler.getInstance();
-        myReceiver = new MyReceiver();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver,
-                new IntentFilter(Broadcasts.SIGN_IN_FILTER));
         return root;
     }
 
@@ -76,9 +72,15 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
+    public void onStart() {
+        super.onStart();
+        GiiftyApplication.getBus().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        GiiftyApplication.getBus().unregister(this);
     }
 
     private void showProgressDialog() {
@@ -102,17 +104,14 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
         MyDialogBuilder.createNoUserDialog(getActivity()).show();
     }
 
-    class MyReceiver extends MyBroadcastReceiver {
-
-        @Override
-        public void onSignIn(boolean isSuccess) {
-            Log.d(TAG, "onSignIn()");
+    @Subscribe
+    public void onSignedIn(SignedInEvent event) {
+        if (!event.isSuccessful) {
+            Log.d(TAG, "onSignedIn()");
             dismissDialog();
             if (signInHandler.isTokenExpired()) {
                 Utils.makeToast(getString(R.string.msg_failed_login));
             }
         }
-
     }
-
 }

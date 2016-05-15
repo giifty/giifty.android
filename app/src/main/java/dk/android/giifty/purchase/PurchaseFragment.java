@@ -46,7 +46,7 @@ public abstract class PurchaseFragment extends Fragment  {
     @Override
     public void onStop() {
         super.onStop();
-        GiiftyApplication.getBus().register(this);
+        GiiftyApplication.getBus().unregister(this);
     }
 
     public void startTransaction() {
@@ -56,7 +56,6 @@ public abstract class PurchaseFragment extends Fragment  {
     public void commitPurchaseOnServer(int giftcardId, String transactionId) {
         PurchaseService.purchaseGiftcard(getContext(), giftcardId);
     }
-
 
     @Subscribe
     public void onGiftcardPurchased(GiftcardPurchasedEvent event) {
@@ -71,7 +70,6 @@ public abstract class PurchaseFragment extends Fragment  {
             onPurchaseFailed();
         }
     }
-
 
     protected void onPurchaseSuccess(int giftcardId) {
         ActivityStarter

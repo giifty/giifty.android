@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.android.giifty.Constants;
+import dk.android.giifty.utils.Constants;
 import dk.android.giifty.GiftcardActivity;
 import dk.android.giifty.R;
 import dk.android.giifty.drawer.drawerfragments.BuyGiftcardFrag;

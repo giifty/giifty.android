@@ -1,4 +1,4 @@
-package dk.android.giifty.components;
+package dk.android.giifty.signin;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import dk.android.giifty.R;
-import dk.android.giifty.signin.SignInHandler;
 
 /**
  * Created by mak on 24-04-2016.
@@ -30,13 +29,11 @@ public class SignInDialogLayout extends RelativeLayout {
     public SignInDialogLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
-
     }
 
     public SignInDialogLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
-
     }
 
     private void initView() {
@@ -52,9 +49,7 @@ public class SignInDialogLayout extends RelativeLayout {
             }
         });
         create_new = (TextView) findViewById(R.id.create_user_id);
-
     }
-
 
     public void switchVisibility() {
         progressbar.setVisibility(progressbar.getVisibility() == VISIBLE ? INVISIBLE : VISIBLE);
@@ -63,6 +58,7 @@ public class SignInDialogLayout extends RelativeLayout {
 
     private void signIn() {
         switchVisibility();
+
         SignInHandler.getInstance().refreshWithParams(getEmail(), getPassword());
     }
 
@@ -76,7 +72,6 @@ public class SignInDialogLayout extends RelativeLayout {
 
 
     private void animateButton() {
-
     }
 
     public void setOnCreateUserListener(View.OnClickListener onClickListener) {

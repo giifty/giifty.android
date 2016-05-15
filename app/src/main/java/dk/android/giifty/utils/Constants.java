@@ -1,4 +1,4 @@
-package dk.android.giifty;
+package dk.android.giifty.utils;
 
 /**
  * Created by mak on 30-01-2016.

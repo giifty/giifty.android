@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.android.giifty.R;
@@ -24,9 +25,9 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
     private List<Giftcard> giftcardList;
     private final Activity parent;
 
-    public GiftcardAdapter1(Activity giftcardActivity, List<Giftcard> data, int userId) {
+    public GiftcardAdapter1(Activity giftcardActivity, int userId) {
         this.parent = giftcardActivity;
-        giftcardList = data;
+        giftcardList = new ArrayList<>();
         this.userId = userId;
     }
 
@@ -58,6 +59,11 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
         } else if (giftcard.getBuyerId() == userId) {
             ActivityStarter.startGiftCardDetails(parent, view, giftcard.getGiftcardId());
         }
+    }
+
+    public void updateData(List<Giftcard> data){
+        giftcardList = data;
+        notifyDataSetChanged();
     }
 
     @Override

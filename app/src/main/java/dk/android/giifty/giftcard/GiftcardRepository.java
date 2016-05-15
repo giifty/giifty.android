@@ -16,7 +16,6 @@ import dk.android.giifty.busevents.GiftcardsFetchedEvent;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.services.GiftcardService;
-import dk.android.giifty.utils.Broadcasts;
 import dk.android.giifty.utils.GiiftyPreferences;
 
 /**
@@ -41,7 +40,8 @@ public class GiftcardRepository {
         companyList = new ArrayList<>();
         map = new HashMap<>();
 
-        // GiftcardService.startFecthMain(GiiftyApplication.getMyApplicationContext());
+        GiiftyApplication.getBus().register(this);
+        GiftcardService.startFecthMain(GiiftyApplication.getMyApplicationContext());
         GiftcardService.startFetchGiftcards(GiiftyApplication.getMyApplicationContext());
 
         giftcardsToSale = giiftyPreferences.getGiftcardsToSale();
@@ -102,6 +102,10 @@ public class GiftcardRepository {
         return Collections.unmodifiableList(new ArrayList<>(giftcardsPurchased.values()));
     }
 
+    public List<Company> getCompanyList() {
+        return companyList;
+    }
+
     public Giftcard getPurchasedGiftcard(int id) {
         return giftcardsPurchased.get(id);
     }
@@ -129,12 +133,9 @@ public class GiftcardRepository {
     }
 
     @Subscribe
-    public void onGifcardsFetched(GiftcardsFetchedEvent fetchedEvent) {
+    public void onGiftcardsFetched(GiftcardsFetchedEvent fetchedEvent) {
         if (fetchedEvent.isSuccessful) {
             sortGiftcardsByCompany(fetchedEvent.companyList);
-            fireDownloadEvent(true);
-        } else {
-            fireDownloadEvent(false);
         }
     }
 
@@ -151,13 +152,4 @@ public class GiftcardRepository {
             }
         }
     }
-
-    private void fireDownloadEvent(boolean isSuccess) {
-        Broadcasts.fireNewDataEvent(isSuccess);
-    }
-
-    public List<Company> getCompanyList() {
-        return companyList;
-    }
-
 }

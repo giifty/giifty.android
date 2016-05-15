@@ -1,6 +1,5 @@
 package dk.android.giifty.signin;
 
-import android.util.Base64;
 import android.util.Log;
 
 import com.squareup.otto.Subscribe;
@@ -8,24 +7,22 @@ import com.squareup.otto.Subscribe;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.model.User;
+import dk.android.giifty.services.SignInService;
 import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 
 /**
  * Created by mak on 20-02-2016.
  */
-public class SignInHandler implements Callback {
+public class SignInHandler {
     private static final String TAG = SignInHandler.class.getSimpleName();
     private WebApi webService;
     public static SignInHandler instance;
@@ -44,28 +41,30 @@ public class SignInHandler implements Callback {
     }
 
 
-    public void refreshTokenAsync() throws IOException {
+    public void refreshTokenAsync()  {
         Log.d(TAG, "refreshTokenAsync()");
         if (!isTokenExpired()) {
-            fireSigInEvent(true, 200);
+            fireSignInEvent(true, 200);
         } else {
             if(currentUser != null){
-                webService.signInUser(createAuthenticationHeader(createAuthText())).enqueue(this);
+                SignInService.signIn(GiiftyApplication.getMyApplicationContext(),
+                        new SignInParams(currentUser.getEmail(), currentUser.getPassword()));
             }
         }
     }
 
     public void refreshWithParams(String email, String password) {
         Log.d(TAG, "refreshWithParams()");
-        webService.signInUser(createAuthenticationHeader(createAuthText(email, password))).enqueue(this);
+        SignInService.signIn(GiiftyApplication.getMyApplicationContext(),
+                new SignInParams(email, password));
     }
 
 
     public boolean refreshTokenSynchronous() throws IOException {
         Log.d(TAG, "refreshTokenSynchronous()");
         if (currentUser != null) {
-            String auth = createAuthenticationHeader(createAuthText());
-            Response<String> response = webService.signInUser(auth).execute();
+            String auth = new SignInParams(currentUser.getEmail(), currentUser.getPassword()).createAuthenticationHeader();
+            Response<String> response = webService.authenticateUser(auth).execute();
             if (response.isSuccessful()) {
                 setServerToken(new ServerToken(response.headers().get("Token"),
                         new DateTime(response.headers().get("TokenExpiry"))));
@@ -75,26 +74,7 @@ public class SignInHandler implements Callback {
         return false;
     }
 
-
-    @Override
-    public void onResponse(Call call, Response response) {
-        boolean isSuccessFul = response.isSuccessful();
-        Log.d(TAG, "onResponse() succes:" + isSuccessFul);
-        if (isSuccessFul) {
-            setServerToken(new ServerToken(response.headers().get("token"),
-                    new DateTime(response.headers().get("tokenExpiry"))));
-        }
-
-        fireSigInEvent(isSuccessFul, response.code());
-    }
-
-    @Override
-    public void onFailure(Call call, Throwable t) {
-        fireSigInEvent(false, -1);
-        t.printStackTrace();
-    }
-
-    private void fireSigInEvent(boolean isSuccess, int responseCode) {
+    private void fireSignInEvent(boolean isSuccess, int responseCode) {
         GiiftyApplication.getBus().post(new SignedInEvent(isSuccess, responseCode));
     }
 
@@ -108,24 +88,6 @@ public class SignInHandler implements Callback {
 
     public boolean isTokenExpired() {
         return serverToken == null || serverToken.getExpirationTime().isBeforeNow();
-    }
-
-    public String createAuthenticationHeader(String text) {
-        byte[] plain = new byte[0];
-        try {
-            plain = text.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return String.format("Basic %s", Base64.encodeToString(plain, Base64.DEFAULT)).trim();
-    }
-
-    public String createAuthText() {
-        return (currentUser.getEmail() + ":" + currentUser.getPassword()).trim();
-    }
-
-    public String createAuthText(String email, String password) {
-        return (email + ":" + password.trim());
     }
 
     @Subscribe

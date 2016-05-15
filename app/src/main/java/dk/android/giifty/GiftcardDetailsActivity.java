@@ -11,6 +11,8 @@ import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Constants;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.Utils;
 
 public class GiftcardDetailsActivity extends BaseActivity  {
@@ -48,7 +50,7 @@ public class GiftcardDetailsActivity extends BaseActivity  {
     }
 
     private void purchase(){
-        if (UserRepository.getInstance().hasUser()) {
+        if (GiiftyPreferences.getInstance().hasUser()) {
             ActivityStarter.startPaymentActivity(GiftcardDetailsActivity.this, giftcard.getGiftcardId());
         }else {
             new SignInDialogHandler().startDialog(this, giftcard.getGiftcardId());

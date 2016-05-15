@@ -77,9 +77,11 @@ public class GiiftyPreferences {
         return getObject(KEY_USER, new TypeToken<User>() {
         });
     }
+
     public boolean hasUser() {
         return getPrefs().contains(KEY_USER);
     }
+
     public void clearUser() {
         deleteKey(KEY_USER);
     }
@@ -150,7 +152,6 @@ public class GiiftyPreferences {
     public void deleteKey(String keyToDelete) {
         getPrefs().edit().remove(keyToDelete).commit();
     }
-
 
 
 }

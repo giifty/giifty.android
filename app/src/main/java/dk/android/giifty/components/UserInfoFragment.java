@@ -94,6 +94,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
 
     @Override
     public void onPause() {
+        super.onPause();
         GiiftyApplication.getBus().unregister(this);
     }
 
@@ -193,7 +194,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
 
     @Override
     public void onCompleted(JSONObject object, GraphResponse response) {
-        Log.d("Graph request:", object.toString() + " Error code:" + response.getError().getErrorCode());
+        Log.d("Graph request:", object.toString());
         setValues(object);
 
     }
@@ -205,7 +206,7 @@ public class UserInfoFragment extends Fragment implements TextWatcher, FacebookC
             parent.onFacebookProfileFetched(facebookImageUrl);
             fullName.setText(profile.getString("name"));
             email.setText(profile.getString("email"));
-          //  facebookId = profile.getString("id");
+            //  facebookId = profile.getString("id");
 
         } catch (JSONException e) {
             Utils.makeToast(getString(R.string.msg_facebook_error));

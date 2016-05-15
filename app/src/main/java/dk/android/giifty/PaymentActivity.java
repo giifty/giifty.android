@@ -21,6 +21,7 @@ import dk.android.giifty.purchase.PurchaseFragmentHandler;
 import dk.android.giifty.purchase.purchasefragments.CardPaymentFrag;
 import dk.android.giifty.purchase.purchasefragments.MobilepayFrag;
 import dk.android.giifty.services.PurchaseService;
+import dk.android.giifty.utils.Constants;
 import dk.android.giifty.utils.Utils;
 
 public class PaymentActivity extends BaseActivity implements View.OnClickListener, PurchaseFragment.OnPurchaseFragmentInteraction {
