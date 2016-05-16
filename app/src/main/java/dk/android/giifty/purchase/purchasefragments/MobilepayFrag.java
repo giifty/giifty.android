@@ -7,9 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
 import java.math.BigDecimal;
 
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
+import dk.android.giifty.busevents.GiftcardPurchasedEvent;
+import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.MobilePay;
@@ -45,8 +50,26 @@ public class MobilepayFrag extends PurchaseFragment {
     }
 
     @Override
-    public void onStart() {
+    public void onResume() {
         super.onStart();
+        GiiftyApplication.getBus().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onStop();
+        GiiftyApplication.getBus().unregister(this);
+    }
+
+    @Subscribe
+    public void onGiftcardPurchased(GiftcardPurchasedEvent event) {
+        if (event.isSuccessFul) {
+            Giftcard giftcard = event.giftcard;
+            onPurchaseSuccess(giftcard);
+        } else {
+            // handler error
+            onPurchaseFailed();
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
 
+import dk.android.giifty.CreateGiftcardActivity;
 import dk.android.giifty.CreateUserActivity;
 import dk.android.giifty.FrontPageActivity;
 import dk.android.giifty.GiftcardDetailsActivity;
@@ -45,8 +46,10 @@ public class ActivityStarter {
         //  startActivityWithHero(activity, transitionView, intent, activity.getString(R.string.hero_transition_giftcard));
     }
 
-    public static void startScannerActivity() {
-        Utils.makeToast("TODO start scanner aktivitet");
+    public static void startCreateGiftcardActivity(Activity activity, int companyId) {
+        Intent intent = new Intent(activity, CreateGiftcardActivity.class);
+        intent.putExtra(Constants.EKSTRA_COMPANY_ID, companyId);
+        startActivityWithSlideIn(activity, intent);
     }
 
     public static void startPaymentActivity(Activity activity, int giftcardId) {

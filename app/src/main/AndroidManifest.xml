@@ -3,6 +3,7 @@
     package="dk.android.giifty">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".GiiftyApplication"
@@ -55,7 +56,10 @@
             android:exported="false" />
         <service
             android:name=".services.GiftcardService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".ScannerActivity" />
+        <activity android:name=".CreateGiftcardActivity"></activity>
     </application>
 
 </manifest>

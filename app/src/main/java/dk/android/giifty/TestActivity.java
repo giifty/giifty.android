@@ -1,6 +1,7 @@
 package dk.android.giifty;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -62,7 +63,6 @@ public class TestActivity extends AppCompatActivity {
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
 
@@ -70,7 +70,7 @@ public class TestActivity extends AppCompatActivity {
         startAct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+              startActivity(new Intent(TestActivity.this, ScannerActivity.class));
             }
         });
     }

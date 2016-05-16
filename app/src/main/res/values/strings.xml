@@ -75,4 +75,8 @@
     <string name="with_value"> gavekort til</string>
     <string name="sign_in">Log ind</string>
     <string name="signin_as_text">Log ind som:</string>
-   </resources>
+
+    <string name="title_activity_scanner">ScannerActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>

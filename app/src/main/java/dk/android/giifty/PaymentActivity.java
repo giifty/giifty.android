@@ -140,21 +140,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
     public String getOrderId() {
         return orderId;
     }
 
-
-
     private void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
     }
-
-
-
 }

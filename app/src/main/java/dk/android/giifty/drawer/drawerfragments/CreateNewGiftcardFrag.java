@@ -43,7 +43,7 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_create_new_giftcard, container, false);
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
-        TextViewAdapter adapter = new TextViewAdapter();
+        TextViewAdapter adapter = new TextViewAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Giifty.iml" filepath="$PROJECT_DIR$/Giifty.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ScanditBarcodeScanner/ScanditBarcodeScanner.iml" filepath="$PROJECT_DIR$/ScanditBarcodeScanner/ScanditBarcodeScanner.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

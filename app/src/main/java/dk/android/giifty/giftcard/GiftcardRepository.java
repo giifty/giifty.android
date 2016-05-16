@@ -111,6 +111,7 @@ public class GiftcardRepository {
     }
 
     public void addPurchased(Giftcard giftcard) {
+        removeGiftcardFromCompanyList(giftcard);
         giftcardsPurchased.put(giftcard.getGiftcardId(), giftcard);
         giiftyPreferences.persistPurchasedGiftcards(giftcardsPurchased);
     }

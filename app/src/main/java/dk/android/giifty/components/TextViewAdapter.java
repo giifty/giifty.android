@@ -1,5 +1,6 @@
 package dk.android.giifty.components;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,9 @@ import dk.android.giifty.utils.ActivityStarter;
 public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHolder> {
 
     private List<Company> companyList;
-
-    public TextViewAdapter() {
+   private final  Fragment parent;
+    public TextViewAdapter(Fragment parent) {
+        this.parent = parent;
         companyList = GiftcardRepository.getInstance().getCompanyList();
     }
 
@@ -32,11 +34,12 @@ public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.companyName.setText(companyList.get(position).getName());
+        final Company company = companyList.get(position);
+        holder.companyName.setText(company.getName());
         holder.companyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityStarter.startScannerActivity();
+                ActivityStarter.startCreateGiftcardActivity(parent.getActivity(), company.getCompanyId());
             }
         });
     }
