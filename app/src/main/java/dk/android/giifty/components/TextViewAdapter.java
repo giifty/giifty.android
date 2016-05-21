@@ -36,10 +36,10 @@ public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Company company = companyList.get(position);
         holder.companyName.setText(company.getName());
-        holder.companyName.setOnClickListener(new View.OnClickListener() {
+        holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityStarter.startCreateGiftcardActivity(parent.getActivity(), company.getCompanyId());
+                ActivityStarter.startCreateGiftcardActivity(parent.getActivity(), company);
             }
         });
     }
@@ -51,9 +51,10 @@ public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView companyName;
-
+        View root;
         public ViewHolder(View itemView) {
             super(itemView);
+            root = itemView;
             companyName = (TextView) itemView.findViewById(R.id.company_name_id);
         }
     }

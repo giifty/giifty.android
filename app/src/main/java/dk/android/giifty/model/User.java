@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 
+import java.math.BigInteger;
+
 /**
  * Created by mak on 16-01-2016.
  */
@@ -13,7 +15,7 @@ public class User implements Parcelable {
     @Expose
     private int userId;
     @Expose
-    private int facebookId;
+    private BigInteger facebookId;
     @Expose
     private String password;
     @Expose
@@ -33,7 +35,7 @@ public class User implements Parcelable {
     @Expose
     private boolean termsAccepted;
 
-    public User(int facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
+    public User(BigInteger facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
         this.facebookId = facebookId;
         this.password = password;
         this.name = name;
@@ -76,11 +78,11 @@ public class User implements Parcelable {
         this.userId = userId;
     }
 
-    public int getFacebookId() {
+    public BigInteger getFacebookId() {
         return facebookId;
     }
 
-    public void setFacebookId(int facebookId) {
+    public void setFacebookId(BigInteger facebookId) {
         this.facebookId = facebookId;
     }
 
@@ -163,7 +165,7 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.userId);
-        dest.writeInt(this.facebookId);
+        dest.writeSerializable(this.facebookId);
         dest.writeString(this.password);
         dest.writeString(this.name);
         dest.writeString(this.email);
@@ -177,7 +179,7 @@ public class User implements Parcelable {
 
     protected User(Parcel in) {
         this.userId = in.readInt();
-        this.facebookId = in.readInt();
+        this.facebookId = (BigInteger) in.readSerializable();
         this.password = in.readString();
         this.name = in.readString();
         this.email = in.readString();
@@ -189,7 +191,7 @@ public class User implements Parcelable {
         this.termsAccepted = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+    public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);

@@ -46,7 +46,6 @@ public class ScannerActivity extends AppCompatActivity implements OnScanListener
 
     @Override
     public void didScan(ScanSession scanSession) {
-
         scanSession.pauseScanning();
 
         if (scanSession.getAllRecognizedCodes().size() > 0) {

@@ -8,11 +8,11 @@ import android.os.Parcelable;
  */
 public class ScanResult implements Parcelable {
 
-    public final String eanType;
+    public final String symbologyName;
     public final String barcodeNumber;
 
-    public ScanResult(String eanType, String barcodeNumber) {
-        this.eanType = eanType;
+    public ScanResult(String symbologyName, String barcodeNumber) {
+        this.symbologyName = symbologyName;
         this.barcodeNumber = barcodeNumber;
     }
 
@@ -23,16 +23,16 @@ public class ScanResult implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.eanType);
+        dest.writeString(this.symbologyName);
         dest.writeString(this.barcodeNumber);
     }
 
     protected ScanResult(Parcel in) {
-        this.eanType = in.readString();
+        this.symbologyName = in.readString();
         this.barcodeNumber = in.readString();
     }
 
-    public static final Parcelable.Creator<ScanResult> CREATOR = new Parcelable.Creator<ScanResult>() {
+    public static final Creator<ScanResult> CREATOR = new Creator<ScanResult>() {
         @Override
         public ScanResult createFromParcel(Parcel source) {
             return new ScanResult(source);

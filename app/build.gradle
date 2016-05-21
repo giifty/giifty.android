@@ -52,7 +52,6 @@ dependencies {
     compile files('libs/mobilepay-appswitch-1.7.0.jar')
     compile files('libs/mobilepay-appswitch-1.7.0-javadoc.jar')
     compile project(':ScanditBarcodeScanner')
-    compile files('libs/OnBarcode_AndroidBarcode.jar')
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.7.0'

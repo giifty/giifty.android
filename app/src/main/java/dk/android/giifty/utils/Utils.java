@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -51,6 +53,10 @@ public class Utils {
 
     public static void setImage(Context context, ImageView imageView, String imageUrl) {
         Picasso.with(context).load(imageUrl).error(R.drawable.ic_no_picture).into(imageView);
+    }
+
+    public static Bitmap getImage(Context context, String imageUrl) throws IOException {
+      return   Picasso. with(context).load(imageUrl).get();
     }
 
     public static void setUserImage(Context context, ImageView imageView, String imageUrl) {

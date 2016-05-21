@@ -8,7 +8,8 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
 
-import dk.android.giifty.CreateGiftcardActivity;
+import dk.android.giifty.CreateBarcodeActivity;
+import dk.android.giifty.CreateImageActivity;
 import dk.android.giifty.CreateUserActivity;
 import dk.android.giifty.FrontPageActivity;
 import dk.android.giifty.GiftcardDetailsActivity;
@@ -16,6 +17,8 @@ import dk.android.giifty.PaymentActivity;
 import dk.android.giifty.PurchaseSuccessActivity;
 import dk.android.giifty.R;
 import dk.android.giifty.UpdateUserActivity;
+import dk.android.giifty.model.Company;
+import dk.android.giifty.model.Holder;
 
 /**
  * Created by mak on 13-02-2016.
@@ -39,6 +42,12 @@ public class ActivityStarter {
         context.startActivity(new Intent(context, CreateUserActivity.class));
     }
 
+    public static void startCreateImageAct(Activity activity, Holder holder) {
+        Intent intent = new Intent(activity, CreateImageActivity.class);
+        intent.putExtra(Constants.EKSTRA_HOLDER, holder);
+        startActivityWithSlideIn(activity, intent);
+    }
+
     public static void startGiftCardDetails(Activity activity, View transitionView, int giftcardId) {
         Intent intent = new Intent(activity, GiftcardDetailsActivity.class);
         intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);
@@ -46,9 +55,9 @@ public class ActivityStarter {
         //  startActivityWithHero(activity, transitionView, intent, activity.getString(R.string.hero_transition_giftcard));
     }
 
-    public static void startCreateGiftcardActivity(Activity activity, int companyId) {
-        Intent intent = new Intent(activity, CreateGiftcardActivity.class);
-        intent.putExtra(Constants.EKSTRA_COMPANY_ID, companyId);
+    public static void startCreateGiftcardActivity(Activity activity, Company company) {
+        Intent intent = new Intent(activity, CreateBarcodeActivity.class);
+        intent.putExtra(Constants.EKSTRA_COMPANY, company);
         startActivityWithSlideIn(activity, intent);
     }
 
@@ -84,6 +93,4 @@ public class ActivityStarter {
             activity.startActivity(intent);
         }
     }
-
-
 }

@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceCreator {
     private static final String BASE_URL = "http://giifty-test.azurewebsites.net/v1.0/";
+    private static final String BARCODE_BASE_URL = "http://scandit.com/";
 
     private ServiceCreator() {
     }

@@ -10,9 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 
@@ -22,9 +20,8 @@ import retrofit2.http.Path;
 public interface WebApi {
 
     //User-related
-    @Multipart
-    @POST("Users/User/Verify/id/code")
-    Call<Boolean> verifyUser(@Part("id") String id, @Part("code") String code);
+    @POST("Users/User/Verify/{id}/{code}")
+    Call<Boolean> verifyUser(@Path("id") String id, @Path("code") String code);
 
     @POST("Users/User/Update")
     Call<User> updateUser(@Header("Token") String authHeader, @Body User userToUpdate);

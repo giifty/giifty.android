@@ -32,6 +32,7 @@
 
 
     // text
+    <string name="create_giftcard_for">Opret gavekort til</string>
     <string name="app_name">Giifty</string>
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
@@ -79,4 +80,5 @@
     <string name="title_activity_scanner">ScannerActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="msg_error_barcode_creation">Beklager, en fejl opstod mens vi produceret oprettet stregkoden.</string>
 </resources>

@@ -11,6 +11,9 @@ public class Constants {
     public static final String BOOLEAN_EXSTRA = "boolean_ekstra";
     public static final String EKSTRA_FRAGMENT_ID = "ekstra_fragment_id";
     public static final String EKSTRA_SCAN_RESULT = "scan_result" ;
+    public static final String EKSTRA_COMPANY = "companyExtra";
+    public static final String EXTRA_HOLDER = "holderExtra";
+    public static final String EKSTRA_HOLDER = "extraHolder";
 
     // hero animation names
     public static final String HERO_GRID_ITEM = "heroGridItem";
