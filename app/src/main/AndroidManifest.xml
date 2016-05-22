@@ -47,9 +47,10 @@
             android:label="Dit købte gavekort" />
         <activity android:name=".ScannerActivity" />
         <activity android:name=".CreateBarcodeActivity" />
-        <activity android:name=".CreateImageActivity"
-            android:label="Tag salgsbillede"/>
-        <activity android:name=".PriceAndDescriptionActivity"/>
+        <activity
+            android:name=".CreateImageActivity"
+            android:label="Tag salgsbillede" />
+        <activity android:name=".PriceAndDescriptionActivity" />
 
         <service
             android:name=".services.UserService"
@@ -66,6 +67,8 @@
         <service
             android:name=".services.BarcodeService"
             android:exported="false" />
+
+        <activity android:name=".ReviewActivity"></activity>
     </application>
 
 </manifest>

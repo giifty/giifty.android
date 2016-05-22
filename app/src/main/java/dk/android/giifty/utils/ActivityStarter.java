@@ -17,6 +17,7 @@ import dk.android.giifty.PaymentActivity;
 import dk.android.giifty.PriceAndDescriptionActivity;
 import dk.android.giifty.PurchaseSuccessActivity;
 import dk.android.giifty.R;
+import dk.android.giifty.ReviewActivity;
 import dk.android.giifty.UpdateUserActivity;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Holder;
@@ -51,6 +52,12 @@ public class ActivityStarter {
 
     public static void startPriceAndDescriptionActivity(Activity activity, Holder holder) {
         Intent intent = new Intent(activity, PriceAndDescriptionActivity.class);
+        intent.putExtra(Constants.EKSTRA_HOLDER, holder);
+        startActivityWithSlideIn(activity, intent);
+    }
+
+    public static void startReviewActivity(Activity activity, Holder holder) {
+        Intent intent = new Intent(activity, ReviewActivity.class);
         intent.putExtra(Constants.EKSTRA_HOLDER, holder);
         startActivityWithSlideIn(activity, intent);
     }
@@ -100,6 +107,4 @@ public class ActivityStarter {
             activity.startActivity(intent);
         }
     }
-
-
 }
