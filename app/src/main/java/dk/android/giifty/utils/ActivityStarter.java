@@ -14,6 +14,7 @@ import dk.android.giifty.CreateUserActivity;
 import dk.android.giifty.FrontPageActivity;
 import dk.android.giifty.GiftcardDetailsActivity;
 import dk.android.giifty.PaymentActivity;
+import dk.android.giifty.PriceAndDescriptionActivity;
 import dk.android.giifty.PurchaseSuccessActivity;
 import dk.android.giifty.R;
 import dk.android.giifty.UpdateUserActivity;
@@ -26,7 +27,6 @@ import dk.android.giifty.model.Holder;
 public class ActivityStarter {
     private static final String TAG = ActivityStarter.class.getSimpleName();
 
-
     public static void startUpdateUserActivity(Activity activity) {
         startActivityWithSlideIn(activity, new Intent(activity, UpdateUserActivity.class));
     }
@@ -38,12 +38,19 @@ public class ActivityStarter {
     public static void startCreateUserActivityNoAni(Context context, int giftcardId) {
         context.startActivity(new Intent(context, CreateUserActivity.class).putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId));
     }
+
     public static void startCreateUserActivityNoAni(Context context) {
         context.startActivity(new Intent(context, CreateUserActivity.class));
     }
 
     public static void startCreateImageAct(Activity activity, Holder holder) {
         Intent intent = new Intent(activity, CreateImageActivity.class);
+        intent.putExtra(Constants.EKSTRA_HOLDER, holder);
+        startActivityWithSlideIn(activity, intent);
+    }
+
+    public static void startPriceAndDescriptionActivity(Activity activity, Holder holder) {
+        Intent intent = new Intent(activity, PriceAndDescriptionActivity.class);
         intent.putExtra(Constants.EKSTRA_HOLDER, holder);
         startActivityWithSlideIn(activity, intent);
     }
@@ -93,4 +100,6 @@ public class ActivityStarter {
             activity.startActivity(intent);
         }
     }
+
+
 }

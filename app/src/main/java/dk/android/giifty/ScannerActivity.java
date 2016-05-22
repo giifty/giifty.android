@@ -3,11 +3,9 @@ package dk.android.giifty;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.scandit.barcodepicker.BarcodePicker;
 import com.scandit.barcodepicker.OnScanListener;
-import com.scandit.barcodepicker.ProcessFrameListener;
 import com.scandit.barcodepicker.ScanSession;
 import com.scandit.barcodepicker.ScanSettings;
 import com.scandit.barcodepicker.ScanditLicense;
@@ -31,16 +29,14 @@ public class ScannerActivity extends AppCompatActivity implements OnScanListener
         ScanditLicense.setAppKey(SCANNER_KEY);
         ScanSettings settings = ScanSettings.create();
         settings.setSymbologyEnabled(Barcode.SYMBOLOGY_EAN13, true);
+        settings.setSymbologyEnabled(Barcode.SYMBOLOGY_EAN8, true);
         settings.setSymbologyEnabled(Barcode.SYMBOLOGY_UPCA, true);
-// Instantiate the barcode scanner by using the settings defined above.
+
+        // Instantiate the barcode scanner by using the settings defined above.
         scanner = new BarcodePicker(this, settings);
-// Set the on scan listener to receive barcode scan events.
+
+       // Set the on scan listener to receive barcode scan events.
         scanner.setOnScanListener(this);
-        scanner.setProcessFrameListener(new ProcessFrameListener() {
-            @Override
-            public void didProcess(byte[] bytes, int i, int i1, ScanSession scanSession) {
-            }
-        });
     }
 
 
@@ -53,14 +49,11 @@ public class ScannerActivity extends AppCompatActivity implements OnScanListener
             if (barcode.isRecognized()) {
                 String eanType = barcode.getSymbologyName();
                 String barcodeNumber = barcode.getData();
-
-                Log.d("!!!", "type:" + eanType + " number:" + barcodeNumber);
                 setResult(RESULT_OK, new Intent().putExtra(Constants.EKSTRA_SCAN_RESULT, new ScanResult(eanType, barcodeNumber)));
                 finish();
             }
         }
     }
-
 
     @Override
     protected void onResume() {

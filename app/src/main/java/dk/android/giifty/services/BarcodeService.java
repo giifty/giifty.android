@@ -25,7 +25,7 @@ public class BarcodeService extends IntentService {
 
 
     private static final String EXTRA_SCAN_RESULT = "scanResult";
-    private static final String IMAGE_SIZE = "500";
+    private static final String IMAGE_SIZE = "400";
     private final OkHttpClient client;
 
     public BarcodeService() {
@@ -62,6 +62,7 @@ public class BarcodeService extends IntentService {
         try {
             Bitmap barcodeImage;
             Response response = client.newCall(request).execute();
+
             if (response.isSuccessful()) {
                 barcodeImage = BitmapFactory.decodeStream(response.body().byteStream());
                 post(new BarcodeReceivedEvent( barcodeImage, true));

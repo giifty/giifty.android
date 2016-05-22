@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -33,21 +34,24 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
     private ProgressBar progressBar;
     private Bitmap barcodeImage;
     private Company company;
+    private TextView barcodeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_barcode);
         company = getIntent().getParcelableExtra(Constants.EKSTRA_COMPANY);
+
         String title = getString(R.string.create_giftcard_for) + " " + company.getName();
         setTitle(title);
 
         barcodeView = (ImageView) findViewById(R.id.barcode_view_id);
         Button startScan = (Button) findViewById(R.id.start_scan_id);
         assert startScan != null;
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar_id);
         startScan.setOnClickListener(this);
+
+        barcodeText = (TextView) findViewById(R.id.barcode_text_id);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_id);
     }
 
     @Override
@@ -70,6 +74,7 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
                 showProgressBar();
                 ScanResult result = data.getParcelableExtra(Constants.EKSTRA_SCAN_RESULT);
                 BarcodeService.createEAN13(CreateBarcodeActivity.this, result);
+                barcodeText.setText(String.valueOf(result.barcodeNumber));
             }
         }
     }
@@ -82,10 +87,11 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if (item.getItemId() == R.id.menu_item_done) {
             Holder holder = new Holder();
             CreateGiftcardRequest request = new CreateGiftcardRequest();
-            request.compnayId = company.getCompanyId();
+            request.companyId = company.getCompanyId();
             try {
                 holder.setBarcodeImagePath(ImageCreator.saveBitmap(barcodeImage));
                 holder.setRequest(request);

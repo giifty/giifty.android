@@ -22,6 +22,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -103,7 +104,7 @@ public class Utils {
     }
 
     public static User createFakeUser() {
-        return new User(-1, "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
+        return new User(BigInteger.ONE, "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
     }
 
     public static RequestBody createRequestBodyFromJson(JSONObject json) {

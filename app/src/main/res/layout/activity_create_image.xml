@@ -14,11 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside"
+        android:src="@drawable/ic_no_picture"
         android:layout_above="@+id/camera_button_id" />
 
     <ImageView
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_camera_black_24dp"
         android:layout_centerHorizontal="true"

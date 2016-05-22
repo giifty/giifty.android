@@ -70,7 +70,7 @@ public class TestActivity extends AppCompatActivity {
         startAct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              startActivity(new Intent(TestActivity.this, ScannerActivity.class));
+              startActivity(new Intent(TestActivity.this, PriceAndDescriptionActivity.class));
             }
         });
     }

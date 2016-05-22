@@ -9,9 +9,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,32 +21,35 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.IOException;
 
+import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.components.ImageCreator;
 import dk.android.giifty.model.Holder;
-import dk.android.giifty.utils.Constants;
+import dk.android.giifty.utils.ActivityStarter;
 
-public class CreateImageActivity extends AppCompatActivity {
+public class CreateImageActivity extends BaseActivity {
 
     private static final int REQUEST_CODE = 4477;
     private static final int REQUEST_IMAGE_CAPTURE = 7773;
+    private static final String TAG = CreateImageActivity.class.getSimpleName();
     private Holder holder;
     private ImageView image;
-    private File imagefile;
+    private File imageFile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_image);
-        holder = getIntent().getParcelableExtra(Constants.EXTRA_HOLDER);
-
+        //   holder = getIntent().getParcelableExtra(Constants.EXTRA_HOLDER);
+        holder = new Holder();
         image = (ImageView) findViewById(R.id.image_container_id);
         ImageView cameraButton = (ImageView) findViewById(R.id.camera_button_id);
         assert cameraButton != null;
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imagefile != null)
-                    dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imagefile, REQUEST_IMAGE_CAPTURE);
+                if (imageFile != null)
+                    dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imageFile, REQUEST_IMAGE_CAPTURE);
             }
         });
     }
@@ -54,35 +58,29 @@ public class CreateImageActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            imagefile = ImageCreator.createImageFile();
+            imageFile = ImageCreator.createImageFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    private void dispatchCreateContentIntent(Intent intent, File file, int requestCode) {
+    private void dispatchCreateContentIntent(Intent intent, File filePath, int requestCode) {
         if (intent.resolveActivity(getPackageManager()) != null) {
-            if (file != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(intent, requestCode);
-            }
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
+            startActivityForResult(intent, requestCode);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult() resultCode:" + resultCode);
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-            prepareImagePost(data.getData());
+            prepareImagePost();
         }
     }
 
-    private void prepareImagePost(Uri uri) {
-        String currentMediaContentPath = "";
-        if (uri != null) {
-            currentMediaContentPath = ImageCreator.getFilePathFromContentUri(uri, this);
-            image.setImageURI(Uri.parse(currentMediaContentPath));
-            holder.setGcImagePath(currentMediaContentPath);
-        }
+    private void prepareImagePost() {
+        image.setImageURI(Uri.fromFile(imageFile));
+        holder.setGcImagePath(imageFile.getAbsolutePath());
     }
 
     @Override
@@ -94,9 +92,18 @@ public class CreateImageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_done) {
-            holder.setGcImagePath(imagefile.getAbsolutePath());
+            if (!verifyPictureCreated()) {
+                Snackbar.make(image, "Du skal tage et billede før du kan forsætte", Snackbar.LENGTH_LONG).show();
+                return true;
+            }
+            ActivityStarter.startPriceAndDescriptionActivity(this, holder);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private boolean verifyPictureCreated() {
+        return holder.getGcImagePath() != null;
     }
 
     private boolean checkExternalStoragePermission() {
