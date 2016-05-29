@@ -41,8 +41,8 @@ public class GiftcardRepository {
         map = new HashMap<>();
 
         GiiftyApplication.getBus().register(this);
-        GiftcardService.startFecthMain(GiiftyApplication.getMyApplicationContext());
-        GiftcardService.startFetchGiftcards(GiiftyApplication.getMyApplicationContext());
+        GiftcardService.fetchMainView(GiiftyApplication.getMyApplicationContext());
+        GiftcardService.fetchGiftcards(GiiftyApplication.getMyApplicationContext());
 
         giftcardsToSale = giiftyPreferences.getGiftcardsToSale();
         if (giftcardsToSale == null) {

@@ -41,17 +41,22 @@ public class GiftcardService extends IntentService {
         api = ServiceCreator.createServiceNoAuthenticator();
     }
 
-    public static void startFecthMain(Context context) {
+    public static void fetchMainView(Context context) {
         Intent intent = new Intent(context, GiftcardService.class);
         intent.setAction(ACTION_FECTH_MAIN);
         context.startService(intent);
     }
-    public static void startFetchGiftcards(Context context) {
+    public static void fetchGiftcards(Context context) {
         Intent intent = new Intent(context, GiftcardService.class);
         intent.setAction(ACTION_FETCH_GIFTCARDS);
         context.startService(intent);
     }
 
+    public static void createGiftcard(Context context) {
+        Intent intent = new Intent(context, GiftcardService.class);
+        intent.setAction(ACTION_FETCH_GIFTCARDS);
+        context.startService(intent);
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
         try {

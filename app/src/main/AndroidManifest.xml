@@ -51,6 +51,7 @@
             android:name=".CreateImageActivity"
             android:label="Tag salgsbillede" />
         <activity android:name=".PriceAndDescriptionActivity" />
+        <activity android:name=".ReviewActivity"/>
 
         <service
             android:name=".services.UserService"
@@ -67,8 +68,9 @@
         <service
             android:name=".services.BarcodeService"
             android:exported="false" />
+        <service
+            android:name=".services.CreateGiftcardService"
+            android:exported="false" />
 
-        <activity android:name=".ReviewActivity"></activity>
     </application>
-
 </manifest>

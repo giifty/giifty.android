@@ -2,29 +2,27 @@ package dk.android.giifty.components;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
 
 import dk.android.giifty.R;
+import dk.android.giifty.databinding.GiftcardInformationLayoutBinding;
+import dk.android.giifty.model.GiftcardProperties;
 import dk.android.giifty.utils.Utils;
 
-/**
- * Created by mak on 22-05-2016.
- */
 public class GiftcardInformationView extends RelativeLayout implements DatePickerDialog.OnDateSetListener {
-    private final LayoutInflater inflater;
-    private EditText valueText, priceText;
     private DatePickerDialog datePicker;
-    private TextView expiryDateText;
     private DateTime selectedExpiryTime;
+    private GiftcardInformationLayoutBinding binding;
+    private final LayoutInflater inflater;
 
     public GiftcardInformationView(Context context) {
         super(context);
@@ -45,17 +43,11 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
     }
 
     private void initView() {
-        inflater.inflate(R.layout.giftcard_information_layout, this, true);
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.giftcard_information_layout, this, true);
         DateTime date = new DateTime();
-
-        valueText = (EditText) findViewById(R.id.value_id);
-        priceText = (EditText) findViewById(R.id.sales_price_id);
-        View selectExpiryDate = findViewById(R.id.select_expiry_date_id);
         datePicker = new DatePickerDialog(inflater.getContext(), this, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
-        expiryDateText = (TextView) findViewById(R.id.expiry_date_id);
-        assert selectExpiryDate != null;
-        selectExpiryDate.setOnClickListener(new View.OnClickListener() {
+
+        binding.selectExpiryDateId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 datePicker.show();
@@ -63,8 +55,12 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
         });
     }
 
-    public boolean validateTextFields() {
-        return validateIsNonEmpty(valueText) && validateIsNonEmpty(priceText) && validateIsNonEmpty(expiryDateText);
+    public void setBindingProperties(GiftcardProperties properties) {
+        binding.setProperties(properties);
+    }
+
+    public boolean validateInput() {
+        return validateIsNonEmpty(binding.valueId) && validateIsNonEmpty(binding.salesPriceId) && validateIsNonEmpty(binding.expiryDateId);
     }
 
     private boolean validateIsNonEmpty(TextView view) {
@@ -78,8 +74,8 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        selectedExpiryTime = new DateTime(year, monthOfYear  + 1, dayOfMonth, 0, 0);
-        expiryDateText.setText(Utils.formatTime(selectedExpiryTime));
+        selectedExpiryTime = new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0);
+        binding.expiryDateId.setText(Utils.formatTime(selectedExpiryTime));
     }
 
     public String getSelectedExpiryTime() {
@@ -87,23 +83,10 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
     }
 
     public int getPrice() {
-        return Integer.parseInt(priceText.getText().toString());
+        return Integer.parseInt(binding.salesPriceId.getText().toString());
     }
 
     public int getValue() {
-        return Integer.parseInt(valueText.getText().toString());
-    }
-
-    public void setValueText(int value) {
-        this.valueText.setText(String.valueOf(value));
-    }
-
-    public void setPriceText(int price) {
-        this.priceText.setText(String.valueOf(price));
-    }
-
-    public void setExpiryDate(String expiryDateText) {
-        selectedExpiryTime = new DateTime(expiryDateText);
-        this.expiryDateText.setText(Utils.formatTime(selectedExpiryTime));
+        return Integer.parseInt(binding.valueId.getText().toString());
     }
 }

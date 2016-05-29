@@ -23,15 +23,16 @@ import java.io.IOException;
 
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.components.ImageCreator;
-import dk.android.giifty.model.Holder;
+import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Constants;
 
 public class CreateImageActivity extends BaseActivity {
 
     private static final int REQUEST_CODE = 4477;
     private static final int REQUEST_IMAGE_CAPTURE = 7773;
     private static final String TAG = CreateImageActivity.class.getSimpleName();
-    private Holder holder;
+    private GiftcardRequest giftcardRequest;
     private ImageView image;
     private File imageFile;
 
@@ -40,8 +41,7 @@ public class CreateImageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_image);
-        //   holder = getIntent().getParcelableExtra(Constants.EXTRA_HOLDER);
-        holder = new Holder();
+        giftcardRequest = (GiftcardRequest) getIntent().getSerializableExtra(Constants.EXTRA_GC_REQUEST);
         image = (ImageView) findViewById(R.id.image_container_id);
         ImageView cameraButton = (ImageView) findViewById(R.id.camera_button_id);
         assert cameraButton != null;
@@ -63,6 +63,13 @@ public class CreateImageActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkExternalStoragePermission();
+    }
+
     private void dispatchCreateContentIntent(Intent intent, File filePath, int requestCode) {
         if (intent.resolveActivity(getPackageManager()) != null) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
@@ -80,7 +87,7 @@ public class CreateImageActivity extends BaseActivity {
 
     private void prepareImagePost() {
         image.setImageURI(Uri.fromFile(imageFile));
-        holder.setGcImagePath(imageFile.getAbsolutePath());
+        giftcardRequest.setGcImagePath(imageFile.getAbsolutePath());
     }
 
     @Override
@@ -96,14 +103,14 @@ public class CreateImageActivity extends BaseActivity {
                 Snackbar.make(image, "Du skal tage et billede før du kan forsætte", Snackbar.LENGTH_LONG).show();
                 return true;
             }
-            ActivityStarter.startPriceAndDescriptionActivity(this, holder);
+            ActivityStarter.startPriceAndDescriptionActivity(this, giftcardRequest);
         }
         return super.onOptionsItemSelected(item);
     }
 
 
     private boolean verifyPictureCreated() {
-        return holder.getGcImagePath() != null;
+        return giftcardRequest.getGcImagePath() != null;
     }
 
     private boolean checkExternalStoragePermission() {

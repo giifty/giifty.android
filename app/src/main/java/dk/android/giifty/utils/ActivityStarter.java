@@ -20,7 +20,7 @@ import dk.android.giifty.R;
 import dk.android.giifty.ReviewActivity;
 import dk.android.giifty.UpdateUserActivity;
 import dk.android.giifty.model.Company;
-import dk.android.giifty.model.Holder;
+import dk.android.giifty.model.GiftcardRequest;
 
 /**
  * Created by mak on 13-02-2016.
@@ -44,21 +44,21 @@ public class ActivityStarter {
         context.startActivity(new Intent(context, CreateUserActivity.class));
     }
 
-    public static void startCreateImageAct(Activity activity, Holder holder) {
+    public static void startCreateImageAct(Activity activity, GiftcardRequest giftcardRequest) {
         Intent intent = new Intent(activity, CreateImageActivity.class);
-        intent.putExtra(Constants.EKSTRA_HOLDER, holder);
+        intent.putExtra(Constants.EXTRA_GC_REQUEST, giftcardRequest);
         startActivityWithSlideIn(activity, intent);
     }
 
-    public static void startPriceAndDescriptionActivity(Activity activity, Holder holder) {
+    public static void startPriceAndDescriptionActivity(Activity activity, GiftcardRequest giftcardRequest) {
         Intent intent = new Intent(activity, PriceAndDescriptionActivity.class);
-        intent.putExtra(Constants.EKSTRA_HOLDER, holder);
+        intent.putExtra(Constants.EXTRA_GC_REQUEST, giftcardRequest);
         startActivityWithSlideIn(activity, intent);
     }
 
-    public static void startReviewActivity(Activity activity, Holder holder) {
+    public static void startReviewActivity(Activity activity, GiftcardRequest giftcardRequest) {
         Intent intent = new Intent(activity, ReviewActivity.class);
-        intent.putExtra(Constants.EKSTRA_HOLDER, holder);
+        intent.putExtra(Constants.EXTRA_GC_REQUEST, giftcardRequest);
         startActivityWithSlideIn(activity, intent);
     }
 

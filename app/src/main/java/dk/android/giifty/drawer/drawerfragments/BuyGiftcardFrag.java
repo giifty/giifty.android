@@ -54,7 +54,7 @@ public class BuyGiftcardFrag extends DrawerFragment {
     public void onStart() {
         super.onStart();
         GiiftyApplication.getBus().register(this);
-     //   GiftcardService.startFecthMain(getContext());
+     //   GiftcardService.fetchMainView(getContext());
     }
 
     @Override

@@ -1,9 +1,16 @@
 package dk.android.giifty;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +28,7 @@ import dk.android.giifty.busevents.BarcodeReceivedEvent;
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.components.ImageCreator;
 import dk.android.giifty.model.Company;
-import dk.android.giifty.model.CreateGiftcardRequest;
-import dk.android.giifty.model.Holder;
+import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.services.BarcodeService;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Constants;
@@ -61,6 +67,12 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCameraPermission();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         GiiftyApplication.getBus().unregister(this);
@@ -89,16 +101,16 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menu_item_done) {
-            Holder holder = new Holder();
-            CreateGiftcardRequest request = new CreateGiftcardRequest();
-            request.companyId = company.getCompanyId();
+            GiftcardRequest giftcardRequest = new GiftcardRequest();
+            giftcardRequest.getProperties().companyId = company.getCompanyId();
             try {
-                holder.setBarcodeImagePath(ImageCreator.saveBitmap(barcodeImage));
-                holder.setRequest(request);
-                ActivityStarter.startCreateImageAct(this, holder);
+                giftcardRequest.setBarcodeImagePath(ImageCreator.saveBitmap(barcodeImage));
+                ActivityStarter.startCreateImageAct(this, giftcardRequest);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            ActivityStarter.startCreateImageAct(this, giftcardRequest);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -125,5 +137,45 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
 
     private void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    private boolean checkForCameraPermission() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Tag dig sammen")
+                        .setMessage("Tag dig sammen")
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                askForPermission();
+                            }
+                        })
+                        .show();
+            } else {
+                askForPermission();
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    private void askForPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                finish();
+            }
+        }
     }
 }

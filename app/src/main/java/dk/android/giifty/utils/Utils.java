@@ -57,7 +57,7 @@ public class Utils {
     }
 
     public static Bitmap getImage(Context context, String imageUrl) throws IOException {
-      return   Picasso. with(context).load(imageUrl).get();
+        return Picasso.with(context).load(imageUrl).get();
     }
 
     public static void setUserImage(Context context, ImageView imageView, String imageUrl) {

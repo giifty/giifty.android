@@ -4,13 +4,17 @@ import java.util.List;
 
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.model.GiftcardProperties;
 import dk.android.giifty.model.User;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 
@@ -49,10 +53,19 @@ public interface WebApi {
     @GET("Giftcards/GetMainView")
     Call<List<Company>> getMainView();
 
+    @POST("Giftcards/CreatGiftcard")
+    Call<Giftcard> createGiftcard(@Header("Token") String authHeader, @Body GiftcardProperties description);
+
+    @Multipart
+    @POST("Giftcards/AddImageToGiftcard")
+    Call<Giftcard> addImageToGiftcard(@Header("Token") String authHeader, @Part RequestBody body);
+
+    // buy giftcard
     @POST("Order/PreOrder/{giftcardId}")
     Call<String> getTransactionOrderId(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
 
     @POST("Order/Buy/{giftcardId}")
     Call<Giftcard> buyGiftcard(@Header("Token") String authHeader, @Path("giftcardId") int giftcardId);
+
 
 }
