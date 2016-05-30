@@ -1,25 +1,28 @@
 package dk.android.giifty.model;
 
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
 
-/**
- * Created by mak on 21-05-2016.
- */
+import dk.android.giifty.utils.Constants;
+
 public class GiftcardProperties implements Serializable {
-    public int userId;
+
+    public int sellerId;
     public int companyId;
-    public String type = "Giftcard";
+    public int giftcardTypeId = Constants.TYPE_GIFTCARD;
     public int value;
     public int price;
-    public String expirationDate;
+    public DateTime expirationDateUtc;
+    public DateTime entryDateUtc = new DateTime();
     public String description;
 
-    public int getUserId() {
-        return userId;
+    public int getSellerId() {
+        return sellerId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
     }
 
     public int getCompanyId() {
@@ -30,12 +33,12 @@ public class GiftcardProperties implements Serializable {
         this.companyId = companyId;
     }
 
-    public String getType() {
-        return type;
+    public int getGiftcardTypeId() {
+        return giftcardTypeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setGiftcardTypeId(int giftcardTypeId) {
+        this.giftcardTypeId = giftcardTypeId;
     }
 
     public int getValue() {
@@ -58,12 +61,12 @@ public class GiftcardProperties implements Serializable {
         this.price = price;
     }
 
-    public String getExpirationDate() {
-        return expirationDate;
+    public DateTime getExpirationDate() {
+        return expirationDateUtc;
     }
 
-    public void setExpirationDate(String expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setExpirationDate(DateTime expirationDate) {
+        this.expirationDateUtc = expirationDate;
     }
 
     public String getDescription() {

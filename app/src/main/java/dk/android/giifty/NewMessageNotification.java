@@ -22,13 +22,13 @@ import android.support.v4.app.NotificationCompat;
  */
 public class NewMessageNotification {
     /**
-     * The unique identifier for this type of notification.
+     * The unique identifier for this giftcardTypeId of notification.
      */
     private static final String NOTIFICATION_TAG = "NewMessage";
 
     /**
      * Shows the notification, or updates a previously shown notification of
-     * this type, with the given parameters.
+     * this giftcardTypeId, with the given parameters.
      * <p/>
      * TODO: Customize this method's arguments to present relevant content in
      * the notification.
@@ -80,7 +80,7 @@ public class NewMessageNotification {
                 .setTicker(ticker)
 
                         // Show a number. This is useful when stacking notifications of
-                        // a single type.
+                        // a single giftcardTypeId.
                 .setNumber(number)
 
                         // If this notification relates to a past or upcoming event, you
@@ -146,7 +146,7 @@ public class NewMessageNotification {
     }
 
     /**
-     * Cancels any notifications of this type previously shown using
+     * Cancels any notifications of this giftcardTypeId previously shown using
      * {@link #notify(Context, String, int)}.
      */
     @TargetApi(Build.VERSION_CODES.ECLAIR)

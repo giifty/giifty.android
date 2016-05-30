@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import org.joda.time.DateTime;
+
 import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.model.User;
 import dk.android.giifty.signin.SignInHandler;
@@ -73,12 +75,13 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GiftcardRequest request = new GiftcardRequest();
+                request.setBarcodeImagePath("imagePath:/storage/emulated/0/Pictures/JPEG_2016_05_30_171118_-1987239166.jpg");
                 request.getProperties().companyId = 1;
                 request.getProperties().description = "beskrivelse er super";
-                request.getProperties().expirationDate = "11/05/2016";
+                request.getProperties().expirationDateUtc = new DateTime().plusDays(376);
                 request.getProperties().price = 240;
                 request.getProperties().value = 540;
-                ActivityStarter.startPriceAndDescriptionActivity(TestActivity.this, request);
+                ActivityStarter.startReviewActivity(TestActivity.this, request);
             }
         });
     }

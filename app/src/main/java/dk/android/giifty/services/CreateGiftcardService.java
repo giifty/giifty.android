@@ -42,28 +42,30 @@ public class CreateGiftcardService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent()");
         if (intent != null) {
-         //   addPhotoToGiftcard();
-//            GiftcardRequest request = (GiftcardRequest) intent.getSerializableExtra(EXTRA_GC_REQUEST);
-//            GiftcardCreatedEvent event = new GiftcardCreatedEvent(null, false);
-//            try {
-//                Response<Giftcard> response = api.createGiftcard(SignInHandler.getServerToken(), request.getDescription()).execute();
-//                Log.d(TAG, "isSuccessFul:" + response.isSuccessful());
-//                if (!response.isSuccessful()) {
-//                    //TODO stop sequence
-//                }
-//                post(new GiftcardCreatedEvent(response.body(), response.isSuccessful()));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                post(event);
-//            }
+
+            GiftcardRequest request = (GiftcardRequest) intent.getSerializableExtra(EXTRA_GC_REQUEST);
+            GiftcardCreatedEvent event = new GiftcardCreatedEvent(null, false);
+            RequestBody image = RequestBody.create(MediaType.parse("image/jpg"), new File("/storage/emulated/0/Pictures/JPEG_2016_05_30_172549_-1170548731.jpg"));
+
+            try {
+                Response<Giftcard> response = api.createGiftcardWithImage(SignInHandler.getServerToken(), image, request.getProperties()).execute();
+                Log.d(TAG, "isSuccessFul:" + response.isSuccessful());
+                if (!response.isSuccessful()) {
+                    //TODO stop sequence
+                }
+                post(new GiftcardCreatedEvent(response.body(), response.isSuccessful()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                post(event);
+            }
         }
     }
 
     private boolean addPhotoToGiftcard(String path) throws IOException {
-        //{"companyId":1,"description":"beskrivelse","expirationDate":"2016-08-03T13:26:41.674+02:00","price":340,"type":"Giftcard","userId":111,"value":490
-        RequestBody image = RequestBody.create(MediaType.parse("image/jpeg"), new File(path));
-      Response<Giftcard> response =  api.addImageToGiftcard(SignInHandler.getServerToken(), image).execute();
+        //{"companyId":1,"description":"beskrivelse","expirationDateUtc":"2016-08-03T13:26:41.674+02:00","price":340,"giftcardTypeId":"Giftcard","sellerId":111,"value":490
+    //    RequestBody image = RequestBody.create(MediaType.parse("image/jpeg"), new File(path));
+      //Response<Giftcard> response =  api.addImageToGiftcard(SignInHandler.getServerToken(), image).execute();
 
         return false;
     }

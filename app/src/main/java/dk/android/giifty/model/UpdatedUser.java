@@ -26,7 +26,7 @@ public class UpdatedUser {
     public RequestBody createUpdateRequest(User user) throws JSONException {
         updateUser(user);
         JSONObject json = new JSONObject();
-        json.put("userId", userId);
+        json.put("sellerId", userId);
         json.put("password", password);
         json.put("name", name);
         json.put("email", email);
@@ -42,7 +42,7 @@ public class UpdatedUser {
 
     private void updateUser(User user) {
 
-//        this.userId = user.getUserId();
+//        this.sellerId = user.getSellerId();
 //        if (facebookId == null) {
 //            this.facebookId = user.getFacebookId();
 //        }

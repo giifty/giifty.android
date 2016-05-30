@@ -39,10 +39,8 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review);
 
-
         spinner = (SpinnerLayout) findViewById(R.id.spinner_layout_id);
         giftcardRequest = (GiftcardRequest) getIntent().getSerializableExtra(Constants.EXTRA_GC_REQUEST);
-
 
         Company company = GiftcardRepository.getInstance().getCompany(giftcardRequest.getProperties().getCompanyId());
         TextView companyName = (TextView) findViewById(R.id.company_name_id);
@@ -58,15 +56,13 @@ public class ReviewActivity extends AppCompatActivity {
             //TODO add account number
             accountNr.setText("9859389589");
         }
-        giftcardRequest.getProperties().userId = user.getUserId();
+        giftcardRequest.getProperties().sellerId = user.getUserId();
 
         binding.setCompany(company);
         binding.setUser(user);
         binding.giftcardInformationId.setBindingProperties(giftcardRequest.getProperties());
 //    TODO     gcImage = (ImageView) findViewById(R.id.giftcard_image_id);
 //    TODO    barcodeImage = (ImageView) findViewById(R.id.barcode_view_id);
-
-
     }
 
     @Override
@@ -78,9 +74,9 @@ public class ReviewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_done) {
-            if (!giftcardInfoView.validateInput()) {
-                return true;
-            }
+//            if (!giftcardInfoView.validateInput()) {
+//                return true;
+//            }
             isBusy.set(true);
             spinner.showProgressBar();
             CreateGiftcardService.createGiftcard(this, giftcardRequest);
@@ -93,6 +89,4 @@ public class ReviewActivity extends AppCompatActivity {
         isBusy.set(false);
         spinner.hideProgressBar();
     }
-
-
 }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,6 +19,8 @@ import java.util.Locale;
  * Created by mak on 21-05-2016.
  */
 public class ImageCreator {
+
+    private static final String TAG = ImageCreator.class.getSimpleName();
 
     public static String getFilePathFromContentUri(Uri originalUri, Context context) {
         String filePath = "";
@@ -71,7 +74,7 @@ public class ImageCreator {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Log.d(TAG, "imagePath:" + imageFile.getAbsolutePath());
         return imageFile.getAbsolutePath();
     }
 }

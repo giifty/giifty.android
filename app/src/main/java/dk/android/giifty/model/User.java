@@ -152,7 +152,7 @@ public class User implements Parcelable {
 
     @Override
     public String toString() {
-        return "{ userId:" + userId + ", password:" + password + ", name:" + name + ", email:" + email +
+        return "{ sellerId:" + userId + ", password:" + password + ", name:" + name + ", email:" + email +
                 ", emailConfirmed:" + emailConfirmed + ", phone:" + phone + ", phoneConfirmed:" + phoneConfirmed +
                 ", accountNumber:" + accountNumber + "}";
     }

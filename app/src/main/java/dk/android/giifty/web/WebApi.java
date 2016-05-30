@@ -57,8 +57,11 @@ public interface WebApi {
     Call<Giftcard> createGiftcard(@Header("Token") String authHeader, @Body GiftcardProperties description);
 
     @Multipart
-    @POST("Giftcards/AddImageToGiftcard")
-    Call<Giftcard> addImageToGiftcard(@Header("Token") String authHeader, @Part RequestBody body);
+    @POST("Giftcards/CreatGiftcardAndImage")
+        //TODO spelling error
+    Call<Giftcard> createGiftcardWithImage(@Header("Token") String authHeader,
+                                           @Part("image\"; filename=\"image.jpg ") RequestBody image,
+                                           @Part("giftcard") GiftcardProperties body);
 
     // buy giftcard
     @POST("Order/PreOrder/{giftcardId}")

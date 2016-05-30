@@ -18,4 +18,5 @@ public class Constants {
     public static final String HERO_GRID_ITEM = "heroGridItem";
 
 
+    public static final int TYPE_GIFTCARD = 1;
 }
