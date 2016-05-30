@@ -76,6 +76,7 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         selectedExpiryTime = new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0);
         binding.expiryDateId.setText(Utils.formatTime(selectedExpiryTime));
+        binding.getProperties().setExpirationDate(selectedExpiryTime);
     }
 
     public String getSelectedExpiryTime() {
