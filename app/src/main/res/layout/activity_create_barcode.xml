@@ -33,14 +33,5 @@
         android:text="Scan stregkoden på dit gavekort."
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ProgressBar
-        android:id="@+id/progressBar_id"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_below="@+id/barcode_view_id"
-        android:layout_centerHorizontal="true"
-        android:indeterminate="true" />
 
 </RelativeLayout>

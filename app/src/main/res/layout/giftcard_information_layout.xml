@@ -29,7 +29,7 @@
                 android:hint="@string/value"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:text="@{String.valueOf(properties.value)}" />
+                android:text="@={properties.value}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -44,7 +44,7 @@
                 android:hint="@string/your_price"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:text="@{String.valueOf(properties.price)}" />
+                android:text="@={properties.price}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

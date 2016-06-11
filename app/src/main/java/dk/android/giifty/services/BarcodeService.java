@@ -18,9 +18,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by mak on 16-05-2016.
- */
 public class BarcodeService extends IntentService {
 
 
@@ -65,7 +62,7 @@ public class BarcodeService extends IntentService {
 
             if (response.isSuccessful()) {
                 barcodeImage = BitmapFactory.decodeStream(response.body().byteStream());
-                post(new BarcodeReceivedEvent( barcodeImage, true));
+                post(new BarcodeReceivedEvent(barcodeImage, true));
             } else {
                 post(new BarcodeReceivedEvent( null, true));
             }

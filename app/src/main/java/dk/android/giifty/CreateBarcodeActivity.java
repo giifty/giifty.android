@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -19,14 +18,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
-import java.io.IOException;
-
 import dk.android.giifty.barcode.ScanResult;
-import dk.android.giifty.busevents.BarcodeReceivedEvent;
 import dk.android.giifty.components.BaseActivity;
-import dk.android.giifty.components.ImageCreator;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.services.BarcodeService;
@@ -57,7 +50,6 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
         startScan.setOnClickListener(this);
 
         barcodeText = (TextView) findViewById(R.id.barcode_text_id);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar_id);
     }
 
     @Override
@@ -83,9 +75,9 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE) {
-                showProgressBar();
                 ScanResult result = data.getParcelableExtra(Constants.EKSTRA_SCAN_RESULT);
                 BarcodeService.createEAN13(CreateBarcodeActivity.this, result);
+                barcodeView.setImageResource(R.drawable.barcode_image);
                 barcodeText.setText(String.valueOf(result.barcodeNumber));
             }
         }
@@ -103,40 +95,15 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
         if (item.getItemId() == R.id.menu_item_done) {
             GiftcardRequest giftcardRequest = new GiftcardRequest();
             giftcardRequest.getProperties().companyId = company.getCompanyId();
-            try {
-                giftcardRequest.setBarcodeImagePath(ImageCreator.saveBitmap(barcodeImage));
-                ActivityStarter.startCreateImageAct(this, giftcardRequest);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             ActivityStarter.startCreateImageAct(this, giftcardRequest);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Subscribe
-    public void onBitmapReceived(BarcodeReceivedEvent event) {
-        if (event.isSuccessFul) {
-            barcodeImage = event.bitmap;
-            barcodeView.setImageBitmap(barcodeImage);
-        } else {
-            Snackbar.make(barcodeView, R.string.msg_error_barcode_creation, Snackbar.LENGTH_SHORT).setAction("Prøv igen", this).show();
-        }
-        hideProgressBar();
-    }
 
     @Override
     public void onClick(View v) {
         startActivityForResult(new Intent(CreateBarcodeActivity.this, ScannerActivity.class), REQUEST_CODE);
-    }
-
-    private void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
     }
 
     private boolean checkForCameraPermission() {

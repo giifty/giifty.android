@@ -42,32 +42,23 @@ public class CreateGiftcardService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent()");
         if (intent != null) {
-
             GiftcardRequest request = (GiftcardRequest) intent.getSerializableExtra(EXTRA_GC_REQUEST);
             GiftcardCreatedEvent event = new GiftcardCreatedEvent(null, false);
-            RequestBody image = RequestBody.create(MediaType.parse("image/jpg"), new File("/storage/emulated/0/Pictures/JPEG_2016_06_11_121248_347669736.jpg"));
-            RequestBody barcode = RequestBody.create(MediaType.parse("image/jpg"), new File("/storage/emulated/0/Pictures/JPEG_2016_06_11_121248_347669736.jpg"));
+            RequestBody image = RequestBody.create(MediaType.parse("image/jpg"), new File(request.getGcImagePath()));
+            RequestBody barcode = RequestBody.create(MediaType.parse("image/jpg"), new File(request.getBarcodeImagePath()));
             try {
                 Response<Giftcard> response = api.createGiftcardWithImage(SignInHandler.getServerToken(), image, barcode, request.getProperties()).execute();
                 Log.d(TAG, "isSuccessFul:" + response.isSuccessful());
                 if (!response.isSuccessful()) {
                     //TODO stop sequence
                 }
-                post(new GiftcardCreatedEvent(response.body(), response.isSuccessful()));
+                event = new GiftcardCreatedEvent(response.body(), response.isSuccessful());
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 post(event);
             }
         }
-    }
-
-    private boolean addPhotoToGiftcard(String path) throws IOException {
-        //{"companyId":1,"description":"beskrivelse","expirationDateUtc":"2016-08-03T13:26:41.674+02:00","price":340,"giftcardTypeId":"Giftcard","sellerId":111,"value":490
-    //    RequestBody image = RequestBody.create(MediaType.parse("image/jpeg"), new File(path));
-      //Response<Giftcard> response =  api.addImageToGiftcard(SignInHandler.getServerToken(), image).execute();
-
-        return false;
     }
 
     private void post(final GiftcardCreatedEvent event) {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="busy"
+            type="android.databinding.ObservableBoolean" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/progress_box"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#bbffffff"
+        android:gravity="center"
+        android:visibility="@{busy.get() ? View.VISIBLE : View.GONE}">
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+    </LinearLayout>
+</layout>

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -99,10 +98,10 @@ public class CreateImageActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_done) {
-            if (!verifyPictureCreated()) {
-                Snackbar.make(image, "Du skal tage et billede før du kan forsætte", Snackbar.LENGTH_LONG).show();
-                return true;
-            }
+//            if (!verifyPictureCreated()) {
+//                Snackbar.make(image, "Du skal tage et billede før du kan forsætte", Snackbar.LENGTH_LONG).show();
+//                return true;
+//            }
             ActivityStarter.startPriceAndDescriptionActivity(this, giftcardRequest);
         }
         return super.onOptionsItemSelected(item);

@@ -82,4 +82,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="msg_error_barcode_creation">Beklager, en fejl opstod mens vi produceret oprettet stregkoden.</string>
     <string name="comment">Kommentar</string>
+    <string name="missing_input">Skal udfyldes</string>
+    <string name="walk_trough_overview">Gennemgang af oplysninger</string>
 </resources>

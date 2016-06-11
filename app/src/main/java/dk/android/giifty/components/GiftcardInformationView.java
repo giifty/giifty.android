@@ -55,7 +55,8 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
         });
     }
 
-    public void setBindingProperties(GiftcardProperties properties) {
+    //keep for databinding
+    public void setProperties(GiftcardProperties properties) {
         binding.setProperties(properties);
     }
 
@@ -67,7 +68,7 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
         boolean valid = !TextUtils.isEmpty(view.getText());
         if (!valid) {
             view.requestFocus();
-            view.setError("Skal udfyldes");
+            view.setError(getContext().getString(R.string.missing_input));
         }
         return valid;
     }
@@ -77,17 +78,5 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
         selectedExpiryTime = new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0);
         binding.expiryDateId.setText(Utils.formatTime(selectedExpiryTime));
         binding.getProperties().setExpirationDate(selectedExpiryTime);
-    }
-
-    public String getSelectedExpiryTime() {
-        return selectedExpiryTime.toString();
-    }
-
-    public int getPrice() {
-        return Integer.parseInt(binding.salesPriceId.getText().toString());
-    }
-
-    public int getValue() {
-        return Integer.parseInt(binding.valueId.getText().toString());
     }
 }

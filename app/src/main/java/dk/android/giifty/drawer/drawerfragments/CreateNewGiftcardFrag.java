@@ -13,13 +13,19 @@ import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 
+import java.io.IOException;
+import java.util.List;
+
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
 import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.components.DividerItemDecoration;
 import dk.android.giifty.components.TextViewAdapter;
 import dk.android.giifty.drawer.DrawerFragment;
+import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.MyDialogBuilder;
 import dk.android.giifty.utils.Utils;
 
@@ -32,6 +38,7 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
     private static final String TAG = CreateNewGiftcardFrag.class.getSimpleName();
     private SignInHandler signInHandler;
     private ProgressDialog mProgressDialog;
+    private GiiftyPreferences myPrefs;
 
     public CreateNewGiftcardFrag() {
         // Required empty public constructor
@@ -48,6 +55,7 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
+        myPrefs = GiiftyPreferences.getInstance();
         signInHandler = SignInHandler.getInstance();
         return root;
     }
@@ -56,19 +64,15 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setToolbarTitle(getString(R.string.create_giftcard));
-//        try {
-//            if (signInHandler.isTokenExpired()) {
-//                if (UserRepository.getInstance().hasUser()) {
-//                    showProgressDialog();
-//                    signInHandler.refreshTokenAsync();
-//                } else {
-//                    showNoUserMsg();
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        GiiftyApplication.getBus().register(this);
+        setToolbarTitle(getString(R.string.purchased_giftcard));
+        if (!myPrefs.hasUser()) {
+            new SignInDialogHandler().startDialog(getContext());
+        } else {
+            if (signInHandler.isTokenExpired()) {
+                signInHandler.refreshTokenAsync();
+            }
+        }
     }
 
     @Override
@@ -81,37 +85,5 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
     public void onStop() {
         super.onStop();
         GiiftyApplication.getBus().unregister(this);
-    }
-
-    private void showProgressDialog() {
-        //TODO customize that spinner damnit
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getContext());
-            mProgressDialog.setMessage(getString(R.string.msg_loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
-    }
-
-    private void dismissDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
-    }
-
-    private void showNoUserMsg() {
-        MyDialogBuilder.createNoUserDialog(getActivity()).show();
-    }
-
-    @Subscribe
-    public void onSignedIn(SignedInEvent event) {
-        if (!event.isSuccessful) {
-            Log.d(TAG, "onSignedIn()");
-            dismissDialog();
-            if (signInHandler.isTokenExpired()) {
-                Utils.makeToast(getString(R.string.msg_failed_login));
-            }
-        }
     }
 }

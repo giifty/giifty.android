@@ -103,5 +103,4 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
             adapter.updateData(immutableList);
         }
     }
-
 }
