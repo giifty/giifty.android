@@ -76,6 +76,7 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 GiftcardRequest request = new GiftcardRequest();
                 request.setBarcodeImagePath("imagePath:/storage/emulated/0/Pictures/JPEG_2016_05_30_171118_-1987239166.jpg");
+                request.setGcImagePath("imagePath:/storage/emulated/0/Pictures/JPEG_2016_05_30_171118_-1987239166.jpg");
                 request.getProperties().companyId = 1;
                 request.getProperties().description = "beskrivelse er super";
                 request.getProperties().expirationDateUtc = new DateTime().plusDays(376);

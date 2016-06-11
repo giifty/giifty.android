@@ -77,6 +77,7 @@ public class ReviewActivity extends AppCompatActivity {
 //            if (!giftcardInfoView.validateInput()) {
 //                return true;
 //            }
+
             isBusy.set(true);
             spinner.showProgressBar();
             CreateGiftcardService.createGiftcard(this, giftcardRequest);

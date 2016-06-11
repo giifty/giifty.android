@@ -45,10 +45,10 @@ public class CreateGiftcardService extends IntentService {
 
             GiftcardRequest request = (GiftcardRequest) intent.getSerializableExtra(EXTRA_GC_REQUEST);
             GiftcardCreatedEvent event = new GiftcardCreatedEvent(null, false);
-            RequestBody image = RequestBody.create(MediaType.parse("image/jpg"), new File("/storage/emulated/0/Pictures/JPEG_2016_05_30_172549_-1170548731.jpg"));
-
+            RequestBody image = RequestBody.create(MediaType.parse("image/jpg"), new File("/storage/emulated/0/Pictures/JPEG_2016_06_11_121248_347669736.jpg"));
+            RequestBody barcode = RequestBody.create(MediaType.parse("image/jpg"), new File("/storage/emulated/0/Pictures/JPEG_2016_06_11_121248_347669736.jpg"));
             try {
-                Response<Giftcard> response = api.createGiftcardWithImage(SignInHandler.getServerToken(), image, request.getProperties()).execute();
+                Response<Giftcard> response = api.createGiftcardWithImage(SignInHandler.getServerToken(), image, barcode, request.getProperties()).execute();
                 Log.d(TAG, "isSuccessFul:" + response.isSuccessful());
                 if (!response.isSuccessful()) {
                     //TODO stop sequence

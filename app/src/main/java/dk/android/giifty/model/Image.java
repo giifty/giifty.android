@@ -2,9 +2,6 @@ package dk.android.giifty.model;
 
 import com.google.gson.annotations.Expose;
 
-/**
- * Created by mak on 16-01-2016.
- */
 public class Image {
     @Expose
     private int imageId;
