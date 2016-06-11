@@ -80,8 +80,8 @@ public class TestActivity extends AppCompatActivity {
                 request.getProperties().companyId = 1;
                 request.getProperties().description = "beskrivelse er super";
                 request.getProperties().expirationDateUtc = new DateTime().plusDays(376);
-                request.getProperties().price = "240";
-                request.getProperties().value = "540";
+                request.getProperties().priceDataBinding = "240";
+                request.getProperties().valueDataBinding = "540";
                 ActivityStarter.startReviewActivity(TestActivity.this, request);
             }
         });

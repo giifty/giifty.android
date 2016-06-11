@@ -11,8 +11,10 @@ public class GiftcardProperties implements Serializable {
     public int sellerId;
     public int companyId;
     public int giftcardTypeId = Constants.TYPE_GIFTCARD;
-    public String value;
-    public String price;
+    public String valueDataBinding;
+    public String priceDataBinding;
+    private int value;
+    private int price;
     public DateTime expirationDateUtc;
     public String description;
 
@@ -40,20 +42,20 @@ public class GiftcardProperties implements Serializable {
         this.giftcardTypeId = giftcardTypeId;
     }
 
-    public String getValue() {
-        return value;
+    public String getValueDataBinding() {
+        return valueDataBinding;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValueDataBinding(String valueDataBinding) {
+        this.valueDataBinding = valueDataBinding;
     }
 
-    public String getPrice() {
-        return price;
+    public String getPriceDataBinding() {
+        return priceDataBinding;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setPriceDataBinding(String priceDataBinding) {
+        this.priceDataBinding = priceDataBinding;
     }
 
     public DateTime getExpirationDate() {

@@ -41,8 +41,8 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
         final Giftcard giftcard = giftcardList.get(position);
 
         holder.title.setText(giftcard.getCompany());
-//        holder.bodyValue.setText(giftcard.getValue());
-//        holder.bodySales.setText(giftcard.getPrice());
+//        holder.bodyValue.setText(giftcard.getValueDataBinding());
+//        holder.bodySales.setText(giftcard.getPriceDataBinding());
 //        Utils.setImage(parent, holder.imageView, giftcard.getImages().get(0).getUrl());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import dk.android.giifty.utils.GiiftyPreferences;
 
 public class ReviewActivity extends AppCompatActivity {
 
+    private static final String TAG = ReviewActivity.class.getSimpleName();
     private GiftcardRequest giftcardRequest;
     private ObservableBoolean isBusy = new ObservableBoolean(false);
     private ActivityReviewBinding binding;
@@ -93,6 +95,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     @Subscribe
     public void onGiftcardCreated(GiftcardCreatedEvent event) {
+        Log.d(TAG, "onGiftcardCreated() isSuccessFul:" + event.isSuccessFul);
         isBusy.set(false);
     }
 }

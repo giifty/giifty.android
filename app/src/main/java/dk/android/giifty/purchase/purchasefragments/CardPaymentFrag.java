@@ -35,11 +35,11 @@ public class CardPaymentFrag extends PurchaseFragment implements TextWatcher {
         // Required empty public constructor
     }
 
-//    public static PurchaseFragment newInstance(int giftcardId, int price) {
+//    public static PurchaseFragment newInstance(int giftcardId, int priceDataBinding) {
 //        PurchaseFragment fragment = new CardPaymentFrag();
 //        Bundle args = new Bundle();
 //        args.putInt(GIFTCARD_ID, giftcardId);
-//        args.putInt(PRICE, price);
+//        args.putInt(PRICE, priceDataBinding);
 //        fragment.setArguments(args);
 //        return fragment;
 //    }

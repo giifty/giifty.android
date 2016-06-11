@@ -47,7 +47,7 @@ public class BarcodeService extends IntentService {
         String url = new StringBuilder()
                 .append("http://www.scandit.com/barcode-generator/?symbology=")
                 .append(scanResult.symbologyName)
-                .append("&value=")
+                .append("&valueDataBinding=")
                 .append(scanResult.barcodeNumber)
                 .append("&ec=L&size=")
                 .append(IMAGE_SIZE).toString();
