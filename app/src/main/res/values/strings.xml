@@ -50,9 +50,9 @@
     <string name="full_name">Fornavn og efternavn</string>
     <string name="create_manuel">Eller indtast manuelt:</string>
     <string name="fetch_from_facebook">Hent oplysningerne fra Facebook</string>
-    <string name="account_nr">konto nr</string>
+    <string name="account_nr">Konto nr</string>
     <string name="phone_nr">Telefon</string>
-    <string name="reg">reg nr</string>
+    <string name="reg">Reg. nr</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="cardholder_name">Navn på kortet</string>
     <string name="accept">Acceptér</string>
@@ -84,4 +84,12 @@
     <string name="comment">Kommentar</string>
     <string name="missing_input">Skal udfyldes</string>
     <string name="walk_trough_overview">Gennemgang af oplysninger</string>
+
+    <string name="price_and_description">Vælg pris og beskrivelse</string>
+    <string name="take_picture">Tag salgsbillede</string>
+    <string name="create_barcode">Scan stregkode</string>
+    <string name="giftcard_for">Gavekort til</string>
+    <string name="user_update_error_msg">Noget gik galt med opdateringen af din profil</string>
+    <string name="not_valid_email">ikke en gyldig email</string>
+    <string name="take_gc_picture">Tag billede af gavekortet</string>
 </resources>

@@ -8,9 +8,6 @@ import android.view.View;
 
 import dk.android.giifty.R;
 
-/**
- * Created by mak on 24-03-2016.
- */
 public class MyDialogBuilder {
 
     public static AlertDialog createNoUserDialog(final Activity activity) {

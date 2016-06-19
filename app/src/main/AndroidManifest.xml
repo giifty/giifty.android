@@ -46,12 +46,20 @@
             android:name=".PurchaseSuccessActivity"
             android:label="Dit købte gavekort" />
         <activity android:name=".ScannerActivity" />
-        <activity android:name=".CreateBarcodeActivity" />
+        <activity
+            android:name=".CreateBarcodeActivity"
+            android:label="@string/create_barcode" />
         <activity
             android:name=".CreateImageActivity"
-            android:label="Tag salgsbillede" />
-        <activity android:name=".PriceAndDescriptionActivity" />
-        <activity android:name=".ReviewActivity"/>
+            android:label="@string/take_picture" />
+        <activity
+            android:name=".PriceAndDescriptionActivity"
+            android:label="@string/price_and_description"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name=".ReviewActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/walk_trough_overview" />
 
         <service
             android:name=".services.UserService"

@@ -17,8 +17,8 @@ import dk.android.giifty.utils.Utils;
  * A simple {@link Fragment} subclass.
  */
 public abstract class PurchaseFragment extends Fragment {
-    public static final String GIFTCARD_ID = "param1";
-    public static final String PRICE = "param2";
+    public static final String GIFTCARD_ID = "giftcardId";
+    public static final String PRICE = "price";
     private static final String TAG = PurchaseFragment.class.getSimpleName();
     protected OnPurchaseFragmentInteraction parentInteraction;
 

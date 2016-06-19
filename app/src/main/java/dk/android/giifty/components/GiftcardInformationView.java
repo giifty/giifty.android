@@ -46,7 +46,6 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
         binding = DataBindingUtil.inflate(inflater, R.layout.giftcard_information_layout, this, true);
         DateTime date = new DateTime();
         datePicker = new DatePickerDialog(inflater.getContext(), this, date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
-
         binding.selectExpiryDateId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +60,9 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
     }
 
     public boolean validateInput() {
-        return validateIsNonEmpty(binding.valueId) && validateIsNonEmpty(binding.salesPriceId) && validateIsNonEmpty(binding.expiryDateId);
+        return validateIsNonEmpty(binding.valueId)
+                && validateIsNonEmpty(binding.salesPriceId)
+                && validateIsNonEmpty(binding.expiryDateId);
     }
 
     private boolean validateIsNonEmpty(TextView view) {

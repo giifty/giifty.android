@@ -104,7 +104,7 @@ public class Utils {
     }
 
     public static User createFakeUser() {
-        return new User(BigInteger.ONE, "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "sfdssfsd");
+        return new User(BigInteger.ONE, "12345678", "zaza onhorse", "mulle@gmail.com", false, "40845650", false, "", "");
     }
 
     public static RequestBody createRequestBodyFromJson(JSONObject json) {

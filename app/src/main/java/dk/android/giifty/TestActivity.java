@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import org.joda.time.DateTime;
 
+import dk.android.giifty.model.Company;
 import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.model.User;
 import dk.android.giifty.signin.SignInHandler;
@@ -66,7 +67,7 @@ public class TestActivity extends AppCompatActivity {
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ActivityStarter.startCreateGiftcardActivity(TestActivity.this, new Company());
             }
         });
 
@@ -75,14 +76,13 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GiftcardRequest request = new GiftcardRequest();
-                request.setBarcodeImagePath("imagePath:/storage/emulated/0/Pictures/JPEG_2016_05_30_171118_-1987239166.jpg");
                 request.setGcImagePath("imagePath:/storage/emulated/0/Pictures/JPEG_2016_05_30_171118_-1987239166.jpg");
                 request.getProperties().companyId = 1;
                 request.getProperties().description = "beskrivelse er super";
                 request.getProperties().expirationDateUtc = new DateTime().plusDays(376);
-                request.getProperties().priceDataBinding = "240";
-                request.getProperties().valueDataBinding = "540";
-                ActivityStarter.startReviewActivity(TestActivity.this, request);
+                request.getProperties().setPrice("240");
+                request.getProperties().setValue("540");
+                ActivityStarter.startPriceAndDescriptionActivity(TestActivity.this, request);
             }
         });
     }

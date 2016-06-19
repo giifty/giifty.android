@@ -30,6 +30,7 @@ public class GiftcardRepository {
     private HashMap<Integer, Giftcard> giftcardsPurchased;
     private List<Company> companyList;
     private HashMap<Integer, List<Giftcard>> map;
+    private int currentUserId;
 
     public static GiftcardRepository getInstance() {
         return instance == null ? (instance = new GiftcardRepository()) : instance;
@@ -78,7 +79,6 @@ public class GiftcardRepository {
         return Collections.unmodifiableList(map.containsKey(companyId) ? map.get(companyId) : new ArrayList<Giftcard>());
     }
 
-
     public Company getCompany(int id) {
         Log.d(TAG, "getCompany()  companyId:" + id);
         for (Company c : companyList) {
@@ -87,7 +87,6 @@ public class GiftcardRepository {
         }
         return null;
     }
-
 
     public List<Company> getMainView() {
         return Collections.unmodifiableList(companyList);
@@ -142,12 +141,12 @@ public class GiftcardRepository {
 
     private void sortGiftcardsByCompany(List<Giftcard> listToSort) {
 
-        for (Giftcard g : listToSort) {
-            if (g.isOnSale()) {
-                if (!map.containsKey(g.getCompanyId())) {
-                    map.put(g.getCompanyId(), new ArrayList<Giftcard>());
+        for (Giftcard giftcard : listToSort) {
+            if (giftcard.isOnSale()) {
+                if (!map.containsKey(giftcard.getCompanyId())) {
+                    map.put(giftcard.getCompanyId(), new ArrayList<Giftcard>());
                 }
-                map.get(g.getCompanyId()).add(g);
+                    map.get(giftcard.getCompanyId()).add(giftcard);
             } else {
                 //TODO ?
             }

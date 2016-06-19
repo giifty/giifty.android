@@ -26,19 +26,18 @@ import retrofit2.Response;
 public class SignInService extends IntentService {
     private static final String EXTRA_PARAMS = "params";
     private WebApi api;
+    private static final String TAG = SignInService.class.getSimpleName();
 
+    public SignInService() {
+        super(TAG);
+        api = ServiceCreator.createServiceNoAuthenticator();
+    }
     public static void signIn(Context context, SignInParams params){
         Intent intent = new Intent();
         intent.putExtra(EXTRA_PARAMS, params);
         intent.setClass(context, SignInService.class);
         context.startService(intent);
     }
-
-    public SignInService() {
-        super("SignInService");
-        api = ServiceCreator.createServiceNoAuthenticator();
-    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
         SignInParams params = intent.getParcelableExtra(EXTRA_PARAMS);
@@ -55,7 +54,7 @@ public class SignInService extends IntentService {
             e.printStackTrace();
         }
     }
-    private void fetchUser( SignInParams param) throws IOException {
+    private void fetchUser(SignInParams param) throws IOException {
         Response<User> response = api.getUser(SignInHandler.getServerToken()).execute();
         if (response.isSuccessful()) {
             User userUpdated = response.body();

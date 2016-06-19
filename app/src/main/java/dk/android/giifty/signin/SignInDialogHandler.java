@@ -11,13 +11,9 @@ import com.squareup.otto.Subscribe;
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
 import dk.android.giifty.busevents.SignedInEvent;
-import dk.android.giifty.services.UserService;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.MyDialogBuilder;
 
-/**
- * Created by mak on 30-04-2016.
- */
 public class SignInDialogHandler implements DialogInterface.OnCancelListener, View.OnClickListener {
 
     private AlertDialog dialog;

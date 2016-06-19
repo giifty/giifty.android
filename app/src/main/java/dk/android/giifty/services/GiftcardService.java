@@ -26,14 +26,10 @@ import retrofit2.Response;
  * helper methods.
  */
 public class GiftcardService extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_FECTH_MAIN = "dk.android.giifty.services.action.FOO";
-    private static final String ACTION_FETCH_GIFTCARDS = "dk.android.giifty.services.action.BAZ";
 
-    // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "dk.android.giifty.services.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "dk.android.giifty.services.extra.PARAM2";
+    private static final String ACTION_FETCH_MAIN = "dk.android.giifty.services.action.FETCH_MAIN";
+    private static final String ACTION_FETCH_GIFTCARDS = "dk.android.giifty.services.action.FETCH_GIFTCARDS";
+
     private final WebApi api;
 
     public GiftcardService() {
@@ -43,7 +39,7 @@ public class GiftcardService extends IntentService {
 
     public static void fetchMainView(Context context) {
         Intent intent = new Intent(context, GiftcardService.class);
-        intent.setAction(ACTION_FECTH_MAIN);
+        intent.setAction(ACTION_FETCH_MAIN);
         context.startService(intent);
     }
     public static void fetchGiftcards(Context context) {
@@ -52,17 +48,12 @@ public class GiftcardService extends IntentService {
         context.startService(intent);
     }
 
-    public static void createGiftcard(Context context) {
-        Intent intent = new Intent(context, GiftcardService.class);
-        intent.setAction(ACTION_FETCH_GIFTCARDS);
-        context.startService(intent);
-    }
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
             if (intent != null) {
                 final String action = intent.getAction();
-                if (ACTION_FECTH_MAIN.equals(action)) {
+                if (ACTION_FETCH_MAIN.equals(action)) {
                     fetchMainView();
                 } else if (ACTION_FETCH_GIFTCARDS.equals(action)) {
                     fetchGiftcardsForSale();

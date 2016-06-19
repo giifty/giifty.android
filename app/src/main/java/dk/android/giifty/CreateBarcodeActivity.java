@@ -4,52 +4,47 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import dk.android.giifty.barcode.ScanResult;
+import dk.android.giifty.barcode.Barcode;
 import dk.android.giifty.components.BaseActivity;
+import dk.android.giifty.databinding.ActivityCreateBarcodeBinding;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.GiftcardRequest;
-import dk.android.giifty.services.BarcodeService;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Constants;
 
 public class CreateBarcodeActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int REQUEST_CODE = 77;
-    private ImageView barcodeView;
-    private ProgressBar progressBar;
-    private Bitmap barcodeImage;
     private Company company;
-    private TextView barcodeText;
+    private GiftcardRequest giftcardRequest = new GiftcardRequest();
+    private ObservableBoolean canGoToNext = new ObservableBoolean();
+    private ActivityCreateBarcodeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_barcode);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_barcode);
         company = getIntent().getParcelableExtra(Constants.EKSTRA_COMPANY);
 
         String title = getString(R.string.create_giftcard_for) + " " + company.getName();
         setTitle(title);
 
-        barcodeView = (ImageView) findViewById(R.id.barcode_view_id);
-        Button startScan = (Button) findViewById(R.id.start_scan_id);
-        assert startScan != null;
-        startScan.setOnClickListener(this);
-
-        barcodeText = (TextView) findViewById(R.id.barcode_text_id);
+        binding.startScanId.setOnClickListener(this);
+        binding.nextId.getRoot().setOnClickListener(this);
+        TextView nextButtonText = (TextView) binding.nextId.getRoot().findViewById(R.id.next_text_id);
+        nextButtonText.setText(R.string.price_and_description);
+        binding.setCanGoToNext(canGoToNext);
     }
 
     @Override
@@ -75,35 +70,34 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE) {
-                ScanResult result = data.getParcelableExtra(Constants.EKSTRA_SCAN_RESULT);
-                BarcodeService.createEAN13(CreateBarcodeActivity.this, result);
-                barcodeView.setImageResource(R.drawable.barcode_image);
-                barcodeText.setText(String.valueOf(result.barcodeNumber));
+                Barcode result = (Barcode) data.getSerializableExtra(Constants.EKSTRA_SCAN_RESULT);
+                binding.barcodeViewId.setImageResource(R.drawable.barcode_image);
+                binding.barcodeTextId.setText(String.valueOf(result.barcodeNumber));
+                giftcardRequest.getProperties().setBarcode(result);
+                canGoToNext.set(true);
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create_gc_menu, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menu_item_done) {
-            GiftcardRequest giftcardRequest = new GiftcardRequest();
             giftcardRequest.getProperties().companyId = company.getCompanyId();
             ActivityStarter.startCreateImageAct(this, giftcardRequest);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClick(View v) {
-        startActivityForResult(new Intent(CreateBarcodeActivity.this, ScannerActivity.class), REQUEST_CODE);
+        if (v.getId() == binding.startScanId.getId()) {
+            startActivityForResult(new Intent(CreateBarcodeActivity.this, ScannerActivity.class), REQUEST_CODE);
+        } else if (v.getId() == binding.nextId.getRoot().getId()) {
+            giftcardRequest.getProperties().companyId = company.getCompanyId();
+            ActivityStarter.startCreateImageAct(this, giftcardRequest);
+        }
     }
 
     private boolean checkForCameraPermission() {

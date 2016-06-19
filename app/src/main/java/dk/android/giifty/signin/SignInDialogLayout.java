@@ -58,7 +58,6 @@ public class SignInDialogLayout extends RelativeLayout {
 
     private void signIn() {
         switchVisibility();
-
         SignInHandler.getInstance().refreshWithParams(getEmail(), getPassword());
     }
 
@@ -69,7 +68,6 @@ public class SignInDialogLayout extends RelativeLayout {
     private String getPassword() {
         return password.getText().toString();
     }
-
 
     private void animateButton() {
     }

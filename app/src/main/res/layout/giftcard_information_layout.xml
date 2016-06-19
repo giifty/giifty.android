@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="dk.android.giifty.model.GiftcardProperties" />
+
         <variable
             name="properties"
             type="dk.android.giifty.model.GiftcardProperties" />
@@ -29,7 +31,7 @@
                 android:hint="@string/value"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:text="@={properties.valueDataBinding}" />
+                android:text="@={properties.value}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -44,7 +46,7 @@
                 android:hint="@string/your_price"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:text="@={properties.priceDataBinding}" />
+                android:text="@={properties.price}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -66,7 +68,9 @@
             android:id="@+id/select_expiry_date_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp">
 
             <ImageView
                 android:id="@+id/imageView6"

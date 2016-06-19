@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import dk.android.giifty.GiiftyApplication;
-import dk.android.giifty.barcode.ScanResult;
+import dk.android.giifty.barcode.Barcode;
 import dk.android.giifty.busevents.BarcodeReceivedEvent;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,21 +34,21 @@ public class BarcodeService extends IntentService {
                 .build();
     }
 
-    public static void createEAN13(Context context, ScanResult scanResult) {
+    public static void createEAN13(Context context, Barcode barcode) {
         Intent intent = new Intent(context, BarcodeService.class);
-        intent.putExtra(EXTRA_SCAN_RESULT, scanResult);
+        intent.putExtra(EXTRA_SCAN_RESULT, barcode);
         context.startService(intent);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        ScanResult scanResult = intent.getParcelableExtra(EXTRA_SCAN_RESULT);
+        Barcode barcode = intent.getParcelableExtra(EXTRA_SCAN_RESULT);
 
         String url = new StringBuilder()
                 .append("http://www.scandit.com/barcode-generator/?symbology=")
-                .append(scanResult.symbologyName)
+                .append(barcode.symbologyName)
                 .append("&valueDataBinding=")
-                .append(scanResult.barcodeNumber)
+                .append(barcode.barcodeNumber)
                 .append("&ec=L&size=")
                 .append(IMAGE_SIZE).toString();
 

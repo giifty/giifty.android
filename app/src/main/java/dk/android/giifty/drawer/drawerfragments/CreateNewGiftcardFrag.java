@@ -2,37 +2,26 @@ package dk.android.giifty.drawer.drawerfragments;
 
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.otto.Subscribe;
-
-import java.io.IOException;
-import java.util.List;
-
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
-import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.components.DividerItemDecoration;
 import dk.android.giifty.components.TextViewAdapter;
 import dk.android.giifty.drawer.DrawerFragment;
-import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.model.User;
 import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
+import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.GiiftyPreferences;
-import dk.android.giifty.utils.MyDialogBuilder;
-import dk.android.giifty.utils.Utils;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CreateNewGiftcardFrag extends DrawerFragment {
 
     private static final String TAG = CreateNewGiftcardFrag.class.getSimpleName();
@@ -72,7 +61,27 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
             if (signInHandler.isTokenExpired()) {
                 signInHandler.refreshTokenAsync();
             }
+
+            User user = GiiftyPreferences.getInstance().getUser();
+
+//            if (user.getAccountNumber() == null) {
+//                createDialog();
+//            }
         }
+    }
+
+    private void createDialog(){
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setMessage("Du skal tilføje et betalingskort før du kan tilføje et gavekort")
+                .setNeutralButton("Tilføj kort", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityStarter.startUpdateUserActivity(getActivity());
+                    }
+                }).setCancelable(false)
+                .create();
+
+        dialog.show();
     }
 
     @Override

@@ -17,9 +17,7 @@ import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
 
-/**
- * Created by mak on 30-01-2016.
- */
+
 public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHolder> {
 
 

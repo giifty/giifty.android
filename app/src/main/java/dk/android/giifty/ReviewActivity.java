@@ -1,13 +1,13 @@
 package dk.android.giifty;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
 
 import com.squareup.otto.Subscribe;
 
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.android.giifty.busevents.GiftcardCreatedEvent;
+import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.components.ImagePagerAdapter;
 import dk.android.giifty.databinding.ActivityReviewBinding;
 import dk.android.giifty.giftcard.GiftcardRepository;
@@ -25,7 +26,7 @@ import dk.android.giifty.services.CreateGiftcardService;
 import dk.android.giifty.utils.Constants;
 import dk.android.giifty.utils.GiiftyPreferences;
 
-public class ReviewActivity extends AppCompatActivity {
+public class ReviewActivity extends BaseActivity {
 
     private static final String TAG = ReviewActivity.class.getSimpleName();
     private GiftcardRequest giftcardRequest;
@@ -38,29 +39,29 @@ public class ReviewActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review);
 
         giftcardRequest = (GiftcardRequest) getIntent().getSerializableExtra(Constants.EXTRA_GC_REQUEST);
+
         List<String> images = new ArrayList<>();
         images.add(giftcardRequest.getGcImagePath());
-        images.add(giftcardRequest.getBarcodeImagePath());
 
         binding.viewPagerId.setAdapter(new ImagePagerAdapter(this, images));
 
         Company company = GiftcardRepository.getInstance().getCompany(giftcardRequest.getProperties().getCompanyId());
 
         User user = GiiftyPreferences.getInstance().getUser();
-        EditText accountNr = (EditText) findViewById(R.id.account_id);
-        if (user.getAccountNumber() != null) {
-            assert accountNr != null;
-            accountNr.setText(user.getAccountNumber());
-        } else {
-            //TODO add account number
-            accountNr.setText("9859389589");
-        }
+
         giftcardRequest.getProperties().sellerId = user.getUserId();
 
         binding.setCompany(company);
         binding.setUser(user);
         binding.setBusy(isBusy);
         binding.setRequest(giftcardRequest);
+
+        binding.accountId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "accountId()");
+            }
+        });
     }
 
     @Override
@@ -97,5 +98,6 @@ public class ReviewActivity extends AppCompatActivity {
     public void onGiftcardCreated(GiftcardCreatedEvent event) {
         Log.d(TAG, "onGiftcardCreated() isSuccessFul:" + event.isSuccessFul);
         isBusy.set(false);
+        navigateUpTo(new Intent(this, FrontPageActivity.class));
     }
 }

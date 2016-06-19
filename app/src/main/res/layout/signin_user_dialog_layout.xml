@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="260dp"
-    android:background="@drawable/bg_opret"
     android:gravity="center_horizontal"
     android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_opret" />
 
     <RelativeLayout
         android:id="@+id/title_view"
@@ -21,7 +26,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
     </RelativeLayout>
-
 
     <LinearLayout
         android:id="@+id/input_container_id"

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,16 +14,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
 
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.components.ImageCreator;
+import dk.android.giifty.databinding.ActivityCreateImageBinding;
 import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Constants;
@@ -34,21 +36,27 @@ public class CreateImageActivity extends BaseActivity {
     private GiftcardRequest giftcardRequest;
     private ImageView image;
     private File imageFile;
-
+    private ActivityCreateImageBinding binding;
+    private ObservableBoolean canGoToNext = new ObservableBoolean();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_image);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_image);
+
         giftcardRequest = (GiftcardRequest) getIntent().getSerializableExtra(Constants.EXTRA_GC_REQUEST);
         image = (ImageView) findViewById(R.id.image_container_id);
-        ImageView cameraButton = (ImageView) findViewById(R.id.camera_button_id);
-        assert cameraButton != null;
-        cameraButton.setOnClickListener(new View.OnClickListener() {
+
+        binding.setCanGoToNext(canGoToNext);
+
+        TextView nextButtonText = (TextView) binding.nextId.getRoot().findViewById(R.id.next_text_id);
+        nextButtonText.setText(R.string.price_and_description);
+
+        binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageFile != null)
-                    dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imageFile, REQUEST_IMAGE_CAPTURE);
+                if (verifyPictureCreated())
+                    ActivityStarter.startPriceAndDescriptionActivity(CreateImageActivity.this, giftcardRequest);
             }
         });
     }
@@ -66,7 +74,10 @@ public class CreateImageActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        checkExternalStoragePermission();
+        if (checkExternalStoragePermission() && !verifyPictureCreated()) {
+            if (imageFile != null)
+                dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imageFile, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     private void dispatchCreateContentIntent(Intent intent, File filePath, int requestCode) {
@@ -87,26 +98,8 @@ public class CreateImageActivity extends BaseActivity {
     private void prepareImagePost() {
         image.setImageURI(Uri.fromFile(imageFile));
         giftcardRequest.setGcImagePath(imageFile.getAbsolutePath());
+        canGoToNext.set(true);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create_gc_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_item_done) {
-//            if (!verifyPictureCreated()) {
-//                Snackbar.make(image, "Du skal tage et billede før du kan forsætte", Snackbar.LENGTH_LONG).show();
-//                return true;
-//            }
-            ActivityStarter.startPriceAndDescriptionActivity(this, giftcardRequest);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private boolean verifyPictureCreated() {
         return giftcardRequest.getGcImagePath() != null;

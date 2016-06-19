@@ -2,7 +2,6 @@ package dk.android.giifty.drawer.drawerfragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,16 +20,13 @@ import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
+import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.GiiftyPreferences;
-import dk.android.giifty.utils.MyDialogBuilder;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class MyGiftcardsFrag extends DrawerFragment {
-
 
     private GiftcardRepository controller;
     private GiftcardAdapter1 adapter;
@@ -40,7 +36,6 @@ public class MyGiftcardsFrag extends DrawerFragment {
     public MyGiftcardsFrag() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +62,7 @@ public class MyGiftcardsFrag extends DrawerFragment {
         GiiftyApplication.getBus().register(this);
         setToolbarTitle(getString(R.string.my_giftcard));
         if (!myPrefs.hasUser()) {
-            MyDialogBuilder.createNoUserDialog(getActivity()).show();
+            new SignInDialogHandler().startDialog(getContext());
         } else {
             if (SignInHandler.getInstance().isTokenExpired()) {
                 SignInHandler.getInstance().refreshTokenAsync();
@@ -91,7 +86,7 @@ public class MyGiftcardsFrag extends DrawerFragment {
     }
 
     private void setData() {
-        List<Giftcard> immutableList = controller.getMyGiftcardPurchased();
+        List<Giftcard> immutableList = controller.getMyGiftcardForSale();
         if (immutableList.isEmpty()) {
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getText(R.string.msg_no_puchased_gc));

@@ -5,24 +5,14 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 
-/**
- * Created by mak on 16-01-2016.
- */
 public class Company implements Parcelable {
 
-    @Expose
-    private int companyId;
-    @Expose
+    private int companyId = 200;
     private int categoryId;
-    @Expose
     private String name;
-    @Expose
     private String description;
-    @Expose
     private String companyImageUrl;
-    @Expose
     private int numberOfGiftcards;
-    @Expose
     private double savingInProcent;
 
     public int getCompanyId() {

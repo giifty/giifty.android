@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -50,6 +52,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         account = (EditText) findViewById(R.id.account_id);
         reg = (EditText) findViewById(R.id.reg_id);
         reg.addTextChangedListener(this);
+
         //TODO cardholder related stuff
         cardHolderName = (EditText) findViewById(R.id.cardholder_name_id);
         Button createUserButton = (Button) findViewById(R.id.create_user_button_id);
@@ -77,7 +80,6 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         });
 
         userImage = (ImageView) findViewById(R.id.user_image_id);
-
     }
 
     @Override
@@ -109,16 +111,16 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
             passwordRep.setText(user.getPassword());
 
             if (user.getAccountNumber() != null) {
-                String[] splitString = user.getAccountNumber().split(" ");
-                reg.setText(splitString[0]);
-                account.setText(splitString[0]);
+                String accountNr = user.getAccountNumber();
+                reg.setText(accountNr.substring(0, 4));
+                account.setText(accountNr.substring(4, accountNr.length()));
+                cardHolderName.setText(user.getCardholderName());
             }
         }
     }
 
-
     private void createUser() {
-        String name, phoneNr, emailAdd, acc, regNr, pass, passRep;
+        String name, phoneNr, emailAdd, acc, regNr, cardHolder, pass, passRep;
         name = fullName.getText().toString();
         emailAdd = email.getText().toString();
         phoneNr = phone.getText().toString();
@@ -126,9 +128,8 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         passRep = passwordRep.getText().toString();
         acc = account.getText().toString();
         regNr = reg.getText().toString();
-
-        if (!name.isEmpty() || !emailAdd.isEmpty() || !phoneNr.isEmpty() ||
-                !pass.isEmpty() || !passRep.isEmpty() || !acc.isEmpty() || !regNr.isEmpty()) {
+        cardHolder = cardHolderName.getText().toString();
+        if (validateFields()) {
 
             if (comparePasswords()) {
                 acc = regNr + acc;
@@ -140,7 +141,7 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
                 user.setPhone(phoneNr);
                 user.setAccountNumber(acc);
                 user.setPassword(pass);
-
+                user.setCardholderName(cardHolder);
                 UserService.updateUser(this, user);
             } else {
                 Utils.makeToast(getString(R.string.msg_password_mismatch));
@@ -148,11 +149,60 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
         } else {
             Utils.makeToast(getString(R.string.msg_all_fields_be_filled));
         }
+    }
 
+    private boolean validateFields() {
+        boolean isValid = validateIsNonEmpty(fullName)
+                && validateIsNonEmpty(password)
+                && validateIsNonEmpty(passwordRep)
+                && validateEmail(email);
+
+       if(!isValid){
+           return false;
+       }
+
+        if (!comparePasswords()) {
+            return false;
+        }
+
+        boolean accountValid = true;
+
+        if (!TextUtils.isEmpty(account.getText())) {
+            accountValid = validateIsNonEmpty(reg)
+                    && validateIsNonEmpty(cardHolderName);
+        }
+
+        return accountValid;
+    }
+
+    private boolean validateEmail(TextView view) {
+        boolean valid = android.util.Patterns.EMAIL_ADDRESS.matcher(view.getText()).matches();
+        if (!valid) {
+            view.requestFocus();
+            setErrorOnField(view, getString(R.string.not_valid_email));
+        }
+        return valid;
+    }
+
+    private boolean validateIsNonEmpty(TextView view) {
+        boolean valid = !TextUtils.isEmpty(view.getText());
+        if (!valid) {
+            view.requestFocus();
+            setErrorOnField(view, getString(R.string.missing_input));
+        }
+        return valid;
+    }
+
+    private void setErrorOnField(TextView view, String msg) {
+        view.setError(msg);
     }
 
     private boolean comparePasswords() {
-        return !password.getText().toString().isEmpty() && password.getText().toString().trim().contentEquals(passwordRep.getText().toString().trim());
+        boolean valid = password.getText().toString().trim().contentEquals(passwordRep.getText().toString().trim());
+        if (!valid) {
+            setErrorOnField(passwordRep, getString(R.string.msg_password_mismatch));
+        }
+        return valid;
     }
 
     //TODO verify account?
@@ -204,9 +254,10 @@ public class UpdateUserActivity extends AppCompatActivity implements TextWatcher
     @Subscribe
     public void onUserUpdated(UserUpdateEvent event) {
         if (event.isSuccessful) {
+            GiiftyPreferences.getInstance().persistUser(event.user);
             finish();
         } else {
-            Snackbar.make(account, "Noget gik galt med din bruger opdatering", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(account, R.string.user_update_error_msg, Snackbar.LENGTH_LONG).show();
         }
     }
 

@@ -15,20 +15,11 @@ import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
 import dk.android.giifty.busevents.CompaniesFetchedEvent;
 import dk.android.giifty.drawer.DrawerFragment;
-import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.giftcard.company.CompanyAdapter;
 
 
 public class BuyGiftcardFrag extends DrawerFragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private GiftcardRepository controller;
     private CompanyAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -54,7 +45,6 @@ public class BuyGiftcardFrag extends DrawerFragment {
     public void onStart() {
         super.onStart();
         GiiftyApplication.getBus().register(this);
-     //   GiftcardService.fetchMainView(getContext());
     }
 
     @Override

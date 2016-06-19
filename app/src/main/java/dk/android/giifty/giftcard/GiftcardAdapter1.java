@@ -14,12 +14,9 @@ import java.util.List;
 import dk.android.giifty.R;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.utils.ActivityStarter;
+import dk.android.giifty.utils.Utils;
 
-/**
- * Created by mak on 30-01-2016.
- */
 public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.ViewHolder> {
-
 
     private final int userId;
     private List<Giftcard> giftcardList;
@@ -41,9 +38,11 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
         final Giftcard giftcard = giftcardList.get(position);
 
         holder.title.setText(giftcard.getCompany());
-//        holder.bodyValue.setText(giftcard.getValueDataBinding());
-//        holder.bodySales.setText(giftcard.getPriceDataBinding());
-//        Utils.setImage(parent, holder.imageView, giftcard.getImages().get(0).getUrl());
+        holder.bodyValue.setText(String.valueOf(giftcard.getValue()));
+        holder.bodySales.setText(String.valueOf(giftcard.getPrice()));
+
+        if(giftcard.getImages().size() > 0)
+        Utils.setImage(parent, holder.imageView, giftcard.getImages().get(0).getUrl());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +60,7 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
         }
     }
 
-    public void updateData(List<Giftcard> data){
+    public void updateData(List<Giftcard> data) {
         giftcardList = data;
         notifyDataSetChanged();
     }

@@ -7,9 +7,7 @@ import com.google.gson.annotations.Expose;
 
 import java.math.BigInteger;
 
-/**
- * Created by mak on 16-01-2016.
- */
+
 public class User implements Parcelable {
 
     @Expose
@@ -31,11 +29,13 @@ public class User implements Parcelable {
     @Expose
     private String accountNumber;
     @Expose
+    private String cardholderName;
+    @Expose
     private String facebookProfileImageUrl;
     @Expose
     private boolean termsAccepted;
 
-    public User(BigInteger facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber) {
+    public User(BigInteger facebookId, String password, String name, String email, boolean emailConfirmed, String phone, boolean phoneConfirmed, String accountNumber, String cardholderName) {
         this.facebookId = facebookId;
         this.password = password;
         this.name = name;
@@ -44,6 +44,7 @@ public class User implements Parcelable {
         this.phone = phone;
         this.phoneConfirmed = phoneConfirmed;
         this.accountNumber = accountNumber;
+        this.cardholderName = cardholderName;
     }
 
     public User(User newUser) {
@@ -60,6 +61,15 @@ public class User implements Parcelable {
 
     public User() {
 
+    }
+
+
+    public String getCardholderName() {
+        return cardholderName;
+    }
+
+    public void setCardholderName(String cardholderName) {
+        this.cardholderName = cardholderName;
     }
 
     public void setFacebookProfileImageUrl(String facebookProfileImageUrl) {
@@ -154,7 +164,7 @@ public class User implements Parcelable {
     public String toString() {
         return "{ sellerId:" + userId + ", password:" + password + ", name:" + name + ", email:" + email +
                 ", emailConfirmed:" + emailConfirmed + ", phone:" + phone + ", phoneConfirmed:" + phoneConfirmed +
-                ", accountNumber:" + accountNumber + "}";
+                ", accountNumber:" + accountNumber + ", cardholderName:" + cardholderName +"}";
     }
 
     @Override
@@ -173,6 +183,7 @@ public class User implements Parcelable {
         dest.writeString(this.phone);
         dest.writeByte(this.phoneConfirmed ? (byte) 1 : (byte) 0);
         dest.writeString(this.accountNumber);
+        dest.writeString(this.cardholderName);
         dest.writeString(this.facebookProfileImageUrl);
         dest.writeByte(this.termsAccepted ? (byte) 1 : (byte) 0);
     }
@@ -187,11 +198,12 @@ public class User implements Parcelable {
         this.phone = in.readString();
         this.phoneConfirmed = in.readByte() != 0;
         this.accountNumber = in.readString();
+        this.cardholderName = in.readString();
         this.facebookProfileImageUrl = in.readString();
         this.termsAccepted = in.readByte() != 0;
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);

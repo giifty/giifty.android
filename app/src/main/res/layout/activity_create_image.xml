@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="dk.android.giifty.CreateImageActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/image_container_id"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="canGoToNext"
+            type="android.databinding.ObservableBoolean" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_no_picture"
-        android:layout_above="@+id/camera_button_id" />
+        tools:context="dk.android.giifty.CreateImageActivity">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/ic_camera_black_24dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/camera_button_id" />
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/image_container_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/framelayout_container_id"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_no_picture" />
+
+        <RelativeLayout
+            android:id="@+id/framelayout_container_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp">
+
+            <include
+                android:id="@+id/next_id"
+                layout="@layout/next_step_layout"
+                bind:canGoToNext="@{canGoToNext}" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

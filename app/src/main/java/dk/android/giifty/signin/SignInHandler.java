@@ -19,9 +19,6 @@ import dk.android.giifty.web.WebApi;
 import retrofit2.Response;
 
 
-/**
- * Created by mak on 20-02-2016.
- */
 public class SignInHandler {
     private static final String TAG = SignInHandler.class.getSimpleName();
     private WebApi webService;

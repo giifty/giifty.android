@@ -18,9 +18,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 
-/**
- * Created by mak on 16-01-2016.
- */
 public interface WebApi {
 
     //User-related
@@ -53,15 +50,11 @@ public interface WebApi {
     @GET("Giftcards/GetMainView")
     Call<List<Company>> getMainView();
 
-    @POST("Giftcards/CreatGiftcard")
-    Call<Giftcard> createGiftcard(@Header("Token") String authHeader, @Body GiftcardProperties description);
-
     @Multipart
-    @POST("Giftcards/CreateGiftcardAndImage")
-        //TODO spelling error
+    @POST("Giftcards/CreateGiftcard")
     Call<Giftcard> createGiftcardWithImage(@Header("Token") String authHeader,
                                            @Part("image\"; filename=\"image.jpg ") RequestBody image,
-                                           @Part("image\"; filename=\"image.jpg ") RequestBody barcodeImage,
+                                       //    @Part("image\"; filename=\"image.jpg ") RequestBody barcodeImage,
                                            @Part("giftcard") GiftcardProperties body);
 
     // buy giftcard

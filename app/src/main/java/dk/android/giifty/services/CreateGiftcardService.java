@@ -15,6 +15,7 @@ import dk.android.giifty.busevents.GiftcardCreatedEvent;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.signin.SignInHandler;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
 import okhttp3.MediaType;
@@ -23,13 +24,15 @@ import retrofit2.Response;
 
 public class CreateGiftcardService extends IntentService {
 
-    private static final String EXTRA_GC_REQUEST = "dk.android.giifty.services.CreateGiftcardService.extra.PARAM1";
+    private static final String EXTRA_GC_REQUEST = "dk.android.giifty.services.CreateGiftcardService.extra.GC_REQUEST";
     private static final String TAG = CreateGiftcardService.class.getSimpleName();
     private final WebApi api;
+    private GiiftyPreferences preferences;
 
     public CreateGiftcardService() {
         super("GiftcardService");
         api = ServiceCreator.createServiceWithAuthenticator();
+        preferences = new GiiftyPreferences();
     }
 
     public static void createGiftcard(Context context, GiftcardRequest request) {
@@ -41,16 +44,17 @@ public class CreateGiftcardService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent()");
+        GiftcardCreatedEvent event = new GiftcardCreatedEvent(null, false);
         if (intent != null) {
             GiftcardRequest request = (GiftcardRequest) intent.getSerializableExtra(EXTRA_GC_REQUEST);
-            GiftcardCreatedEvent event = new GiftcardCreatedEvent(null, false);
             RequestBody image = RequestBody.create(MediaType.parse("image/jpg"), new File(request.getGcImagePath()));
-            RequestBody barcode = RequestBody.create(MediaType.parse("image/jpg"), new File(request.getBarcodeImagePath()));
+
             try {
-                Response<Giftcard> response = api.createGiftcardWithImage(SignInHandler.getServerToken(), image, barcode, request.getProperties()).execute();
+                Response<Giftcard> response = api.createGiftcardWithImage(SignInHandler.getServerToken(), image, request.getProperties()).execute();
                 Log.d(TAG, "isSuccessFul:" + response.isSuccessful());
                 if (!response.isSuccessful()) {
-                    //TODO stop sequence
+                    Log.d(TAG, "error msg:" + response.message());
+                    return;
                 }
                 event = new GiftcardCreatedEvent(response.body(), response.isSuccessful());
             } catch (IOException e) {
@@ -69,5 +73,4 @@ public class CreateGiftcardService extends IntentService {
             }
         });
     }
-
 }
