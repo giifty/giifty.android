@@ -2,6 +2,7 @@ package dk.android.giifty.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,7 +10,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 
-import java.util.HashMap;
 import java.util.List;
 
 import dk.android.giifty.model.Giftcard;
@@ -63,10 +63,27 @@ public class GiiftyPreferences {
         getPrefs().edit().putString(KEY_MY_GIFTCARDS, result).commit();
     }
 
+    public Giftcard getPurchasedGiftcard(int id) {
+        Toast.makeText(context, "TODO getPurchasedGiftcard", Toast.LENGTH_LONG).show();
+        return null;
+    }
+
+    public void addMyGiftcard(Giftcard giftcard) {
+        List<Giftcard> list = getMyGiftcards();
+        list.add(giftcard);
+        persistMyGiftcards(list);
+    }
+    public void addPurchased(Giftcard giftcard) {
+        List<Giftcard> list = getPurchasedGiftcards();
+        list.add(giftcard);
+        persistPurchasedGiftcards(list);
+    }
+
     public List<Giftcard> getMyGiftcards() {
         return getObject(KEY_MY_GIFTCARDS, new TypeToken<List<Giftcard>>() {
         });
     }
+
     public List<Giftcard> getPurchasedGiftcards() {
         return getObject(KEY_MY_GC_PURCHASED, new TypeToken<List<Giftcard>>() {
         });
@@ -143,6 +160,4 @@ public class GiiftyPreferences {
     public void deleteKey(String keyToDelete) {
         getPrefs().edit().remove(keyToDelete).commit();
     }
-
-
 }

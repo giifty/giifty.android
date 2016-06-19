@@ -56,7 +56,9 @@ public class CreateGiftcardService extends IntentService {
                     Log.d(TAG, "error msg:" + response.message());
                     return;
                 }
-                event = new GiftcardCreatedEvent(response.body(), response.isSuccessful());
+                Giftcard giftcard = response.body();
+                preferences.addMyGiftcard(giftcard);
+                event = new GiftcardCreatedEvent(giftcard, response.isSuccessful());
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

@@ -26,11 +26,8 @@ public class GiftcardRepository {
     private static final String TAG = GiftcardRepository.class.getSimpleName();
     private static GiftcardRepository instance;
     private GiiftyPreferences giiftyPreferences;
-    private HashMap<Integer, Giftcard> giftcardsToSale;
-    private HashMap<Integer, Giftcard> giftcardsPurchased;
     private List<Company> companyList;
     private HashMap<Integer, List<Giftcard>> map;
-    private int currentUserId;
 
     public static GiftcardRepository getInstance() {
         return instance == null ? (instance = new GiftcardRepository()) : instance;
@@ -44,18 +41,6 @@ public class GiftcardRepository {
         GiiftyApplication.getBus().register(this);
         GiftcardService.fetchMainView(GiiftyApplication.getMyApplicationContext());
         GiftcardService.fetchGiftcards(GiiftyApplication.getMyApplicationContext());
-
-        giftcardsToSale = giiftyPreferences.getGiftcardsToSale();
-        if (giftcardsToSale == null) {
-            //create from serverList
-            giftcardsToSale = new HashMap<>();
-        }
-
-        giftcardsPurchased = giiftyPreferences.getPurchasedGiftcards();
-        if (giftcardsPurchased == null) {
-            //create from serverList
-            giftcardsPurchased = new HashMap<>();
-        }
     }
 
     public Giftcard getGiftcard(int id) {
@@ -92,32 +77,8 @@ public class GiftcardRepository {
         return Collections.unmodifiableList(companyList);
     }
 
-
-    public List<Giftcard> getMyGiftcardForSale() {
-        return Collections.unmodifiableList(new ArrayList<>(giftcardsToSale.values()));
-    }
-
-    public List<Giftcard> getMyGiftcardPurchased() {
-        return Collections.unmodifiableList(new ArrayList<>(giftcardsPurchased.values()));
-    }
-
     public List<Company> getCompanyList() {
         return companyList;
-    }
-
-    public Giftcard getPurchasedGiftcard(int id) {
-        return giftcardsPurchased.get(id);
-    }
-
-    public void addPurchased(Giftcard giftcard) {
-        removeGiftcardFromCompanyList(giftcard);
-        giftcardsPurchased.put(giftcard.getGiftcardId(), giftcard);
-        giiftyPreferences.persistPurchasedGiftcards(giftcardsPurchased);
-    }
-
-    public void addGiftCardOnSale(Giftcard giftcard) {
-        giftcardsToSale.put(giftcard.getGiftcardId(), giftcard);
-        giiftyPreferences.persistGiftcardsToSale(giftcardsToSale);
     }
 
     @Subscribe

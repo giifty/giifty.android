@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.services.PurchaseService;
 import dk.android.giifty.utils.ActivityStarter;
@@ -41,8 +40,6 @@ public abstract class PurchaseFragment extends Fragment {
     }
 
     public void onPurchaseSuccess(Giftcard giftcard) {
-        GiftcardRepository gcRepo = GiftcardRepository.getInstance();
-        gcRepo.addPurchased(giftcard);
         ActivityStarter
                 .startPurchaseSuccessAct(getActivity(), giftcard.getGiftcardId());
     }

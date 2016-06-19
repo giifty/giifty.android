@@ -14,13 +14,14 @@ import dk.android.giifty.busevents.GiftcardPurchasedEvent;
 import dk.android.giifty.busevents.OrderIdFetchedEvent;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.signin.SignInHandler;
+import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
 import retrofit2.Response;
 
 
 public class PurchaseService extends IntentService {
-    public static final String EXTRA_GIFTCARD_ID = "dk.android.giifty.services.extra.PARAM2";
+    public static final String EXTRA_GIFTCARD_ID = "dk.android.giifty.services.extra.GIFTCARD_ID";
     public static final String ACTION_RESERVE_GC = "reserveGc";
     public static final String ACTION_PURCHASE_GC = "purchaseGc";
     private static final String TAG = PurchaseService.class.getSimpleName();
@@ -67,7 +68,7 @@ public class PurchaseService extends IntentService {
         Response<String> response = api.getTransactionOrderId(SignInHandler.getServerToken(), giftcardId).execute();
         if (response.isSuccessful()) {
             postReservationEvent(new OrderIdFetchedEvent(response.body(), true));
-        }else {
+        } else {
             postReservationEvent(new OrderIdFetchedEvent(null, false));
         }
     }
@@ -76,8 +77,10 @@ public class PurchaseService extends IntentService {
         Log.d(TAG, "purchaseGiftcard() giftcardId:" + giftcardId);
         Response<Giftcard> response = api.buyGiftcard(SignInHandler.getServerToken(), giftcardId).execute();
         if (response.isSuccessful()) {
-            postPurchaseEvent(new GiftcardPurchasedEvent(response.body(), true));
-        }else {
+            Giftcard giftcard = response.body();
+            GiiftyPreferences.getInstance().addPurchased(giftcard);
+            postPurchaseEvent(new GiftcardPurchasedEvent(giftcard, true));
+        } else {
             postPurchaseEvent(new GiftcardPurchasedEvent(null, false));
         }
     }

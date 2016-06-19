@@ -6,9 +6,6 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-/**
- * Created by mak on 11-01-2016.
- */
 public class Giftcard {
     @Expose
     private int value;
