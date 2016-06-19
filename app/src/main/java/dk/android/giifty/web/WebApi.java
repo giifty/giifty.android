@@ -47,6 +47,12 @@ public interface WebApi {
     @GET("Giftcards/GetAllGiftcards/id")
     Call<Giftcard> getSpecificGiftCard();
 
+    @GET("Giftcards/GetMyGiftcards")
+    Call<List<Giftcard>> getMyGiftcards(@Header("Token") String authHeader);
+
+    @GET("Giftcards/GetMyPurchasedGiftcards")
+    Call<List<Giftcard>> getMyPurchasedGiftcards(@Header("Token") String authHeader);
+
     @GET("Giftcards/GetMainView")
     Call<List<Company>> getMainView();
 
@@ -54,7 +60,6 @@ public interface WebApi {
     @POST("Giftcards/CreateGiftcard")
     Call<Giftcard> createGiftcardWithImage(@Header("Token") String authHeader,
                                            @Part("image\"; filename=\"image.jpg ") RequestBody image,
-                                       //    @Part("image\"; filename=\"image.jpg ") RequestBody barcodeImage,
                                            @Part("giftcard") GiftcardProperties body);
 
     // buy giftcard

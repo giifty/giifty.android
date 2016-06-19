@@ -55,11 +55,11 @@
         <activity
             android:name=".PriceAndDescriptionActivity"
             android:label="@string/price_and_description"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ReviewActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:label="@string/walk_trough_overview" />
+            android:label="@string/walk_trough_overview"
+            android:windowSoftInputMode="stateHidden" />
 
         <service
             android:name=".services.UserService"
@@ -78,6 +78,12 @@
             android:exported="false" />
         <service
             android:name=".services.CreateGiftcardService"
+            android:exported="false" />
+        <service
+            android:name=".services.MyGiftcardService"
+            android:exported="false" />
+        <service
+            android:name=".services.MyPurchasedGiftcardService"
             android:exported="false" />
 
     </application>

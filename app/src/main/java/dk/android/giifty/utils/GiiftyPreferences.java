@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
+import java.util.List;
 
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.model.User;
@@ -26,7 +27,7 @@ public class GiiftyPreferences {
     private static final String NAME_SPACE = "namespace_giifty";
     private Gson gson;
     private static final String KEY_USER = "user_user";
-    public static final String KEY_MY_GC_ON_SALE = "giftcardsOnSale";
+    public static final String KEY_MY_GIFTCARDS = "giftcardsOnSale";
     public static final String KEY_MY_GC_PURCHASED = "giftcardsPurchased";
 
     public void setContext(Context context) {
@@ -50,26 +51,24 @@ public class GiiftyPreferences {
         return context.getSharedPreferences(NAME_SPACE, Context.MODE_PRIVATE);
     }
 
-
-    public void persistPurchasedGiftcards(HashMap<Integer, Giftcard> map) {
-        String result = gson.toJson(map, new TypeToken<HashMap<Integer, Giftcard>>() {
+    public void persistPurchasedGiftcards(List<Giftcard> giftcardList) {
+        String result = gson.toJson(giftcardList, new TypeToken<List<Giftcard>>() {
         }.getType());
         getPrefs().edit().putString(KEY_MY_GC_PURCHASED, result).commit();
     }
 
-    public void persistGiftcardsToSale(HashMap<Integer, Giftcard> map) {
-        String result = gson.toJson(map, new TypeToken<HashMap<Integer, Giftcard>>() {
+    public void persistMyGiftcards(List<Giftcard> giftcardList) {
+        String result = gson.toJson(giftcardList, new TypeToken<List<Giftcard>>() {
         }.getType());
-        getPrefs().edit().putString(KEY_MY_GC_ON_SALE, result).commit();
+        getPrefs().edit().putString(KEY_MY_GIFTCARDS, result).commit();
     }
 
-    public HashMap<Integer, Giftcard> getPurchasedGiftcards() {
-        return getObject(KEY_MY_GC_PURCHASED, new TypeToken<HashMap<Integer, Giftcard>>() {
+    public List<Giftcard> getMyGiftcards() {
+        return getObject(KEY_MY_GIFTCARDS, new TypeToken<List<Giftcard>>() {
         });
     }
-
-    public HashMap<Integer, Giftcard> getGiftcardsToSale() {
-        return getObject(KEY_MY_GC_ON_SALE, new TypeToken<HashMap<Integer, Giftcard>>() {
+    public List<Giftcard> getPurchasedGiftcards() {
+        return getObject(KEY_MY_GC_PURCHASED, new TypeToken<List<Giftcard>>() {
         });
     }
 
@@ -84,7 +83,7 @@ public class GiiftyPreferences {
 
     public void clearUser() {
         deleteKey(KEY_USER);
-        deleteKey(KEY_MY_GC_ON_SALE);
+        deleteKey(KEY_MY_GIFTCARDS);
         deleteKey(KEY_MY_GC_PURCHASED);
     }
 

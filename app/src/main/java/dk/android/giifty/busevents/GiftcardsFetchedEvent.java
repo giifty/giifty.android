@@ -6,9 +6,6 @@ import java.util.List;
 
 import dk.android.giifty.model.Giftcard;
 
-/**
- * Created by mak on 15-05-2016.
- */
 public class GiftcardsFetchedEvent {
     @Nullable
     public final List<Giftcard> companyList;

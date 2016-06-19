@@ -18,22 +18,16 @@ import dk.android.giifty.web.ServiceCreator;
 import dk.android.giifty.web.WebApi;
 import retrofit2.Response;
 
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- */
 public class GiftcardService extends IntentService {
 
     private static final String ACTION_FETCH_MAIN = "dk.android.giifty.services.action.FETCH_MAIN";
     private static final String ACTION_FETCH_GIFTCARDS = "dk.android.giifty.services.action.FETCH_GIFTCARDS";
+    private static final String TAG = GiftcardService.class.getSimpleName();
 
     private final WebApi api;
 
     public GiftcardService() {
-        super("GiftcardService");
+        super(TAG);
         api = ServiceCreator.createServiceNoAuthenticator();
     }
 

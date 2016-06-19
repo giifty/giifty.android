@@ -16,6 +16,7 @@ import java.util.List;
 
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
+import dk.android.giifty.busevents.PurchasedGiftcardsFetchedEvent;
 import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
@@ -25,14 +26,8 @@ import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.GiiftyPreferences;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PurchasedGiftcardsFrag extends DrawerFragment {
 
-
-    private GiftcardRepository controller;
     private GiftcardAdapter1 adapter;
     private GiiftyPreferences myPrefs;
     private TextView emptyText;
@@ -45,7 +40,6 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_giftcards, container, false);
-        controller = GiftcardRepository.getInstance();
         myPrefs = GiiftyPreferences.getInstance();
 
         emptyText = (TextView) root.findViewById(R.id.no_giftcards_text_id);
@@ -92,9 +86,15 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
             setData();
         }
     }
+    @Subscribe
+    public void onSignedIn(PurchasedGiftcardsFetchedEvent event) {
+        if (event.isSuccessFul) {
+            setData();
+        }
+    }
 
     private void setData() {
-        List<Giftcard> immutableList = controller.getMyGiftcardPurchased();
+        List<Giftcard> immutableList = myPrefs.getPurchasedGiftcards();
         if (immutableList.isEmpty()) {
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getText(R.string.msg_no_puchased_gc));

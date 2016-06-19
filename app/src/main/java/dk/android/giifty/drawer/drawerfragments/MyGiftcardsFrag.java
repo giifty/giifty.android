@@ -15,10 +15,10 @@ import java.util.List;
 
 import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
+import dk.android.giifty.busevents.MyGiftcardsFetchedEvent;
 import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
-import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
@@ -28,7 +28,6 @@ import dk.android.giifty.utils.GiiftyPreferences;
 
 public class MyGiftcardsFrag extends DrawerFragment {
 
-    private GiftcardRepository controller;
     private GiftcardAdapter1 adapter;
     private GiiftyPreferences myPrefs;
     private TextView emptyText;
@@ -41,7 +40,6 @@ public class MyGiftcardsFrag extends DrawerFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_giftcards, container, false);
-        controller = GiftcardRepository.getInstance();
         myPrefs = GiiftyPreferences.getInstance();
         emptyText = (TextView) root.findViewById(R.id.no_giftcards_text_id);
         int userId = -1;
@@ -84,15 +82,21 @@ public class MyGiftcardsFrag extends DrawerFragment {
             setData();
         }
     }
+    @Subscribe
+    public void onGiftcardsFetched(MyGiftcardsFetchedEvent event) {
+        if (event.isSuccessFul) {
+            setData();
+        }
+    }
 
     private void setData() {
-        List<Giftcard> immutableList = controller.getMyGiftcardForSale();
-        if (immutableList.isEmpty()) {
+        List<Giftcard> list = myPrefs.getMyGiftcards();
+        if (list.isEmpty()) {
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getText(R.string.msg_no_puchased_gc));
         } else {
             emptyText.setVisibility(View.INVISIBLE);
-            adapter.updateData(immutableList);
+            adapter.updateData(list);
         }
     }
 }
