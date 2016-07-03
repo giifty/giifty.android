@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
@@ -21,14 +22,17 @@ import dk.android.giifty.model.Company;
 import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.model.User;
 import dk.android.giifty.services.CreateGiftcardService;
+import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Constants;
 import dk.android.giifty.utils.GiiftyPreferences;
+import dk.android.giifty.utils.ImageRotator;
 
 public class ReviewActivity extends BaseActivity {
 
     private static final String TAG = ReviewActivity.class.getSimpleName();
     private GiftcardRequest giftcardRequest;
     private ObservableBoolean isBusy = new ObservableBoolean(false);
+    private ObservableBoolean isLoadingImage = new ObservableBoolean(false);
     private ActivityReviewBinding binding;
 
     @Override
@@ -67,10 +71,21 @@ public class ReviewActivity extends BaseActivity {
         binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.giftcardInformationId.validateInput()){
+                if (binding.giftcardInformationId.validateInput()) {
                     isBusy.set(true);
                     CreateGiftcardService.createGiftcard(ReviewActivity.this, giftcardRequest);
                 }
+            }
+        });
+    }
+
+    public void changePicture(View v) {
+        Snackbar.make(binding.imageBarcodeId, "Skift billede?", Snackbar.LENGTH_SHORT).setAction("GO", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                giftcardRequest.setGcImagePath(null);
+                ActivityStarter.startCreateImageActClearTop(ReviewActivity.this, giftcardRequest);
+                finish();
             }
         });
     }
@@ -79,6 +94,7 @@ public class ReviewActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         GiiftyApplication.getBus().register(this);
+        new ImageRotator(giftcardRequest.getGcImagePath(), binding.imageId, isLoadingImage);
     }
 
     @Override

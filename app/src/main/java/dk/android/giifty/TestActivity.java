@@ -16,9 +16,6 @@ import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Utils;
 
-/**
- * Created by mak on 16-01-2016.
- */
 public class TestActivity extends AppCompatActivity {
 
     private static final String TAG = TestActivity.class.getSimpleName();
@@ -82,7 +79,7 @@ public class TestActivity extends AppCompatActivity {
                 request.getProperties().expirationDateUtc = new DateTime().plusDays(376);
                 request.getProperties().setPrice("240");
                 request.getProperties().setValue("540");
-                ActivityStarter.startPriceAndDescriptionActivity(TestActivity.this, request);
+                ActivityStarter.startReviewActivity(TestActivity.this, request);
             }
         });
     }

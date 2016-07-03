@@ -22,9 +22,6 @@ import dk.android.giifty.UpdateUserActivity;
 import dk.android.giifty.model.Company;
 import dk.android.giifty.model.GiftcardRequest;
 
-/**
- * Created by mak on 13-02-2016.
- */
 public class ActivityStarter {
     private static final String TAG = ActivityStarter.class.getSimpleName();
 
@@ -47,6 +44,13 @@ public class ActivityStarter {
     public static void startCreateImageAct(Activity activity, GiftcardRequest giftcardRequest) {
         Intent intent = new Intent(activity, CreateImageActivity.class);
         intent.putExtra(Constants.EXTRA_GC_REQUEST, giftcardRequest);
+        startActivityWithSlideIn(activity, intent);
+    }
+
+    public static void startCreateImageActClearTop(Activity activity, GiftcardRequest giftcardRequest) {
+        Intent intent = new Intent(activity, CreateImageActivity.class);
+        intent.putExtra(Constants.EXTRA_GC_REQUEST, giftcardRequest);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivityWithSlideIn(activity, intent);
     }
 

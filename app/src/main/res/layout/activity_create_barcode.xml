@@ -29,12 +29,44 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".CreateBarcodeActivity">
 
-        <ImageView
-            android:id="@+id/barcode_view_id"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:id="@+id/sd85858"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/barcode_view_id"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_no_picture" />
+
+            <TextView
+                android:id="@+id/barcode_text_id"
+                android:padding="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/barcode_view_id"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="45dp"
+                android:background="@color/white"
+                android:text="Scan stregkoden på dit gavekort."
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/number_out_of_id"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sd85858"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_no_picture" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="23dp"
+            android:gravity="center_horizontal"
+            android:text="@{pageNumber}"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp" />
 
         <Button
             android:id="@+id/start_scan_id"
@@ -44,29 +76,6 @@
             android:layout_centerHorizontal="true"
             android:text="Start scanning"
             android:visibility="@{!canGoToNext.get() ? View.VISIBLE : View.GONE}" />
-
-        <TextView
-            android:id="@+id/barcode_text_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/barcode_view_id"
-            android:layout_centerHorizontal="true"
-            android:text="Scan stregkoden på dit gavekort."
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/number_out_of_id"
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="23dp"
-            android:gravity="center_horizontal"
-            android:text="@{pageNumber}"
-            android:textColor="@color/colorPrimary"
-            android:textSize="28sp"
-            android:layout_below="@+id/barcode_text_id"
-            android:layout_centerHorizontal="true" />
 
         <include
             android:id="@+id/next_id"
