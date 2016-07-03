@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +25,7 @@ import dk.android.giifty.databinding.ActivityCreateImageBinding;
 import dk.android.giifty.model.GiftcardRequest;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Constants;
+import dk.android.giifty.utils.ImageRotator;
 
 public class CreateImageActivity extends BaseActivity {
 
@@ -33,10 +33,11 @@ public class CreateImageActivity extends BaseActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 7773;
     private static final String TAG = CreateImageActivity.class.getSimpleName();
     private GiftcardRequest giftcardRequest;
-    private ImageView image;
     private File imageFile;
     private ActivityCreateImageBinding binding;
     private ObservableBoolean canGoToNext = new ObservableBoolean();
+    private ObservableBoolean isLoadingImage = new ObservableBoolean();
+
     private boolean dontAutoStart;
 
     @Override
@@ -45,11 +46,11 @@ public class CreateImageActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_image);
 
         giftcardRequest = (GiftcardRequest) getIntent().getSerializableExtra(Constants.EXTRA_GC_REQUEST);
-        image = (ImageView) findViewById(R.id.image_container_id);
 
         binding.setNextPageText(getString(R.string.price_and_description));
         binding.setPageNumber("2/4");
         binding.setCanGoToNext(canGoToNext);
+        binding.setIsLoadingImage(isLoadingImage);
 
         binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +77,7 @@ public class CreateImageActivity extends BaseActivity {
         if (checkExternalStoragePermission() && !verifyPictureCreated()) {
             if (imageFile != null && !dontAutoStart)
                 dontAutoStart = true;
-                dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imageFile, REQUEST_IMAGE_CAPTURE);
+            dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imageFile, REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -92,12 +93,14 @@ public class CreateImageActivity extends BaseActivity {
         Log.d(TAG, "onActivityResult() resultCode:" + resultCode);
         dontAutoStart = true;
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+            isLoadingImage.set(true);
             prepareImagePost();
         }
     }
 
     private void prepareImagePost() {
-        image.setImageURI(Uri.fromFile(imageFile));
+        //  image.setImageURI(Uri.fromFile(imageFile));
+        new ImageRotator(imageFile.getAbsolutePath(), binding.imageContainerId, isLoadingImage);
         giftcardRequest.setGcImagePath(imageFile.getAbsolutePath());
         canGoToNext.set(true);
     }

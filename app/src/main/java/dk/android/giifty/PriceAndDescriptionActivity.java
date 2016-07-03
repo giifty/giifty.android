@@ -25,7 +25,7 @@ public class PriceAndDescriptionActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_price_and_description);
 
         binding.setProperties(giftcardRequest.getProperties());
-        binding.setNextPageText(getString(R.string.price_and_description));
+        binding.setNextPageText(getString(R.string.walk_trough_overview));
         binding.setPageNumber("3/4");
 
         binding.setCanGoToNext(new ObservableBoolean(true));
@@ -34,7 +34,7 @@ public class PriceAndDescriptionActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (binding.giftcardInformationId.validateInput())
-                    ActivityStarter.startPriceAndDescriptionActivity(PriceAndDescriptionActivity.this, giftcardRequest);
+                    ActivityStarter.startReviewActivity(PriceAndDescriptionActivity.this, giftcardRequest);
             }
         });
     }

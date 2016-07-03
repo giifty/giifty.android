@@ -46,9 +46,7 @@
             android:name=".PurchaseSuccessActivity"
             android:label="Dit købte gavekort" />
         <activity android:name=".ScannerActivity" />
-        <activity
-            android:name=".CreateBarcodeActivity"
-            android:label="@string/create_barcode" />
+        <activity android:name=".CreateBarcodeActivity" />
         <activity
             android:name=".CreateImageActivity"
             android:label="@string/take_picture" />

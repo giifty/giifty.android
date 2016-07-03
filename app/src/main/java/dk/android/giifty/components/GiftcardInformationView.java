@@ -52,10 +52,6 @@ public class GiftcardInformationView extends RelativeLayout implements DatePicke
                 datePicker.show();
             }
         });
-
-
-
-
     }
 
     //keep for databinding
