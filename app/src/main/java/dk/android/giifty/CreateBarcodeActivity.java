@@ -13,7 +13,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import dk.android.giifty.barcode.Barcode;
 import dk.android.giifty.components.BaseActivity;
@@ -42,8 +41,9 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
 
         binding.startScanId.setOnClickListener(this);
         binding.nextId.getRoot().setOnClickListener(this);
-        TextView nextButtonText = (TextView) binding.nextId.getRoot().findViewById(R.id.next_text_id);
-        nextButtonText.setText(R.string.price_and_description);
+
+        binding.setNextPageText(getString(R.string.take_picture));
+        binding.setPageNumber("1/4");
         binding.setCanGoToNext(canGoToNext);
     }
 

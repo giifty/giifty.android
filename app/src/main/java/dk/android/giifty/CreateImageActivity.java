@@ -16,7 +16,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +37,7 @@ public class CreateImageActivity extends BaseActivity {
     private File imageFile;
     private ActivityCreateImageBinding binding;
     private ObservableBoolean canGoToNext = new ObservableBoolean();
+    private boolean dontAutoStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +47,14 @@ public class CreateImageActivity extends BaseActivity {
         giftcardRequest = (GiftcardRequest) getIntent().getSerializableExtra(Constants.EXTRA_GC_REQUEST);
         image = (ImageView) findViewById(R.id.image_container_id);
 
+        binding.setNextPageText(getString(R.string.price_and_description));
+        binding.setPageNumber("2/4");
         binding.setCanGoToNext(canGoToNext);
-
-        TextView nextButtonText = (TextView) binding.nextId.getRoot().findViewById(R.id.next_text_id);
-        nextButtonText.setText(R.string.price_and_description);
 
         binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (verifyPictureCreated())
+                if (canGoToNext.get())
                     ActivityStarter.startPriceAndDescriptionActivity(CreateImageActivity.this, giftcardRequest);
             }
         });
@@ -75,7 +74,8 @@ public class CreateImageActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (checkExternalStoragePermission() && !verifyPictureCreated()) {
-            if (imageFile != null)
+            if (imageFile != null && !dontAutoStart)
+                dontAutoStart = true;
                 dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imageFile, REQUEST_IMAGE_CAPTURE);
         }
     }
@@ -90,6 +90,7 @@ public class CreateImageActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult() resultCode:" + resultCode);
+        dontAutoStart = true;
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
             prepareImagePost();
         }

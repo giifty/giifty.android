@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:hint="@string/comment"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:inputType="textCapSentences"
                 android:text="@={properties.description}" />
         </android.support.design.widget.TextInputLayout>
@@ -91,6 +91,7 @@
 
             <TextView
                 android:id="@+id/expiry_date_id"
+                android:focusable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

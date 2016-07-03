@@ -15,9 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by mak on 21-05-2016.
- */
 public class ImageCreator {
 
     private static final String TAG = ImageCreator.class.getSimpleName();

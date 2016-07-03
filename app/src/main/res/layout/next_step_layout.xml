@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentEnd="true">
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true">
 
-    <data android:layout_width="match_parent">
+    <data >
 
         <import type="android.view.View" />
 
         <variable
             name="canGoToNext"
             type="android.databinding.ObservableBoolean" />
+
+        <variable
+            name="pageNumber"
+            type="java.lang.String" />
+
+        <variable
+            name="nextPageText"
+            type="java.lang.String" />
     </data>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical|end"
-        android:orientation="horizontal"
-        android:visibility="@{canGoToNext.get() ? View.VISIBLE : View.INVISIBLE}">
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Large"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:id="@+id/next_text_id"
-            android:textColor="@color/colorPrimary"
             android:layout_height="wrap_content"
-            android:text="........." />
+            android:layout_gravity="center_vertical|end"
+            android:gravity="center_vertical|end"
+            android:orientation="horizontal"
+            android:visibility="@{canGoToNext.get() ? View.VISIBLE : View.INVISIBLE}">
 
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/ic_arrow_forward_24dp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/next_text_id"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{nextPageText}"
+                android:textColor="@color/colorPrimary" />
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_arrow_forward_24dp" />
+        </LinearLayout>
+
 </layout>

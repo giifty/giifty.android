@@ -1,9 +1,9 @@
 package dk.android.giifty;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
 import dk.android.giifty.components.BaseActivity;
 import dk.android.giifty.databinding.ActivityPriceAndDescriptionBinding;
@@ -20,25 +20,22 @@ public class PriceAndDescriptionActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_price_and_description);
         giftcardRequest = (GiftcardRequest) getIntent().getSerializableExtra(Constants.EXTRA_GC_REQUEST);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_price_and_description);
+
         binding.setProperties(giftcardRequest.getProperties());
-    }
+        binding.setNextPageText(getString(R.string.price_and_description));
+        binding.setPageNumber("3/4");
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create_gc_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+        binding.setCanGoToNext(new ObservableBoolean(true));
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_item_done) {
-            if (!binding.giftcardInformationId.validateInput()) {
-                return true;
+        binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.giftcardInformationId.validateInput())
+                    ActivityStarter.startPriceAndDescriptionActivity(PriceAndDescriptionActivity.this, giftcardRequest);
             }
-            ActivityStarter.startReviewActivity(this, giftcardRequest);
-        }
-        return super.onOptionsItemSelected(item);
+        });
     }
 }

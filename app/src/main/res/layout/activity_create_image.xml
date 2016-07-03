@@ -10,6 +10,14 @@
         <variable
             name="canGoToNext"
             type="android.databinding.ObservableBoolean" />
+
+        <variable
+            name="pageNumber"
+            type="java.lang.String" />
+
+        <variable
+            name="nextPageText"
+            type="java.lang.String" />
     </data>
 
     <RelativeLayout
@@ -26,6 +34,20 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_no_picture" />
 
+        <TextView
+            android:id="@+id/number_out_of_id"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="35dp"
+            android:gravity="center_horizontal"
+            android:text="@{pageNumber}"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:layout_alignBottom="@+id/image_container_id"
+            android:layout_centerHorizontal="true" />
+
         <RelativeLayout
             android:id="@+id/framelayout_container_id"
             android:layout_width="match_parent"
@@ -34,10 +56,18 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp">
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_vertical_margin">
+
             <include
                 android:id="@+id/next_id"
                 layout="@layout/next_step_layout"
-                bind:canGoToNext="@{canGoToNext}" />
+                bind:canGoToNext="@{canGoToNext}"
+                bind:nextPageText="@{nextPageText}" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>

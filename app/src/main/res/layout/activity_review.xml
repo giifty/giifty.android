@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="canGoToNext"
+            type="android.databinding.ObservableBoolean" />
+
         <variable
             name="request"
             type="dk.android.giifty.model.GiftcardRequest" />
@@ -20,6 +26,14 @@
         <variable
             name="busy"
             type="android.databinding.ObservableBoolean" />
+
+        <variable
+            name="pageNumber"
+            type="java.lang.String" />
+
+        <variable
+            name="nextPageText"
+            type="java.lang.String" />
 
         <import type="dk.android.giifty.utils.Utils" />
     </data>
@@ -66,9 +80,9 @@
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/view_pager_id"
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:minHeight="150dp" />
 
                 <dk.android.giifty.components.GiftcardInformationView
@@ -78,8 +92,8 @@
                     bind:properties="@{request.properties}" />
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/test_id"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp">
 
@@ -88,13 +102,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
+                        android:clickable="true"
+                        android:focusable="false"
                         android:hint="@string/account_nr"
                         android:imeOptions="actionNext"
-                        android:focusable="false"
                         android:inputType="none"
-                        android:clickable="true"
                         android:text="@{user.accountNumber}" />
                 </android.support.design.widget.TextInputLayout>
+
+                <include
+                    android:id="@+id/next_id"
+                    layout="@layout/next_step_layout"
+                    bind:canGoToNext="@{canGoToNext}"
+                    bind:nextPageText="@{nextPageText}"
+                    bind:pageNumber="@{pageNumber}" />
             </LinearLayout>
         </ScrollView>
 

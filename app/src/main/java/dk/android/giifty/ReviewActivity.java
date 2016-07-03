@@ -5,8 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.squareup.otto.Subscribe;
@@ -55,11 +53,23 @@ public class ReviewActivity extends BaseActivity {
         binding.setUser(user);
         binding.setBusy(isBusy);
         binding.setRequest(giftcardRequest);
-
+        binding.setNextPageText(getString(R.string.create_giftcard));
+        binding.setPageNumber("4/4");
+        binding.setCanGoToNext(new ObservableBoolean(true));
         binding.accountId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "accountId()");
+            }
+        });
+
+        binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.giftcardInformationId.validateInput()){
+                    isBusy.set(true);
+                    CreateGiftcardService.createGiftcard(ReviewActivity.this, giftcardRequest);
+                }
             }
         });
     }
@@ -74,24 +84,6 @@ public class ReviewActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         GiiftyApplication.getBus().unregister(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create_gc_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_item_done) {
-            if (!binding.giftcardInformationId.validateInput()) {
-                return true;
-            }
-            isBusy.set(true);
-            CreateGiftcardService.createGiftcard(this, giftcardRequest);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Subscribe
