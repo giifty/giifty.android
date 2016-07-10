@@ -1,7 +1,9 @@
 package dk.android.giifty.model;
 
 
-public class Image {
+import java.io.Serializable;
+
+public class Image implements Serializable {
     private int imageId;
     private int giftcardId;
     private String url;
@@ -17,4 +19,5 @@ public class Image {
     public String getUrl() {
         return url;
     }
+
 }

@@ -69,13 +69,13 @@ public class CardPaymentFrag extends PurchaseFragment implements TextWatcher {
 
 
     @Override
-    public void onResume() {
+    public void onStart() {
         super.onStart();
         GiiftyApplication.getBus().register(this);
     }
 
     @Override
-    public void onPause() {
+    public void onStop() {
         super.onStop();
         GiiftyApplication.getBus().unregister(this);
     }

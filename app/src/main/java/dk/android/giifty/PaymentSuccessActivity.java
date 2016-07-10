@@ -50,7 +50,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             }
         });
 
-        giftcard = getIntent().getParcelableExtra(Constants.EKSTRA_GIFTCARD);
+        giftcard = (Giftcard) getIntent().getSerializableExtra(Constants.EKSTRA_GIFTCARD);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_id);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),

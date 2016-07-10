@@ -22,6 +22,8 @@ import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.busevents.UserUpdateEvent;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.model.User;
+import dk.android.giifty.services.MyGiftcardService;
+import dk.android.giifty.services.MyPurchasedGiftcardService;
 import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.ActivityStarter;
@@ -107,7 +109,8 @@ public class FrontPageActivity extends AppCompatActivity
         GiiftyApplication.getBus().unregister(this);
     }
 
-    private void showSpecificView(int id) {
+    @Override
+    public void showSpecificView(int id) {
         showFragment(id);
         navigationView.setCheckedItem(id);
     }
@@ -218,6 +221,7 @@ public class FrontPageActivity extends AppCompatActivity
     public void onSignedIn(SignedInEvent event) {
         if (event.isSuccessful) {
             updateNaviHeader();
+            MyPurchasedGiftcardService.fetchMyPurchasedGiftcards(this);
         }
     }
 }

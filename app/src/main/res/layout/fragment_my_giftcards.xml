@@ -1,22 +1,49 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FrontPageActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_id"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="hasContent"
+            type="android.databinding.ObservableBoolean" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:context=".FrontPageActivity">
 
-    <TextView
-        android:id="@+id/no_giftcards_text_id"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        android:text="ingen gavetkort"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold|italic" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-</FrameLayout>
+        <RelativeLayout
+            android:id="@+id/no_giftcards_text_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{hasContent.get() ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_you_have_no_gc_for_sale"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold|italic"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:src="@android:drawable/ic_input_add" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

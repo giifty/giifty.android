@@ -54,7 +54,7 @@ public class CreateNewGiftcardFrag extends DrawerFragment {
     public void onResume() {
         super.onResume();
         GiiftyApplication.getBus().register(this);
-        setToolbarTitle(getString(R.string.purchased_giftcard));
+        setToolbarTitle(getString(R.string.create_giftcard));
         if (!myPrefs.hasUser()) {
             new SignInDialogHandler().startDialog(getContext());
         } else {

@@ -18,6 +18,12 @@ public abstract class DrawerFragment extends Fragment {
         }
     }
 
+    public void showFragment(int id){
+        if (mListener != null) {
+            mListener.showSpecificView(id);
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -37,5 +43,6 @@ public abstract class DrawerFragment extends Fragment {
 
     public interface OnDrawerFragmentInteraction {
         void setToolbarTitle(String title);
+        void showSpecificView(int id);
     }
 }

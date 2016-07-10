@@ -25,11 +25,11 @@ public class MyPurchasedGiftcardService extends IntentService {
 
     public MyPurchasedGiftcardService() {
         super(TAG);
-        api = ServiceCreator.createServiceNoAuthenticator();
+        api = ServiceCreator.createServiceWithAuthenticator();
     }
 
     public static void fetchMyPurchasedGiftcards(Context context) {
-        Intent intent = new Intent(context, GiftcardService.class);
+        Intent intent = new Intent(context, MyPurchasedGiftcardService.class);
         context.startService(intent);
     }
 
@@ -48,7 +48,7 @@ public class MyPurchasedGiftcardService extends IntentService {
     }
 
     private PurchasedGiftcardsFetchedEvent fetchMyGiftcards() throws IOException {
-        Response<List<Giftcard>> response = api.getMyGiftcards(SignInHandler.getServerToken()).execute();
+        Response<List<Giftcard>> response = api.getMyPurchasedGiftcards(SignInHandler.getServerToken()).execute();
 
         Log.d(TAG, "isSuccessFul:" + response.isSuccessful());
 

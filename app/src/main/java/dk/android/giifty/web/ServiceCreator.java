@@ -26,14 +26,14 @@ public class ServiceCreator {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-               .client(okHttpClient)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         return retrofit.create(WebApi.class);
     }
 
-    public static WebApi createServiceNoAuthenticator(){
+    public static WebApi createServiceNoAuthenticator() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class, new TypeAdapterYodaTime())
                 .create();

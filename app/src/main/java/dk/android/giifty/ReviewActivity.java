@@ -71,12 +71,16 @@ public class ReviewActivity extends BaseActivity {
         binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.giftcardInformationId.validateInput()) {
-                    isBusy.set(true);
-                    CreateGiftcardService.createGiftcard(ReviewActivity.this, giftcardRequest);
-                }
+                createGiftcard();
             }
         });
+    }
+
+    private void createGiftcard() {
+        if (binding.giftcardInformationId.validateInput()) {
+            isBusy.set(true);
+            CreateGiftcardService.createGiftcard(ReviewActivity.this, giftcardRequest);
+        }
     }
 
     public void changePicture(View v) {
@@ -107,6 +111,19 @@ public class ReviewActivity extends BaseActivity {
     public void onGiftcardCreated(GiftcardCreatedEvent event) {
         Log.d(TAG, "onGiftcardCreated() isSuccessFul:" + event.isSuccessFul);
         isBusy.set(false);
-        navigateUpTo(new Intent(this, FrontPageActivity.class));
+
+        if(event.isSuccessFul){
+            navigateUpTo(new Intent(this, FrontPageActivity.class));
+            return;
+        }
+
+        Snackbar.make(binding.barcodeTextId, R.string.msg_error_create_gc, Snackbar.LENGTH_LONG).setAction("Prøv igen", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createGiftcard();
+            }
+        });
     }
 }
+
+

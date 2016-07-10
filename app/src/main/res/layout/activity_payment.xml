@@ -119,6 +119,7 @@
                 android:layout_height="35dp"
                 android:background="@drawable/button_selector"
                 android:text="Mobilepay"
+                android:gravity="center"
                 android:layout_centerHorizontal="true"
                 android:textAllCaps="true"
                 android:textAppearance="?android:attr/textAppearanceLarge"

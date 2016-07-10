@@ -45,6 +45,7 @@ public class CreateGiftcardService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent()");
         GiftcardCreatedEvent event = new GiftcardCreatedEvent(null, false);
+
         if (intent != null) {
             GiftcardRequest request = (GiftcardRequest) intent.getSerializableExtra(EXTRA_GC_REQUEST);
             RequestBody image = RequestBody.create(MediaType.parse("image/jpg"), new File(request.getGcImagePath()));

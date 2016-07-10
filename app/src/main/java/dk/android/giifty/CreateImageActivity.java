@@ -71,27 +71,30 @@ public class CreateImageActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        try {
-            imageFile = ImageCreator.createImageFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        checkExternalStoragePermission();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (checkExternalStoragePermission() && !verifyPictureCreated()) {
-            if (imageFile != null && !dontAutoStart) {
+        if (!verifyPictureCreated()) {
+            if (!dontAutoStart) {
                 dontAutoStart = true;
                 dispatchCreateImageIntent();
-                return;
             }
         }
     }
 
     private void dispatchCreateImageIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (imageFile == null) {
+            try {
+                imageFile = ImageCreator.createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (intent.resolveActivity(getPackageManager()) != null) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
             intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);

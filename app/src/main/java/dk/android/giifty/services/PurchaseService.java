@@ -76,13 +76,15 @@ public class PurchaseService extends IntentService {
     private void purchaseGiftcard(int giftcardId) throws IOException {
         Log.d(TAG, "purchaseGiftcard() giftcardId:" + giftcardId);
         Response<Giftcard> response = api.buyGiftcard(SignInHandler.getServerToken(), giftcardId).execute();
-        if (response.isSuccessful()) {
-            Giftcard giftcard = response.body();
-            GiiftyPreferences.getInstance().addPurchased(giftcard);
-            postPurchaseEvent(new GiftcardPurchasedEvent(giftcard, true));
-        } else {
+
+        if (!response.isSuccessful()) {
             postPurchaseEvent(new GiftcardPurchasedEvent(null, false));
+            return;
         }
+
+        Giftcard giftcard = response.body();
+        GiiftyPreferences.getInstance().addPurchased(giftcard);
+        postPurchaseEvent(new GiftcardPurchasedEvent(giftcard, true));
     }
 
     private void postPurchaseEvent(final GiftcardPurchasedEvent event) {

@@ -17,6 +17,15 @@ public class GiftcardProperties implements Serializable {
     public DateTime expirationDateUtc;
     public String description;
     public Barcode barcode;
+    public String cvc;
+
+    public String getCvc() {
+        return cvc;
+    }
+
+    public void setCvc(String cvc) {
+        this.cvc = cvc;
+    }
 
     public String getValue() {
         return String.valueOf(value);

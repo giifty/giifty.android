@@ -2,7 +2,6 @@ package dk.android.giifty.web;
 
 
 import java.io.IOException;
-import java.net.Proxy;
 
 import dk.android.giifty.signin.SignInHandler;
 import okhttp3.Authenticator;
@@ -12,15 +11,23 @@ import okhttp3.Route;
 
 public class MyAuthenticator implements Authenticator {
 
+    private boolean hasRetried;
+
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
-        if (SignInHandler.getInstance().refreshTokenSynchronous()) {
+
+        if (!hasRetried) {
+            SignInHandler.getInstance().refreshTokenSynchronous();
+            hasRetried = true;
             return response
                     .request()
                     .newBuilder()
                     .header("Authorization", SignInHandler.getServerToken())
                     .build();
+
         }
+
+        hasRetried = false;
         return null;
     }
 }

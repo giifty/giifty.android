@@ -29,7 +29,7 @@ public class MyGiftcardService extends IntentService {
     }
 
     public static void fetchMyGiftcards(Context context) {
-        Intent intent = new Intent(context, GiftcardService.class);
+        Intent intent = new Intent(context, MyGiftcardService.class);
         context.startService(intent);
     }
 

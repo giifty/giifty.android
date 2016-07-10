@@ -1,14 +1,12 @@
 package dk.android.giifty.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 
-public class User implements Parcelable {
+public class User implements Serializable {
 
     @Expose
     private int userId;
@@ -166,52 +164,4 @@ public class User implements Parcelable {
                 ", emailConfirmed:" + emailConfirmed + ", phone:" + phone + ", phoneConfirmed:" + phoneConfirmed +
                 ", accountNumber:" + accountNumber + ", cardholderName:" + cardholderName +"}";
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.userId);
-        dest.writeSerializable(this.facebookId);
-        dest.writeString(this.password);
-        dest.writeString(this.name);
-        dest.writeString(this.email);
-        dest.writeByte(this.emailConfirmed ? (byte) 1 : (byte) 0);
-        dest.writeString(this.phone);
-        dest.writeByte(this.phoneConfirmed ? (byte) 1 : (byte) 0);
-        dest.writeString(this.accountNumber);
-        dest.writeString(this.cardholderName);
-        dest.writeString(this.facebookProfileImageUrl);
-        dest.writeByte(this.termsAccepted ? (byte) 1 : (byte) 0);
-    }
-
-    protected User(Parcel in) {
-        this.userId = in.readInt();
-        this.facebookId = (BigInteger) in.readSerializable();
-        this.password = in.readString();
-        this.name = in.readString();
-        this.email = in.readString();
-        this.emailConfirmed = in.readByte() != 0;
-        this.phone = in.readString();
-        this.phoneConfirmed = in.readByte() != 0;
-        this.accountNumber = in.readString();
-        this.cardholderName = in.readString();
-        this.facebookProfileImageUrl = in.readString();
-        this.termsAccepted = in.readByte() != 0;
-    }
-
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 }

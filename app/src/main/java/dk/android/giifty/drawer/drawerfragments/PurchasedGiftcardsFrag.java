@@ -1,9 +1,10 @@
 package dk.android.giifty.drawer.drawerfragments;
 
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.R;
 import dk.android.giifty.busevents.PurchasedGiftcardsFetchedEvent;
 import dk.android.giifty.busevents.SignedInEvent;
+import dk.android.giifty.databinding.FragmentMyGiftcardsBinding;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
 import dk.android.giifty.model.Giftcard;
@@ -29,6 +31,7 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
     private GiftcardAdapter1 adapter;
     private GiiftyPreferences myPrefs;
     private TextView emptyText;
+    private ObservableBoolean hasContent = new ObservableBoolean();
 
     public PurchasedGiftcardsFrag() {
         // Required empty public constructor
@@ -37,10 +40,9 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_my_giftcards, container, false);
-        myPrefs = GiiftyPreferences.getInstance();
+        FragmentMyGiftcardsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_giftcards, container, false);
 
-        emptyText = (TextView) root.findViewById(R.id.no_giftcards_text_id);
+        myPrefs = GiiftyPreferences.getInstance();
 
         int userId = -1;
         if (myPrefs.hasUser()) {
@@ -48,12 +50,13 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
         }
 
         adapter = new GiftcardAdapter1(getActivity(), userId);
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_id);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        binding.recyclerViewId.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+        binding.recyclerViewId.setHasFixedSize(true);
+        binding.recyclerViewId.setAdapter(adapter);
 
-        return root;
+        binding.setHasContent(hasContent);
+
+        return binding.getRoot();
     }
 
     @Override
@@ -84,6 +87,7 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
             setData();
         }
     }
+
     @Subscribe
     public void onSignedIn(PurchasedGiftcardsFetchedEvent event) {
         if (event.isSuccessFul) {
@@ -93,11 +97,8 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
 
     private void setData() {
         List<Giftcard> gcList = myPrefs.getPurchasedGiftcards();
-        if (gcList == null || gcList.isEmpty()) {
-            emptyText.setVisibility(View.VISIBLE);
-            emptyText.setText(getText(R.string.msg_no_puchased_gc));
-        } else {
-            emptyText.setVisibility(View.INVISIBLE);
+        hasContent.set(gcList != null && !gcList.isEmpty());
+        if (gcList != null) {
             adapter.updateData(gcList);
         }
     }

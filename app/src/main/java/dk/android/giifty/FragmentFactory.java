@@ -9,9 +9,7 @@ import dk.android.giifty.drawer.drawerfragments.MyGiftcardsFrag;
 import dk.android.giifty.drawer.drawerfragments.PurchasedGiftcardsFrag;
 import dk.android.giifty.drawer.drawerfragments.SettingsFrag;
 
-/**
- * Created by mak on 30-01-2016.
- */
+
 public class FragmentFactory {
 
     public static Fragment createFragment(int id, Context context) {
