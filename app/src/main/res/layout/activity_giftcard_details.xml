@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="dk.android.giifty.GiftcardDetailsActivity">
+
+    <data>
+
+        <import type="dk.android.giifty.utils.Utils" />
+
+        <import type="java.lang.String" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="giftcard"
+            type="dk.android.giifty.model.Giftcard" />
+
+        <variable
+            name="isOwnerGiftcard"
+            type="android.databinding.ObservableBoolean" />
+    </data>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,11 +32,11 @@
 
             <ImageView
                 android:id="@+id/giftcard_image_id"
-                android:src="@drawable/ic_no_picture"
                 android:layout_width="match_parent"
-                android:transitionName="@string/hero_transition_giftcard"
+                android:layout_height="210dp"
                 android:scaleType="centerCrop"
-                android:layout_height="210dp" />
+                android:src="@drawable/ic_no_picture"
+                android:transitionName="@string/hero_transition_giftcard" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,92 +54,96 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="14. August"
                         android:layout_marginBottom="10dp"
+                        android:text="@{Utils.formatTime(giftcard.entryDate)}"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/textView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Værdi "
-                            android:id="@+id/textView3" />
+                            android:text="@string/value"
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
 
                         <TextView
                             android:id="@+id/value_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginStart="4dp"
                             android:layout_gravity="center_horizontal"
-                            android:text="Large Text"
+                            android:text="@{String.valueOf(giftcard.getValue())}"
                             android:textAppearance="?android:attr/textAppearanceLarge" />
 
                         <TextView
+                            android:id="@+id/textView5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="@string/kr"
-                            android:id="@+id/textView5" />
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/your_price"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Din pris "
-                            android:id="@+id/textView4"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/sales_price_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginStart="4dp"
                             android:layout_gravity="center_horizontal"
-                            android:text="Large Text"
+                            android:text="@{String.valueOf(giftcard.getPrice())}"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="@string/kr"
-                            android:id="@+id/textView2"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="10dp"
+                        android:gravity="center"
 
-                        android:gravity="center">
+                        android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/textView10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Udløbsdato "
-                            android:id="@+id/textView10" />
+                            android:text="@string/expiry_date"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <TextView
                             android:id="@+id/expiry_date_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="Medium Text"
+                            android:text="@{Utils.formatTime(giftcard.expirationDate)}"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
                     </LinearLayout>
 
@@ -143,25 +162,25 @@
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <View
-                        android:layout_marginTop="2dp"
-                        android:background="@color/icon_gray"
                         android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginBottom="6dp"
-                        android:layout_height="1dp" />
+                        android:layout_marginTop="2dp"
+                        android:background="@color/icon_gray" />
 
                     <TextView
                         android:id="@+id/description_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Medium Text"
+                        android:text="@{giftcard.description}"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <View
-                        android:layout_marginTop="6dp"
-                        android:background="@color/icon_gray"
                         android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginBottom="4dp"
-                        android:layout_height="1dp" />
+                        android:layout_marginTop="6dp"
+                        android:background="@color/icon_gray" />
                 </LinearLayout>
 
                 <include
@@ -170,13 +189,14 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/buy_giftcard_id"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="@string/buy_giftcard"
-                android:id="@+id/buy_giftcard_id"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
+                android:text="@string/buy_giftcard"
+                android:visibility="@{isOwnerGiftcard.get() ? View.GONE : View.VISIBLE}" />
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</layout>
