@@ -59,11 +59,10 @@
             style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sd85858"
             android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="23dp"
-            android:gravity="center_horizontal"
+            android:layout_marginBottom="65dp"
             android:text="@{pageNumber}"
             android:textColor="@color/colorPrimary"
             android:textSize="28sp" />

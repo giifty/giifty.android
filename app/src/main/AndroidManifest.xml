@@ -43,7 +43,7 @@
             android:name=".PaymentActivity"
             android:label="@string/purchase_giftcard" />
         <activity
-            android:name=".PurchaseSuccessActivity"
+            android:name=".PaymentSuccessActivity"
             android:label="Dit købte gavekort" />
         <activity android:name=".ScannerActivity" />
         <activity android:name=".CreateBarcodeActivity" />

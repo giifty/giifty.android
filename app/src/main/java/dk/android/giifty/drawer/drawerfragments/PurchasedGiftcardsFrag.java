@@ -2,7 +2,6 @@ package dk.android.giifty.drawer.drawerfragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import dk.android.giifty.busevents.PurchasedGiftcardsFetchedEvent;
 import dk.android.giifty.busevents.SignedInEvent;
 import dk.android.giifty.drawer.DrawerFragment;
 import dk.android.giifty.giftcard.GiftcardAdapter1;
-import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.signin.SignInHandler;
@@ -94,13 +92,13 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
     }
 
     private void setData() {
-        List<Giftcard> immutableList = myPrefs.getPurchasedGiftcards();
-        if (immutableList.isEmpty()) {
+        List<Giftcard> gcList = myPrefs.getPurchasedGiftcards();
+        if (gcList == null || gcList.isEmpty()) {
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getText(R.string.msg_no_puchased_gc));
         } else {
             emptyText.setVisibility(View.INVISIBLE);
-            adapter.updateData(immutableList);
+            adapter.updateData(gcList);
         }
     }
 }

@@ -56,13 +56,24 @@
             style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/id47"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="65dp"
             android:text="@{pageNumber}"
             android:textColor="@color/colorPrimary"
             android:textSize="28sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/take_picture_id"
+            android:text="@string/take_picture_text"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:visibility="@{canGoToNext.get() ? View.GONE : View.VISIBLE}"
+            android:layout_alignParentBottom="true"/>
 
         <RelativeLayout
             android:id="@+id/id47"

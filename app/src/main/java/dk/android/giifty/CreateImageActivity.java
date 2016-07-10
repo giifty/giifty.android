@@ -3,6 +3,7 @@ package dk.android.giifty;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
@@ -37,7 +38,6 @@ public class CreateImageActivity extends BaseActivity {
     private ActivityCreateImageBinding binding;
     private ObservableBoolean canGoToNext = new ObservableBoolean();
     private ObservableBoolean isLoadingImage = new ObservableBoolean();
-
     private boolean dontAutoStart;
 
     @Override
@@ -51,6 +51,13 @@ public class CreateImageActivity extends BaseActivity {
         binding.setPageNumber("2/4");
         binding.setCanGoToNext(canGoToNext);
         binding.setIsLoadingImage(isLoadingImage);
+
+        binding.takePictureId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchCreateImageIntent();
+            }
+        });
 
         binding.nextId.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,16 +82,21 @@ public class CreateImageActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (checkExternalStoragePermission() && !verifyPictureCreated()) {
-            if (imageFile != null && !dontAutoStart)
+            if (imageFile != null && !dontAutoStart) {
                 dontAutoStart = true;
-            dispatchCreateContentIntent(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), imageFile, REQUEST_IMAGE_CAPTURE);
+                dispatchCreateImageIntent();
+                return;
+            }
         }
     }
 
-    private void dispatchCreateContentIntent(Intent intent, File filePath, int requestCode) {
+    private void dispatchCreateImageIntent() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
-            startActivityForResult(intent, requestCode);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
+            intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
     }
 

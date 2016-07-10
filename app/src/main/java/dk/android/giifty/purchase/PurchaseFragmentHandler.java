@@ -8,9 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import dk.android.giifty.R;
 
-/**
- * Created by mak on 17-04-2016.
- */
 public class PurchaseFragmentHandler {
 
     private FragmentManager manager;

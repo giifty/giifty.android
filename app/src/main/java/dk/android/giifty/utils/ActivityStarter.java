@@ -15,11 +15,12 @@ import dk.android.giifty.FrontPageActivity;
 import dk.android.giifty.GiftcardDetailsActivity;
 import dk.android.giifty.PaymentActivity;
 import dk.android.giifty.PriceAndDescriptionActivity;
-import dk.android.giifty.PurchaseSuccessActivity;
+import dk.android.giifty.PaymentSuccessActivity;
 import dk.android.giifty.R;
 import dk.android.giifty.ReviewActivity;
 import dk.android.giifty.UpdateUserActivity;
 import dk.android.giifty.model.Company;
+import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.model.GiftcardRequest;
 
 public class ActivityStarter {
@@ -85,9 +86,9 @@ public class ActivityStarter {
         startActivityWithSlideIn(activity, intent);
     }
 
-    public static void startPurchaseSuccessAct(Activity activity, int giftcardId) {
-        Intent intent = new Intent(activity, PurchaseSuccessActivity.class);
-        intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);
+    public static void startPurchaseSuccessAct(Activity activity, Giftcard giftcard) {
+        Intent intent = new Intent(activity, PaymentSuccessActivity.class);
+        intent.putExtra(Constants.EKSTRA_GIFTCARD, giftcard);
         startActivityWithSlideIn(activity, intent);
     }
 

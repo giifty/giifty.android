@@ -56,7 +56,7 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
     }
 
     private String getImageUrl(Giftcard giftcard){
-       return giftcard.getImages() == null || giftcard.getImages().isEmpty() ?
+       return (giftcard.getImages() == null || giftcard.getImages().isEmpty()) ?
                company.getCompanyImageUrl() : giftcard.getImages().get(0).getUrl();
     }
     private String calculateDiscount(Giftcard giftcard) {

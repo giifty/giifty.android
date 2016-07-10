@@ -117,29 +117,14 @@
                 android:id="@+id/pay_with_mp_id"
                 android:layout_width="120dp"
                 android:layout_height="35dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="35dp"
                 android:background="@drawable/button_selector"
-                android:gravity="center"
                 android:text="Mobilepay"
+                android:layout_centerHorizontal="true"
                 android:textAllCaps="true"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/pay_with_card_id"
-                android:layout_width="120dp"
-                android:layout_height="35dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="35dp"
-                android:background="@drawable/button_selector"
-                android:gravity="center"
-                android:text="Kort"
-                android:textAllCaps="true"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp" />
         </RelativeLayout>
 
         <FrameLayout

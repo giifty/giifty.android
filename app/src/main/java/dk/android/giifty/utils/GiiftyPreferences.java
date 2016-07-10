@@ -10,8 +10,10 @@ import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import dk.android.giifty.GiiftyApplication;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.model.User;
 import dk.android.giifty.web.TypeAdapterYodaTime;
@@ -30,10 +32,6 @@ public class GiiftyPreferences {
     public static final String KEY_MY_GIFTCARDS = "giftcardsOnSale";
     public static final String KEY_MY_GC_PURCHASED = "giftcardsPurchased";
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     public static GiiftyPreferences getInstance() {
         if (myPrefs == null) {
             myPrefs = new GiiftyPreferences();
@@ -45,6 +43,7 @@ public class GiiftyPreferences {
         final GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(DateTime.class, new TypeAdapterYodaTime());
         gson = gsonBuilder.create();
+        this.context = GiiftyApplication.getMyApplicationContext();
     }
 
     private SharedPreferences getPrefs() {
@@ -80,13 +79,25 @@ public class GiiftyPreferences {
     }
 
     public List<Giftcard> getMyGiftcards() {
-        return getObject(KEY_MY_GIFTCARDS, new TypeToken<List<Giftcard>>() {
+        List<Giftcard> list = getObject(KEY_MY_GIFTCARDS, new TypeToken<List<Giftcard>>() {
         });
+
+        if(list == null){
+            list = new ArrayList<>();
+        }
+
+        return list;
     }
 
     public List<Giftcard> getPurchasedGiftcards() {
-        return getObject(KEY_MY_GC_PURCHASED, new TypeToken<List<Giftcard>>() {
+        List<Giftcard> list = getObject(KEY_MY_GC_PURCHASED, new TypeToken<List<Giftcard>>() {
         });
+
+        if(list == null){
+            list = new ArrayList<>();
+        }
+
+        return list;
     }
 
     public User getUser() {

@@ -17,11 +17,7 @@ import dk.android.giifty.utils.Utils;
  * create an instance of this fragment.
  */
 public class ImageFrag extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String EXTRA_URL = "param1";
-
-    // TODO: Rename and change types of parameters
     private String imageUrl;
 
 

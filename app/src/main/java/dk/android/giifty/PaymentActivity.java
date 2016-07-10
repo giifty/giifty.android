@@ -1,6 +1,5 @@
 package dk.android.giifty;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +17,6 @@ import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.purchase.PurchaseFragment;
 import dk.android.giifty.purchase.PurchaseFragmentHandler;
-import dk.android.giifty.purchase.purchasefragments.CardPaymentFrag;
 import dk.android.giifty.purchase.purchasefragments.MobilepayFrag;
 import dk.android.giifty.services.PurchaseService;
 import dk.android.giifty.utils.Constants;
@@ -51,8 +49,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         payButton = (Button) findViewById(R.id.pay_button_id);
         payButton.setOnClickListener(this);
 
-        cardPayButton = (TextView) findViewById(R.id.pay_with_card_id);
-        cardPayButton.setOnClickListener(this);
+        //TODO to re-add card payment -just add button in layout, and add click listener, all functionality are in place
         mobilepayButton = (TextView) findViewById(R.id.pay_with_mp_id);
         mobilepayButton.setOnClickListener(this);
 
@@ -80,12 +77,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         int id = v.getId();
         if (giftcard != null) {
-            if (id == R.id.pay_with_card_id) {
-                cardPayButton.setSelected(true);
-                mobilepayButton.setSelected(false);
-                showFragment(CardPaymentFrag.class.getName());
-            } else if (id == R.id.pay_with_mp_id) {
-                cardPayButton.setSelected(false);
+            if (id == R.id.pay_with_mp_id) {
                 mobilepayButton.setSelected(true);
                 showFragment(MobilepayFrag.class.getName());
             } else if (id == R.id.pay_button_id) {
@@ -114,12 +106,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Subscribe
-    public void onOrderIdFetched(OrderIdFetchedEvent event){
+    public void onOrderIdFetched(OrderIdFetchedEvent event) {
         Log.d(TAG, "onResponse()");
         if (event.isSuccessful) {
             orderId = event.orderId;
             setReadyToPurchase();
-        } else  {
+        } else {
             setCantPurchase();
             hideProgressBar();
             Toast.makeText(this, getString(R.string.generel_error_msg), Toast.LENGTH_LONG).show();

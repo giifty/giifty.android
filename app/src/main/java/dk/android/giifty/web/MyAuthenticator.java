@@ -10,9 +10,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
 
-/**
- * Created by mak on 21-02-2016.
- */
 public class MyAuthenticator implements Authenticator {
 
     @Override

@@ -7,14 +7,12 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
 import dk.android.giifty.giftcard.GiftcardRepository;
-import dk.android.giifty.utils.GiiftyPreferences;
+import dk.android.giifty.services.MyGiftcardService;
+import dk.android.giifty.services.MyPurchasedGiftcardService;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.Country;
 import dk.danskebank.mobilepay.sdk.MobilePay;
 
-/**
- * Created by mak on 14-02-2016.
- */
 public class GiiftyApplication extends Application {
 
     private static Context applicationContext;
@@ -25,11 +23,15 @@ public class GiiftyApplication extends Application {
         super.onCreate();
         GiiftyApplication.applicationContext = getApplicationContext();
 
-        GiiftyPreferences.getInstance().setContext(this);
         GiftcardRepository.getInstance().initController();
         Utils.printHasH(applicationContext);
 
+        //TODO get real licence for MP
         MobilePay.getInstance().init("APPDK0000000000", Country.DENMARK);
+
+        MyGiftcardService.fetchMyGiftcards(applicationContext);
+        MyPurchasedGiftcardService.fetchMyPurchasedGiftcards(applicationContext);
+
     }
 
     public static Bus getBus() {

@@ -41,7 +41,7 @@ public abstract class PurchaseFragment extends Fragment {
 
     public void onPurchaseSuccess(Giftcard giftcard) {
         ActivityStarter
-                .startPurchaseSuccessAct(getActivity(), giftcard.getGiftcardId());
+                .startPurchaseSuccessAct(getActivity(), giftcard);
     }
 
     protected void onPurchaseFailed() {

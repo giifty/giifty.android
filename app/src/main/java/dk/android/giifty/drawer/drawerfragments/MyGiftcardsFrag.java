@@ -90,13 +90,13 @@ public class MyGiftcardsFrag extends DrawerFragment {
     }
 
     private void setData() {
-        List<Giftcard> list = myPrefs.getMyGiftcards();
-        if (list.isEmpty()) {
+        List<Giftcard> gcList = myPrefs.getMyGiftcards();
+        if (gcList == null || gcList.isEmpty()) {
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText(getText(R.string.msg_no_puchased_gc));
         } else {
             emptyText.setVisibility(View.INVISIBLE);
-            adapter.updateData(list);
+            adapter.updateData(gcList);
         }
     }
 }

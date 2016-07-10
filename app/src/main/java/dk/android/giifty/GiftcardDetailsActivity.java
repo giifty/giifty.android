@@ -64,7 +64,7 @@ public class GiftcardDetailsActivity extends BaseActivity  {
             date.setText(Utils.formatTime(giftcard.getEntryDate()));
             expiryDate.setText(Utils.calculateTime(giftcard.getExpirationDate()));
             description.setText(giftcard.getDescription());
-            if (!giftcard.getImages().isEmpty()) {
+            if (giftcard.getImages() != null && !giftcard.getImages().isEmpty()) {
                 Utils.setImage(this, image, giftcard.getImages().get(0).getUrl());
             }
             ownerName.setText(giftcard.getSeller().getName());

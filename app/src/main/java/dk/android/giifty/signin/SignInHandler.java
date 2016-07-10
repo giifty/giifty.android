@@ -26,7 +26,6 @@ public class SignInHandler {
     private User currentUser;
     private static ServerToken serverToken;
 
-
     public static SignInHandler getInstance() {
         return instance == null ? (instance = new SignInHandler()) : instance;
     }
@@ -36,7 +35,6 @@ public class SignInHandler {
         currentUser = GiiftyPreferences.getInstance().getUser();
         GiiftyApplication.getBus().register(this);
     }
-
 
     public void refreshTokenAsync()  {
         Log.d(TAG, "refreshTokenAsync()");

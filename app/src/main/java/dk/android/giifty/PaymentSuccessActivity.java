@@ -24,14 +24,13 @@ import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.model.Image;
 import dk.android.giifty.utils.ActivityStarter;
 import dk.android.giifty.utils.Constants;
-import dk.android.giifty.utils.GiiftyPreferences;
 import dk.android.giifty.utils.Utils;
 
-public class PurchaseSuccessActivity extends AppCompatActivity {
+public class PaymentSuccessActivity extends AppCompatActivity {
 
     private TextView infoText, valueText, expiryDate, reportProblem;
     private Giftcard giftcard;
-    private final static String TAG = PurchaseSuccessActivity.class.getSimpleName();
+    private final static String TAG = PaymentSuccessActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +50,7 @@ public class PurchaseSuccessActivity extends AppCompatActivity {
             }
         });
 
-        int id = getIntent().getIntExtra(Constants.EKSTRA_GIFTCARD_ID, -1);
-
-        giftcard = GiiftyPreferences.getInstance().getPurchasedGiftcard(id);
+        giftcard = getIntent().getParcelableExtra(Constants.EKSTRA_GIFTCARD);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_id);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),
