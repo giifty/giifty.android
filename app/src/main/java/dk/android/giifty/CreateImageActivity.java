@@ -69,15 +69,9 @@ public class CreateImageActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        checkExternalStoragePermission();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        if (!verifyPictureCreated()) {
+        if (checkExternalStoragePermission() && !verifyPictureCreated()) {
             if (!dontAutoStart) {
                 dontAutoStart = true;
                 dispatchCreateImageIntent();
@@ -114,7 +108,6 @@ public class CreateImageActivity extends BaseActivity {
     }
 
     private void prepareImagePost() {
-        //  image.setImageURI(Uri.fromFile(imageFile));
         new ImageRotator(imageFile.getAbsolutePath(), binding.imageContainerId, isLoadingImage);
         giftcardRequest.setGcImagePath(imageFile.getAbsolutePath());
         canGoToNext.set(true);
@@ -126,25 +119,26 @@ public class CreateImageActivity extends BaseActivity {
 
     private boolean checkExternalStoragePermission() {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                 PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Tag dig sammen")
-                        .setMessage("Tag dig sammen")
-                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                askForPermission();
-                            }
-                        })
-                        .show();
-            } else {
-                askForPermission();
-            }
-        } else {
             return true;
         }
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Tag dig sammen")
+                    .setMessage("Tag dig sammen")
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            askForPermission();
+                        }
+                    })
+                    .show();
+        } else {
+            askForPermission();
+        }
+
         return false;
     }
 

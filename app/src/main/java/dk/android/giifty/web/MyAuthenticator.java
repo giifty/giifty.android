@@ -1,6 +1,8 @@
 package dk.android.giifty.web;
 
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import dk.android.giifty.signin.SignInHandler;
@@ -15,14 +17,13 @@ public class MyAuthenticator implements Authenticator {
 
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
-
         if (!hasRetried) {
             SignInHandler.getInstance().refreshTokenSynchronous();
             hasRetried = true;
             return response
                     .request()
                     .newBuilder()
-                    .header("Authorization", SignInHandler.getServerToken())
+                    .header("Token", SignInHandler.getServerToken())
                     .build();
 
         }

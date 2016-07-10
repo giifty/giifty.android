@@ -7,7 +7,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
 import dk.android.giifty.giftcard.GiftcardRepository;
-import dk.android.giifty.services.MyGiftcardService;
 import dk.android.giifty.signin.SignInHandler;
 import dk.android.giifty.utils.Utils;
 import dk.danskebank.mobilepay.sdk.Country;
@@ -31,9 +30,6 @@ public class GiiftyApplication extends Application {
         MobilePay.getInstance().init("APPDK0000000000", Country.DENMARK);
 
         SignInHandler.getInstance();
-
-        MyGiftcardService.fetchMyGiftcards(this);
-
     }
 
     public static Bus getBus() {

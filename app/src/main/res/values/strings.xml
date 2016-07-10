@@ -94,4 +94,5 @@
     <string name="take_gc_picture">Tag billede af gavekortet</string>
     <string name="take_picture_text">Tag billede</string>
     <string name="msg_error_create_gc">Ups, noget gik galt</string>
+    <string name="gc_details_ttile">Gavekortsoversigt</string>
 </resources>

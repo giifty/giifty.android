@@ -18,9 +18,6 @@ import dk.android.giifty.model.Giftcard;
 import dk.android.giifty.services.GiftcardService;
 import dk.android.giifty.utils.GiiftyPreferences;
 
-/**
- * Created by mak on 16-01-2016.
- */
 public class GiftcardRepository {
 
     private static final String TAG = GiftcardRepository.class.getSimpleName();

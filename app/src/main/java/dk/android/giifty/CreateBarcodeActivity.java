@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.view.MenuItem;
 import android.view.View;
 
 import dk.android.giifty.barcode.Barcode;
@@ -77,17 +76,6 @@ public class CreateBarcodeActivity extends BaseActivity implements View.OnClickL
                 canGoToNext.set(true);
             }
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.menu_item_done) {
-            giftcardRequest.getProperties().companyId = company.getCompanyId();
-            ActivityStarter.startCreateImageAct(this, giftcardRequest);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

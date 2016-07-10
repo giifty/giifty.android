@@ -55,8 +55,9 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
     private void startActivity(Giftcard giftcard, ImageView view) {
         if (giftcard.getSellerId() == userId) {
             //TODO start Edit Giftcard
+            ActivityStarter.startGiftCardDetails(parent, view, giftcard);
         } else if (giftcard.getBuyerId() == userId) {
-            ActivityStarter.startGiftCardDetails(parent, view, giftcard.getGiftcardId());
+            ActivityStarter.startGiftCardDetails(parent, view, giftcard);
         }
     }
 

@@ -50,7 +50,7 @@ public class GiftcardAdapter extends RecyclerView.Adapter<GiftcardAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityStarter.startGiftCardDetails(parent, holder.imageView, giftcard.getGiftcardId());
+                ActivityStarter.startGiftCardDetails(parent, holder.imageView, giftcard);
             }
         });
     }

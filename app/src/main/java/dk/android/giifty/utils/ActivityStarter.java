@@ -67,9 +67,9 @@ public class ActivityStarter {
         startActivityWithSlideIn(activity, intent);
     }
 
-    public static void startGiftCardDetails(Activity activity, View transitionView, int giftcardId) {
+    public static void startGiftCardDetails(Activity activity, View transitionView, Giftcard giftcard) {
         Intent intent = new Intent(activity, GiftcardDetailsActivity.class);
-        intent.putExtra(Constants.EKSTRA_GIFTCARD_ID, giftcardId);
+        intent.putExtra(Constants.EKSTRA_GIFTCARD, giftcard);
         startActivityWithSlideIn(activity, intent);
         //  startActivityWithHero(activity, transitionView, intent, activity.getString(R.string.hero_transition_giftcard));
     }

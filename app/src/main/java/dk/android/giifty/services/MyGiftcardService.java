@@ -25,7 +25,7 @@ public class MyGiftcardService extends IntentService {
 
     public MyGiftcardService() {
         super(TAG);
-        api = ServiceCreator.createServiceNoAuthenticator();
+        api = ServiceCreator.createServiceWithAuthenticator();
     }
 
     public static void fetchMyGiftcards(Context context) {

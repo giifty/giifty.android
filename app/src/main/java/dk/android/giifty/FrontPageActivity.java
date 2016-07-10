@@ -222,6 +222,7 @@ public class FrontPageActivity extends AppCompatActivity
         if (event.isSuccessful) {
             updateNaviHeader();
             MyPurchasedGiftcardService.fetchMyPurchasedGiftcards(this);
+            MyGiftcardService.fetchMyGiftcards(this);
         }
     }
 }
