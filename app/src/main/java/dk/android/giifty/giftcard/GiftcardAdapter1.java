@@ -19,6 +19,7 @@ import dk.android.giifty.utils.Utils;
 public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.ViewHolder> {
 
     private final int userId;
+    private final GiftcardRepository repo;
     private List<Giftcard> giftcardList;
     private final Activity parent;
 
@@ -26,6 +27,7 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
         this.parent = giftcardActivity;
         giftcardList = new ArrayList<>();
         this.userId = userId;
+        repo = GiftcardRepository.getInstance();
     }
 
     @Override
@@ -37,12 +39,12 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
     public void onBindViewHolder(final GiftcardAdapter1.ViewHolder holder, int position) {
         final Giftcard giftcard = giftcardList.get(position);
 
-        holder.title.setText(giftcard.getCompany());
+        holder.title.setText(getCompanyName(giftcard.getCompanyId()));
         holder.bodyValue.setText(String.valueOf(giftcard.getValue()));
         holder.bodySales.setText(String.valueOf(giftcard.getPrice()));
 
-        if(giftcard.getImages() != null && giftcard.getImages().size() > 0)
-        Utils.setImage(parent, holder.imageView, giftcard.getImages().get(0).getUrl());
+        if (giftcard.getImages() != null && giftcard.getImages().size() > 0)
+            Utils.setImage(parent, holder.imageView, giftcard.getImages().get(0).getUrl());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +52,10 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
                 startActivity(giftcard, holder.imageView);
             }
         });
+    }
+
+    private String getCompanyName(int companyId) {
+        return repo.getCompany(companyId).getName();
     }
 
     private void startActivity(Giftcard giftcard, ImageView view) {

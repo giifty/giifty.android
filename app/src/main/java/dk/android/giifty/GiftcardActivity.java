@@ -12,7 +12,7 @@ import dk.android.giifty.utils.Constants;
 
 public class GiftcardActivity extends BaseActivity {
 
-    private GiftcardRepository controller;
+    private GiftcardRepository repo;
     private GiftcardAdapter adapter;
     private Company company;
 
@@ -20,13 +20,14 @@ public class GiftcardActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giftcard);
-        controller = GiftcardRepository.getInstance();
 
         int companyId = 0;
         if (getIntent().hasExtra(Constants.EKSTRA_COMPANY_ID)) {
             companyId = getIntent().getIntExtra(Constants.EKSTRA_COMPANY_ID, -1);
         }
-        company = controller.getCompany(companyId);
+
+        repo = GiftcardRepository.getInstance();
+        company = repo.getCompany(companyId);
 
         adapter = new GiftcardAdapter(this, company);
 
@@ -43,6 +44,6 @@ public class GiftcardActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.setData(controller.getCompanyGiftcardsOnSale(company.getCompanyId()));
+        adapter.setData(repo.getCompanyGiftcardsOnSale(company.getCompanyId()));
     }
 }
