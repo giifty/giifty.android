@@ -2,6 +2,7 @@ package dk.android.giifty.giftcard;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class GiftcardAdapter1 extends RecyclerView.Adapter<GiftcardAdapter1.View
     }
 
     public void updateData(List<Giftcard> data) {
+        Log.d("!!", "updateData");
         giftcardList = data;
         notifyDataSetChanged();
     }

@@ -27,7 +27,7 @@ public class GiftcardDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle(getString(R.string.gc_details_ttile));
+        setTitle(getString(R.string.gc_details_tile));
 
         User user = GiiftyPreferences.getInstance().getUser();
 

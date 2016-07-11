@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
@@ -33,10 +34,10 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 
-/**
- * Created by mak on 11-01-2016.
- */
 public class Utils {
+
+    private static final Drawable placeholderNoPic = GiiftyApplication.getMyApplicationContext().getDrawable(R.drawable.ic_no_picture);
+    private static final Drawable placeholderAvatar = GiiftyApplication.getMyApplicationContext().getDrawable(R.drawable.avatar);
 
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd MMMM, yyyy");
 
@@ -53,7 +54,7 @@ public class Utils {
     private static final String TAG = Utils.class.getSimpleName();
 
     public static void setImage(Context context, ImageView imageView, String imageUrl) {
-        Picasso.with(context).load(imageUrl).error(R.drawable.ic_no_picture).into(imageView);
+        Picasso.with(context).load(imageUrl).error(placeholderNoPic).into(imageView);
     }
 
     public static Bitmap getImage(Context context, String imageUrl) throws IOException {
@@ -61,11 +62,11 @@ public class Utils {
     }
 
     public static void setUserImage(Context context, ImageView imageView, String imageUrl) {
-        Picasso.with(context).load(imageUrl).error(R.drawable.avatar).placeholder(R.drawable.avatar).into(imageView);
+        Picasso.with(context).load(imageUrl).error(placeholderAvatar).placeholder(placeholderAvatar).into(imageView);
     }
 
     public static void printHasH(Context context) {
-        // Add code to print out the key hash
+        // Code to print out the key hash
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(
                     "dk.android.giifty",

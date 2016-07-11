@@ -1,5 +1,6 @@
 package dk.android.giifty.components;
 
+import android.databinding.ObservableBoolean;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,17 +13,19 @@ import java.util.List;
 import dk.android.giifty.R;
 import dk.android.giifty.giftcard.GiftcardRepository;
 import dk.android.giifty.model.Company;
+import dk.android.giifty.signin.SignInDialogHandler;
 import dk.android.giifty.utils.ActivityStarter;
 
-/**
- * Created by mak on 26-03-2016.
- */
+
 public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHolder> {
 
     private List<Company> companyList;
-   private final  Fragment parent;
-    public TextViewAdapter(Fragment parent) {
+    private final Fragment parent;
+    private final ObservableBoolean hasSignedIn;
+
+    public TextViewAdapter(Fragment parent, ObservableBoolean hasSignedIn) {
         this.parent = parent;
+        this.hasSignedIn = hasSignedIn;
         companyList = GiftcardRepository.getInstance().getCompanyList();
     }
 
@@ -39,7 +42,12 @@ public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHo
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!hasSignedIn.get()) {
+                    new SignInDialogHandler().startDialog(parent.getContext());
+                    return;
+                }
                 ActivityStarter.startCreateGiftcardActivity(parent.getActivity(), company);
+
             }
         });
     }
@@ -52,6 +60,7 @@ public class TextViewAdapter extends RecyclerView.Adapter<TextViewAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView companyName;
         View root;
+
         public ViewHolder(View itemView) {
             super(itemView);
             root = itemView;

@@ -1,6 +1,7 @@
 package dk.android.giifty;
 
 import android.content.Intent;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,7 @@ public class FrontPageActivity extends AppCompatActivity
 
     private static final String FRONTPAGE_FRAGMENT = "frontpageFrag";
     private static final String TAG = FrontPageActivity.class.getSimpleName();
+    private static final String EXTRA_CURRENT_FRAG = "current_fragment";
     private TextView naviHeaderName;
     private SignInHandler signInHandler;
     private View createUserHeader;
@@ -43,13 +45,22 @@ public class FrontPageActivity extends AppCompatActivity
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private GiiftyPreferences prefs;
+    private GiiftyPreferences myPrefs;
+    private int currentFrag;
+    private ObservableBoolean hasAskedToSignIn = new ObservableBoolean();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            currentFrag = savedInstanceState.getInt(EXTRA_CURRENT_FRAG, -1);
+        } else {
+            currentFrag = getIntent().getIntExtra(Constants.EKSTRA_FRAGMENT_ID, -1);
+        }
+
         setContentView(R.layout.activity_front_page);
-        prefs = GiiftyPreferences.getInstance();
+        myPrefs = GiiftyPreferences.getInstance();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -79,7 +90,7 @@ public class FrontPageActivity extends AppCompatActivity
     }
 
     private void signOut() {
-        //TODO implement correctly so that local giftcards get deleted aswell
+        myPrefs.clearUserGiftcards();
         signInHandler.setServerToken(null);
         deleteUser();
     }
@@ -95,12 +106,17 @@ public class FrontPageActivity extends AppCompatActivity
         super.onStart();
         updateNaviHeader();
         GiiftyApplication.getBus().register(this);
-        int fragToShow = getIntent().getIntExtra(Constants.EKSTRA_FRAGMENT_ID, -1);
-        if (fragToShow == -1) {
+        if (currentFrag == -1) {
             showDefaultView();
         } else {
-            showSpecificView(fragToShow);
+            showSpecificView(currentFrag);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(EXTRA_CURRENT_FRAG, currentFrag);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -109,6 +125,10 @@ public class FrontPageActivity extends AppCompatActivity
         GiiftyApplication.getBus().unregister(this);
     }
 
+    @Override
+    public ObservableBoolean getHasAskedToSignIn(){
+        return hasAskedToSignIn;
+    }
     @Override
     public void showSpecificView(int id) {
         showFragment(id);
@@ -122,7 +142,7 @@ public class FrontPageActivity extends AppCompatActivity
 
     private void updateNaviHeader() {
         if (!signInHandler.isTokenExpired()) {
-            User user = prefs.getUser();
+            User user = myPrefs.getUser();
             naviHeaderName.setText(user.getName());
             Utils.setUserImage(this, naviUserImage, user.getFacebookProfileImageUrl());
         } else {
@@ -189,6 +209,7 @@ public class FrontPageActivity extends AppCompatActivity
     }
 
     private void showFragment(int fragId) {
+        currentFrag = fragId;
         Fragment fragment = FragmentFactory.createFragment(fragId, this);
         Log.d(TAG, "showFragment() name:" + fragment.getClass().getSimpleName());
         getSupportFragmentManager()
@@ -202,7 +223,7 @@ public class FrontPageActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.user_name_id || id == R.id.user_image_id) {
-            if (prefs.hasUser()) {
+            if (myPrefs.hasUser()) {
                 ActivityStarter.startUpdateUserActivity(FrontPageActivity.this);
             } else {
                 new SignInDialogHandler().startDialog(FrontPageActivity.this);

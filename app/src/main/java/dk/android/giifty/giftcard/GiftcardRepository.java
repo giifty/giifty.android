@@ -62,7 +62,6 @@ public class GiftcardRepository {
     }
 
     public Company getCompany(int id) {
-        Log.d(TAG, "getCompany()  companyId:" + id);
         for (Company c : companyList) {
             if (c.getCompanyId() == id)
                 return c;

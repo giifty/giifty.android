@@ -51,15 +51,30 @@ public class GiiftyPreferences {
     }
 
     public void persistPurchasedGiftcards(List<Giftcard> giftcardList) {
+        clearPurchasedGiftcards();
         String result = gson.toJson(giftcardList, new TypeToken<List<Giftcard>>() {
         }.getType());
         getPrefs().edit().putString(KEY_MY_GC_PURCHASED, result).commit();
     }
 
     public void persistMyGiftcards(List<Giftcard> giftcardList) {
+        clearMyGiftcards();
         String result = gson.toJson(giftcardList, new TypeToken<List<Giftcard>>() {
         }.getType());
         getPrefs().edit().putString(KEY_MY_GIFTCARDS, result).commit();
+    }
+
+    private void clearMyGiftcards() {
+        getPrefs().edit().remove(KEY_MY_GIFTCARDS).commit();
+    }
+
+    private void clearPurchasedGiftcards() {
+        getPrefs().edit().remove(KEY_MY_GC_PURCHASED).commit();
+    }
+
+    public void clearUserGiftcards() {
+        clearMyGiftcards();
+        clearPurchasedGiftcards();
     }
 
     public Giftcard getPurchasedGiftcard(int id) {
@@ -72,6 +87,7 @@ public class GiiftyPreferences {
         list.add(giftcard);
         persistMyGiftcards(list);
     }
+
     public void addPurchased(Giftcard giftcard) {
         List<Giftcard> list = getPurchasedGiftcards();
         list.add(giftcard);
@@ -82,7 +98,7 @@ public class GiiftyPreferences {
         List<Giftcard> list = getObject(KEY_MY_GIFTCARDS, new TypeToken<List<Giftcard>>() {
         });
 
-        if(list == null){
+        if (list == null) {
             list = new ArrayList<>();
         }
 
@@ -93,7 +109,7 @@ public class GiiftyPreferences {
         List<Giftcard> list = getObject(KEY_MY_GC_PURCHASED, new TypeToken<List<Giftcard>>() {
         });
 
-        if(list == null){
+        if (list == null) {
             list = new ArrayList<>();
         }
 

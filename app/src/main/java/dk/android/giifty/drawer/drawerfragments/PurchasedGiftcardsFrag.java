@@ -32,6 +32,7 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
     private GiiftyPreferences myPrefs;
     private TextView emptyText;
     private ObservableBoolean hasContent = new ObservableBoolean();
+    private ObservableBoolean isSignedIn = new ObservableBoolean();
 
     public PurchasedGiftcardsFrag() {
         // Required empty public constructor
@@ -47,6 +48,7 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
         int userId = -1;
         if (myPrefs.hasUser()) {
             userId = myPrefs.getUser().getUserId();
+            isSignedIn.set(true);
         }
 
         adapter = new GiftcardAdapter1(getActivity(), userId);
@@ -55,8 +57,29 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
         binding.recyclerViewId.setAdapter(adapter);
 
         binding.setHasContent(hasContent);
+        binding.setIsSignedIn(isSignedIn);
+
+        binding.fabId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFragment(R.id.nav_buy_giftcards);
+            }
+        });
+
+        binding.noGiftcardsTextId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isSignedIn.get()) {
+                    showSignInView();
+                }
+            }
+        });
 
         return binding.getRoot();
+    }
+
+    private void showSignInView() {
+        new SignInDialogHandler().startDialog(getContext());
     }
 
     @Override
@@ -64,8 +87,9 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
         super.onResume();
         GiiftyApplication.getBus().register(this);
         setToolbarTitle(getString(R.string.purchased_giftcard));
-        if (!myPrefs.hasUser()) {
-            new SignInDialogHandler().startDialog(getContext());
+        if (!myPrefs.hasUser() && !getHasAskedToSignIn().get()) {
+            getHasAskedToSignIn().set(true);
+            showSignInView();
         } else {
             if (SignInHandler.getInstance().isTokenExpired()) {
                 SignInHandler.getInstance().refreshTokenAsync();
@@ -83,13 +107,16 @@ public class PurchasedGiftcardsFrag extends DrawerFragment {
 
     @Subscribe
     public void onSignedIn(SignedInEvent event) {
-        if (event.isSuccessful) {
+        isSignedIn.set(event.isSuccessful);
+
+        if (isSignedIn.get()) {
+            getHasAskedToSignIn().set(false);
             setData();
         }
     }
 
     @Subscribe
-    public void onSignedIn(PurchasedGiftcardsFetchedEvent event) {
+    public void onGiftcardsFetched(PurchasedGiftcardsFetchedEvent event) {
         if (event.isSuccessFul) {
             setData();
         }

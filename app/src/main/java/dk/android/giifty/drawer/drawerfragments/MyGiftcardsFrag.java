@@ -30,8 +30,8 @@ public class MyGiftcardsFrag extends DrawerFragment {
 
     private GiftcardAdapter1 adapter;
     private GiiftyPreferences myPrefs;
-    private FragmentMyGiftcardsBinding binding;
     private ObservableBoolean hasContent = new ObservableBoolean();
+    private ObservableBoolean isSignedIn = new ObservableBoolean();
 
     public MyGiftcardsFrag() {
         // Required empty public constructor
@@ -41,12 +41,13 @@ public class MyGiftcardsFrag extends DrawerFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_giftcards, container, false);
+        FragmentMyGiftcardsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_giftcards, container, false);
 
         myPrefs = GiiftyPreferences.getInstance();
         int userId = -1;
         if (myPrefs.hasUser()) {
             userId = myPrefs.getUser().getUserId();
+            isSignedIn.set(true);
         }
 
         adapter = new GiftcardAdapter1(getActivity(), userId);
@@ -55,6 +56,9 @@ public class MyGiftcardsFrag extends DrawerFragment {
         binding.recyclerViewId.setHasFixedSize(true);
         binding.recyclerViewId.setAdapter(adapter);
 
+        binding.setIsSignedIn(isSignedIn);
+        binding.setHasContent(hasContent);
+
         binding.fabId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +66,14 @@ public class MyGiftcardsFrag extends DrawerFragment {
             }
         });
 
-        binding.setHasContent(hasContent);
+        binding.noGiftcardsTextId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isSignedIn.get()) {
+                    showSignInView();
+                }
+            }
+        });
         return binding.getRoot();
     }
 
@@ -71,8 +82,9 @@ public class MyGiftcardsFrag extends DrawerFragment {
         super.onResume();
         GiiftyApplication.getBus().register(this);
         setToolbarTitle(getString(R.string.my_giftcard));
-        if (!myPrefs.hasUser()) {
-            new SignInDialogHandler().startDialog(getContext());
+        if (!myPrefs.hasUser() && !getHasAskedToSignIn().get()) {
+            getHasAskedToSignIn().set(true);
+            showSignInView();
         } else {
             if (SignInHandler.getInstance().isTokenExpired()) {
                 SignInHandler.getInstance().refreshTokenAsync();
@@ -80,6 +92,10 @@ public class MyGiftcardsFrag extends DrawerFragment {
                 setData();
             }
         }
+    }
+
+    private void showSignInView() {
+        new SignInDialogHandler().startDialog(getContext());
     }
 
     @Override
@@ -90,7 +106,11 @@ public class MyGiftcardsFrag extends DrawerFragment {
 
     @Subscribe
     public void onSignedIn(SignedInEvent event) {
-        if (event.isSuccessful) {
+
+        isSignedIn.set(event.isSuccessful);
+
+        if (isSignedIn.get()) {
+            getHasAskedToSignIn().set(false);
             setData();
         }
     }
@@ -111,4 +131,5 @@ public class MyGiftcardsFrag extends DrawerFragment {
             adapter.updateData(gcList);
         }
     }
+
 }

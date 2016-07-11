@@ -32,28 +32,31 @@ public class SignInService extends IntentService {
         super(TAG);
         api = ServiceCreator.createServiceNoAuthenticator();
     }
-    public static void signIn(Context context, SignInParams params){
+
+    public static void signIn(Context context, SignInParams params) {
         Intent intent = new Intent();
         intent.putExtra(EXTRA_PARAMS, params);
         intent.setClass(context, SignInService.class);
         context.startService(intent);
     }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         SignInParams params = intent.getParcelableExtra(EXTRA_PARAMS);
         try {
-           Response<String> response = api.authenticateUser(params.createAuthenticationHeader()).execute();
-            if(response.isSuccessful()){
+            Response<String> response = api.authenticateUser(params.createAuthenticationHeader()).execute();
+            if (response.isSuccessful()) {
                 SignInHandler.setServerToken(new ServerToken(response.headers().get("token"),
                         new DateTime(response.headers().get("tokenExpiry"))));
                 fetchUser(params);
-            }else{
-                post(new SignedInEvent(false, response.code()));
+            } else {
+                postOnUiBus(new SignedInEvent(false, response.code()));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     private void fetchUser(SignInParams param) throws IOException {
         Response<User> response = api.getUser(SignInHandler.getServerToken()).execute();
         if (response.isSuccessful()) {
@@ -62,21 +65,25 @@ public class SignInService extends IntentService {
             userUpdated.setPassword(param.password);
             persistUser(userUpdated);
         } else {
-            GiiftyApplication.getBus().post(new UserUpdateEvent(null, false));
+            postOnUiBus(new UserUpdateEvent(null, false));
         }
     }
+
     private void persistUser(final User user) {
         GiiftyPreferences.getInstance().persistUser(user);
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                GiiftyApplication.getBus().post(new UserUpdateEvent(user, true));
-                GiiftyApplication.getBus().post(new SignedInEvent(true, 200));
-            }
-        });
+        postOnUiBus(new UserUpdateEvent(user, true));
+        postOnUiBus(new SignedInEvent(true, 200));
+
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            @Override
+//            public void run() {
+//                GiiftyApplication.getBus().post(new UserUpdateEvent(user, true));
+//                GiiftyApplication.getBus().post(new SignedInEvent(true, 200));
+//            }
+//        });
     }
 
-    private void post(final Object event) {
+    private void postOnUiBus(final Object event) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
